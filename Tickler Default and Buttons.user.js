@@ -7,6 +7,9 @@
 // @require   http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js
 // @version 1.0
 // ==/UserScript==
+
+// modified from Stanscripts https://github.com/DrStanMD
+
 //========Get Path============
 var elements = (window.location.pathname.split('/', 2))
 firstElement = (elements.slice(1))
