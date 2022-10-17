@@ -1,17 +1,15 @@
 // ==UserScript==
 // @name        Preventions Shortcut
-// @description Adds Navigation buttons for Fit/Pap/Mam/Col/Flu 
 // @namespace   https://github.com/maywoodmedical/Oscar
+// @description Adds Navigation buttons for Fit/Pap/Mam/Col/Flu 
 // @include  *casemgmt/forward.jsp?action*
 // @include  *demographic/demographiccontrol.jsp?demographic_no*
-// @updateURL https://github.com/myingbull/Oscar/edit/main/AllergiesAndPreventions.user.js
-// @downloadURL  https://github.com/myingbull/Oscar/edit/main/AllergiesAndPreventions.user.js
 // @require   http://ajax.googleapis.com/ajax/libs/jquery/1.3.1/jquery.min.js
 // @version     1.0
 // @grant       none
 // ==/UserScript==
 
-// modified from Stanscripts 
+// modified from Stanscripts https://github.com/DrStanMD
 
 /*
 Indemnity
