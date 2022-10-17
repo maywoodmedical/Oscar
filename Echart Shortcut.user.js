@@ -4,7 +4,7 @@
 // @description Various navigation buttons for echart screen including Lifelabs, Imaging, Results. Set your own specific fid (form number) or Measurement groupName
 // @include     */casemgmt/forward.jsp?action=view&demographic*
 // @require http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js
-// @version 1.0
+// @version 1.1
 // @grant       none
 // ==/UserScript==
 
