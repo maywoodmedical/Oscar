@@ -45,7 +45,7 @@ var res = myParam.indexOf('&')
 var demo_no = myParam.substring(0, res) //var myWindow = window.open("","","width=200,height=100");
 var input = document.createElement('input');
 input.type = 'button';
-input.value = 'Lifelab';
+input.value = 'LifeHAHA';
 input.onclick = showAlert;
 input.setAttribute('style', 'width:60px;font-size:16px;z-index:1;position:fixed;bottom:0px;left:0px; ');
 document.body.appendChild(input);
@@ -57,7 +57,7 @@ function showAlert()
   // INSERT YOU OWN form ID (fid=??) here
   var formPath = vPath + '/eform/efmformadd_data.jsp?fid=9&demographic_no=' + demo_no //var formPath = vPath + "/eform/efmformadd_data.jsp?fid=81&demographic_no=" + demo_no
   //alert(formPath)
-  window.open(formPath)
+  newwindow.open(formPath)
 }
 // INSERT YOU OWN MEASUREMENT UNIQUE SELECTOR  HERE
 var input1 = document.createElement('input');
