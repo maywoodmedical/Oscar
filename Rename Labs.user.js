@@ -7,6 +7,9 @@
 // @version 1.0
 // @grant       none
 // ==/UserScript==
+
+// modified from Stanscripts https://github.com/DrStanMD
+
 var fixedauthor = ''
 var count = $('#tblDiscs tr').length;
 
