@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        AutoTickler
 // @namespace   https://github.com/maywoodmedical/Oscar
-// @description Adds Reminders for screening follow up,link to Rx and invoice
+// @description Adds buttons for autotickler, autoreminder, preventions, and opens prescriptions. 
 // @include  *lab/CA/ALL/labDisplay.jsp?segmentID*
 // @include  *lab/CA/ALL/labDisplay.jsp?demographicId*
 // @include  *dms/MultiPageDocDisplay.jsp?segmentID*
