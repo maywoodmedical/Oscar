@@ -15,6 +15,8 @@
 // @grant       none
 // ==/UserScript==
 
+// modified from Stanscripts https://github.com/DrStanMD
+
 
 /*
 open about:config and set the following to true.
