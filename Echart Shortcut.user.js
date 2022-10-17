@@ -7,6 +7,9 @@
 // @version 1.0
 // @grant       none
 // ==/UserScript==
+
+// modified from Stanscripts https://github.com/DrStanMD
+
 //window.moveTo(300, 100)
 function setCookie(cname, cvalue, exdays, cpath)
 {
