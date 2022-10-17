@@ -8,6 +8,9 @@
 // @version     1.0
 // @grant       none
 // ==/UserScript==
+
+// modified from Stanscripts https://github.com/DrStanMD
+
 var params = {}; //Get Params
 if (location.search) {
     var parts = location.search.substring(1).split('&');
