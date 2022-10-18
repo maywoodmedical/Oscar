@@ -7,7 +7,7 @@
 // @require   http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js
 // @updateURL https://github.com/maywoodmedical/Oscar/raw/main/TicklerDefaultandButtons.user.js
 // @downloadURL https://github.com/maywoodmedical/Oscar/raw/main/TicklerDefaultandButtons.user.js
-// @version 1.0
+// @version 1.1
 // ==/UserScript==
 
 // modified from Stanscripts https://github.com/DrStanMD
@@ -70,7 +70,7 @@ var input1 = document.createElement('input');
 input1.type = 'button';
 input1.value = 'To Fax';
 input1.onclick = showAlert1;
-input1.setAttribute('style', 'font-size:12px;position:fixed;top:20px;right:0px; ');
+input1.setAttribute('style', 'font-size:12px;position:fixed;top:20px;right:55px; ');
 document.body.appendChild(input1);
 
 function showAlert1() {
@@ -86,6 +86,7 @@ function showAlert1() {
     }
     x = document.getElementsByName('textarea')
     $(x[0]).val('Please fax: ')
+    $(x).focus();
     var theDefault = '*Front, Desk'; //can change to other users as default
     var theOptions = document.getElementsByName('task_assigned_to')[0].options;
     for (var theOption of theOptions) {
@@ -101,7 +102,7 @@ var input2 = document.createElement('input');
 input2.type = 'button';
 input2.value = 'TCI Person';
 input2.onclick = showAlert2;
-input2.setAttribute('style', 'font-size:12px;position:fixed;top:20px;right:60px; ');
+input2.setAttribute('style', 'font-size:12px;position:fixed;top:20px;right:115px; ');
 document.body.appendChild(input2);
 
 function showAlert2() {
@@ -118,6 +119,8 @@ function showAlert2() {
 
     var mytextarea = document.getElementsByName('textarea')
     mytextarea[0].value = 'TCI in person re: results' //+ mytextarea[0].value <-- add this if do not want each button click to rewrite previous text
+    $(mytextarea).focus();
+  
     var theDefault = '*Front, Desk';
     var theOptions = document.getElementsByName('task_assigned_to')[0].options;
     for (var theOption of theOptions) {
@@ -133,7 +136,7 @@ var input3 = document.createElement('input');
 input3.type = 'button';
 input3.value = 'TCI Phone';
 input3.onclick = showAlert3;
-input3.setAttribute('style', 'font-size:12px;position:fixed;top:20px;right:145px; ');
+input3.setAttribute('style', 'font-size:12px;position:fixed;top:20px;right:200px; ');
 document.body.appendChild(input3);
 
 function showAlert3() {
@@ -150,6 +153,41 @@ function showAlert3() {
 
     x = document.getElementsByName('textarea')
     $(x[0]).val('TCI phone re: results')
+    $(x).focus();
+
+    var theDefault = '*Front, Desk';
+    var theOptions = document.getElementsByName('task_assigned_to')[0].options;
+    for (var theOption of theOptions) {
+        if (typeof(theOption) == 'object') {
+            if (theOption.text == theDefault) {
+                theOption.selected = true;
+                break;
+            }
+        }
+    }
+}
+var input4 = document.createElement('input');
+input4.type = 'button';
+input4.value = '14078';
+input4.onclick = showAlert4;
+input4.setAttribute('style', 'font-size:12px;position:fixed;top:20px;right:0px; ');
+document.body.appendChild(input4);
+
+function showAlert4() {
+    var theDefault = 'Normal'; 
+    var theOptions = document.getElementsByName('priority')[0].options;
+    for (var theOption of theOptions) {
+        if (typeof(theOption) == 'object') {
+            if (theOption.text == theDefault) {
+                theOption.selected = true;
+                break;
+            }
+        }
+    }
+
+    x = document.getElementsByName('textarea')
+    $(x[0]).val('14078, Dx: v762, pls call patient to advise of normal PAP smear result and to follow up for repeat in 3 years + document in chart + bill.')
+    $(x).focus();
 
     var theDefault = '*Front, Desk';
     var theOptions = document.getElementsByName('task_assigned_to')[0].options;
@@ -164,6 +202,7 @@ function showAlert3() {
 }
 
 
+/*
 setTimeout(function() {
     $('textarea[name=\'textarea\']').focus()
 }, 300);
