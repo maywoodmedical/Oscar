@@ -11,8 +11,8 @@
 // @include  *tickler/ticklerAdd.jsp*
 // @include  *dms/showDocument.jsp?segmentID*
 // @require   http://ajax.googleapis.com/ajax/libs/jquery/1.3.1/jquery.min.js
-// @updateURL 
-// @downloadURL 
+// @updateURL https://github.com/maywoodmedical/Oscar/raw/main/Autotickler.user.js
+// @downloadURL https://github.com/maywoodmedical/Oscar/raw/main/Autotickler.user.js
 // @version     1.0
 // @grant       none
 // ==/UserScript==
