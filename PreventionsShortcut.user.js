@@ -7,8 +7,8 @@
 // @updateURL https://github.com/myingbull/Oscar/edit/main/AllergiesAndPreventions.user.js
 // @downloadURL  https://github.com/myingbull/Oscar/edit/main/AllergiesAndPreventions.user.js
 // @require   http://ajax.googleapis.com/ajax/libs/jquery/1.3.1/jquery.min.js
-// @updateURL 
-// @downloadURL 
+// @updateURL https://github.com/maywoodmedical/Oscar/raw/main/PreventionsShortcut.user.js
+// @downloadURL https://github.com/maywoodmedical/Oscar/raw/main/PreventionsShortcut.user.js
 // @version     1.0
 // @grant       none
 // ==/UserScript==
