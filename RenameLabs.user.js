@@ -4,8 +4,8 @@
 // @description renames the labs on results and highlights transcription reports
 // @include     *lab/CA/ALL/labDisplay.jsp?*
 // @require http://ajax.googleapis.com/ajax/libs/jquery/1.3.1/jquery.min.js
-// @updateURL 
-// @downloadURL 
+// @updateURL https://github.com/maywoodmedical/Oscar/raw/main/RenameLabs.user.js
+// @downloadURL https://github.com/maywoodmedical/Oscar/raw/main/RenameLabs.user.js
 // @version 1.0
 // @grant       none
 // ==/UserScript==
