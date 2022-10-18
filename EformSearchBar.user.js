@@ -7,7 +7,7 @@
 // @require   http://ajax.googleapis.com/ajax/libs/jquery/1.3.1/jquery.min.js
 // @updateURL https://github.com/maywoodmedical/Oscar/raw/main/EformSearchBar.user.js
 // @downloadURL https://github.com/maywoodmedical/Oscar/raw/main/EformSearchBar.user.js
-// @version     1.0
+// @version     1.1
 // @grant       none
 // ==/UserScript==
 
