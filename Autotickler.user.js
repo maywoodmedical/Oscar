@@ -24,7 +24,7 @@ open about:config and set the following to true.
 dom.allow_scripts_to_close_windows
 Requires Push to Reminders eform found at:
 https://github.com/maywoodmedical/Oscar/blob/main/Push_to_Reminder.zip    OR
-https://github.com/DrStanMD/Oscar-GM4-scripts/blob/master/Push_to_Reminder.zip
+https://github.com/DrStanMD/Oscar-GM4-scripts/blob/master/Push_to_Reminder.zip <-- need to delete risk factor code or else will add all reminders to risk factors as well
 Edit the "Push to Reminder" eform and mark the following boxes as checked:
 Show Only Latest Revision of eForm Template
 Show Only Latest Revision of eForm Instance
