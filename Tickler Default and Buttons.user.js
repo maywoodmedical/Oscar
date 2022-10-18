@@ -5,7 +5,7 @@
 // @include        */tickler/ticklerAdd.jsp*
 // @include        *tickler/ForwardDemographicTickler.do*
 // @require   http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js
-// @version 1.0
+// @version 1.1
 // ==/UserScript==
 
 // modified from Stanscripts https://github.com/DrStanMD
