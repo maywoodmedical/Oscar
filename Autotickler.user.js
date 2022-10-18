@@ -13,7 +13,7 @@
 // @require   http://ajax.googleapis.com/ajax/libs/jquery/1.3.1/jquery.min.js
 // @updateURL https://github.com/maywoodmedical/Oscar/raw/main/Autotickler.user.js
 // @downloadURL https://github.com/maywoodmedical/Oscar/raw/main/Autotickler.user.js
-// @version     1.3
+// @version     1.4
 // @grant       none
 // ==/UserScript==
 
@@ -23,6 +23,7 @@
 open about:config and set the following to true.
 dom.allow_scripts_to_close_windows
 Requires Push to Reminders eform found at:
+https://github.com/maywoodmedical/Oscar/blob/main/Push_to_Reminder.zip    OR
 https://github.com/DrStanMD/Oscar-GM4-scripts/blob/master/Push_to_Reminder.zip
 Edit the "Push to Reminder" eform and mark the following boxes as checked:
 Show Only Latest Revision of eForm Template
