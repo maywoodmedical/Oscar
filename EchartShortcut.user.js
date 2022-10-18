@@ -6,7 +6,7 @@
 // @require http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js
 // @updateURL https://github.com/maywoodmedical/Oscar/raw/main/EchartShortcut.user.js
 // @downloadURL https://github.com/maywoodmedical/Oscar/raw/main/EchartShortcut.user.js
-// @version 1.0
+// @version 1.2
 // @grant       none
 // ==/UserScript==
 
@@ -59,7 +59,7 @@ function showAlert()
   // INSERT YOU OWN form ID (fid=??) here
   var formPath = vPath + '/eform/efmformadd_data.jsp?fid=9&demographic_no=' + demo_no //var formPath = vPath + "/eform/efmformadd_data.jsp?fid=81&demographic_no=" + demo_no
   //alert(formPath)
-  window.open(formPath)
+  window.open(formPath, '_blank', 'toolbar=0,location=0,menubar=0')
 }
 // INSERT YOU OWN MEASUREMENT UNIQUE SELECTOR  HERE
 var input1 = document.createElement('input');
@@ -76,7 +76,7 @@ function showAlert1()
   // INSERT YOU OWN form ID (fid=??) here
   var formPath = vPath + '/eform/efmformadd_data.jsp?fid=8&demographic_no=' + demo_no //var formPath = vPath + "/eform/efmformadd_data.jsp?fid=81&demographic_no=" + demo_no
   //alert(formPath)
-  window.open(formPath)
+  window.open(formPath, '_blank', 'toolbar=0,location=0,menubar=0')
 }
 var input2 = document.createElement('input');
 input2.type = 'button';
