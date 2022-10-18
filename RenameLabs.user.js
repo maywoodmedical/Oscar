@@ -6,7 +6,7 @@
 // @require http://ajax.googleapis.com/ajax/libs/jquery/1.3.1/jquery.min.js
 // @updateURL https://github.com/maywoodmedical/Oscar/raw/main/RenameLabs.user.js
 // @downloadURL https://github.com/maywoodmedical/Oscar/raw/main/RenameLabs.user.js
-// @version 1.0
+// @version 1.1
 // @grant       none
 // ==/UserScript==
 
@@ -517,9 +517,15 @@ function renameTheLab(strOldName) {
         case 'CHEM25':
             strNewName = 'FIT';
             break;
+        case 'CHEM27':
+            strNewName = 'Fluid crystals';
+            break;      
         case 'CHEM28':
             strNewName = 'VitD/PTH';
             break;       
+        case 'CHEM29':
+            strNewName = 'Lactic acid';
+            break;      
         case 'HAEM1':
             strNewName = 'CBC';
             break;        
@@ -532,6 +538,9 @@ function renameTheLab(strOldName) {
         case 'MICRO3':
             strNewName = 'Culture';
             break;        
+        case 'MICRO11':
+            strNewName = 'FungalCx';
+            break;      
         case 'MICRO14':
             strNewName = 'HBV/Viral';
             break;
