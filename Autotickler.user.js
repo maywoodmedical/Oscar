@@ -13,7 +13,7 @@
 // @require   http://ajax.googleapis.com/ajax/libs/jquery/1.3.1/jquery.min.js
 // @updateURL https://github.com/maywoodmedical/Oscar/raw/main/Autotickler.user.js
 // @downloadURL https://github.com/maywoodmedical/Oscar/raw/main/Autotickler.user.js
-// @version     1.4
+// @version     1.5
 // @grant       none
 // ==/UserScript==
 
@@ -30,9 +30,9 @@ Show Only Latest Revision of eForm Template
 Show Only Latest Revision of eForm Instance
 Patient Independent
 */
-var inputvar = 210 //form id goes here
-var providername = "Dr. Hurwitz"
-var providerphone = "604-275-8228"
+var inputvar = 213 //form id goes here
+var providername = "Maywood Medical"
+var providerphone = "604-243-7880"
 
 //**********************************************************
 
