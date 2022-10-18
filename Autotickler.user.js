@@ -522,7 +522,7 @@ input3.type = 'button';
 input3.value = 'AutoTickler';
 input3.id = 'AutoTickler';
 input3.onclick = ButtonFunction3;
-input3.setAttribute('style', 'font-size:14px;position:absolute;top:50px;right:237px;background-color: yellow;');
+input3.setAttribute('style', 'font-size:14px;position:absolute;top:50px;right:237px;background-color: clear;');
 //input3.setAttribute('style', 'font-size:16px;position:absolute;top:' + (430 + dd) + 'px;right:0px;background-color: lime;'); <-- original setting
 document.body.appendChild(input3);
 var addthis = ''
