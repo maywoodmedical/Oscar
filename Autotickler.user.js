@@ -13,7 +13,7 @@
 // @require   http://ajax.googleapis.com/ajax/libs/jquery/1.3.1/jquery.min.js
 // @updateURL https://github.com/maywoodmedical/Oscar/raw/main/Autotickler.user.js
 // @downloadURL https://github.com/maywoodmedical/Oscar/raw/main/Autotickler.user.js
-// @version     1.5
+// @version     1.6
 // @grant       none
 // ==/UserScript==
 
@@ -483,6 +483,9 @@ function ButtonFunction2() {
                     case 'Colonoscopy':
                         vPrev = 'COLONOSCOPY'
                         break;
+                    case 'FIT':
+                        vPrev = 'FOBT'
+                        break;
                     default:
                         vPrev = ''
                 }
@@ -561,6 +564,9 @@ function ButtonFunction3() {
                         break;
                     case 'Colonoscopy':
                         vPrev = 'COLONOSCOPY'
+                        break;
+                    case 'FIT':
+                        vPrev = 'FOBT'
                         break;
                     default:
                         vPrev = ''
