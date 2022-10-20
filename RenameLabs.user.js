@@ -6,7 +6,7 @@
 // @require http://ajax.googleapis.com/ajax/libs/jquery/1.3.1/jquery.min.js
 // @updateURL https://github.com/maywoodmedical/Oscar/raw/main/RenameLabs.user.js
 // @downloadURL https://github.com/maywoodmedical/Oscar/raw/main/RenameLabs.user.js
-// @version 1.3
+// @version 1.4
 // @grant       none
 // ==/UserScript==
 
@@ -299,19 +299,19 @@ if (ExcelArray.indexOf(teststring) == -1) {
     }
     fixedauthor = (author.replace(' <strong>Requesting Client: </strong>', '')).trim() //alert(fixedauthor)
     //alert(fixedauthor)
-    var input3 = document.createElement('input');
+    //var input3 = document.createElement('input');
     input3.type = 'button';
     input3.value = 'Clear all';
     input3.onclick = ClearStoredSelections
     input3.setAttribute('style', 'font-size:18px;position:fixed;top:540px;right:0px;');
     document.body.appendChild(input3);
-    var input = document.createElement('input');
+    //var input = document.createElement('input');
     input.type = 'button';
     input.value = 'Highlight Text';
     input.onclick = StoreSelection
     input.setAttribute('style', 'font-size:18px;position:fixed;top:460px;right:0px;');
     document.body.appendChild(input);
-    var input1 = document.createElement('input');
+    //var input1 = document.createElement('input');
     input1.type = 'button';
     input1.value = 'Save and Exit';
     input1.onclick = SaveAndExit
@@ -346,19 +346,19 @@ if (teststring == 'DIAG IMAGE') {
     } //alert(author)
 
     fixedauthor = (author.replace('Procedure: ', '')).trim() //alert(fixedauthor)
-    var input3 = document.createElement('input');
+    //var input3 = document.createElement('input');
     input3.type = 'button';
     input3.value = 'Clear all';
     input3.onclick = ClearStoredSelections
     input3.setAttribute('style', 'font-size:18px;position:fixed;top:540px;right:0px;');
     document.body.appendChild(input3);
-    var input = document.createElement('input');
+    //var input = document.createElement('input');
     input.type = 'button';
     input.value = 'Highlight Text';
     input.onclick = StoreSelection
     input.setAttribute('style', 'font-size:18px;position:fixed;top:460px;right:0px;');
     document.body.appendChild(input);
-    var input1 = document.createElement('input');
+    //var input1 = document.createElement('input');
     input1.type = 'button';
     input1.value = 'Save and Exit';
     input1.onclick = SaveAndExit
