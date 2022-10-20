@@ -6,7 +6,7 @@
 // @require http://ajax.googleapis.com/ajax/libs/jquery/1.3.1/jquery.min.js
 // @updateURL https://github.com/maywoodmedical/Oscar/raw/main/RenameLabs.user.js
 // @downloadURL https://github.com/maywoodmedical/Oscar/raw/main/RenameLabs.user.js
-// @version 1.1
+// @version 1.2
 // @grant       none
 // ==/UserScript==
 
@@ -537,7 +537,10 @@ function renameTheLab(strOldName) {
             break;
         case 'MICRO3':
             strNewName = 'Culture';
-            break;        
+            break;       
+        case 'MICRO8':
+            strNewName = 'StoolO&P';
+            break;           
         case 'MICRO11':
             strNewName = 'FungalCx';
             break;      
