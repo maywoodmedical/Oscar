@@ -6,7 +6,7 @@
 // @require http://ajax.googleapis.com/ajax/libs/jquery/1.3.1/jquery.min.js
 // @updateURL https://github.com/maywoodmedical/Oscar/raw/main/RenameLabs.user.js
 // @downloadURL https://github.com/maywoodmedical/Oscar/raw/main/RenameLabs.user.js
-// @version 1.4
+// @version 1.5
 // @grant       none
 // ==/UserScript==
 
@@ -528,7 +528,10 @@ function renameTheLab(strOldName) {
             break;      
         case 'HAEM1':
             strNewName = 'CBC';
-            break;        
+            break;    
+        case 'HAEM2':
+            strNewName = 'Hgb elec';
+            break;  
         case 'HAEM3':
             strNewName = 'INR';
             break;        
