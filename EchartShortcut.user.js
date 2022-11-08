@@ -6,7 +6,7 @@
 // @require http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js
 // @updateURL https://github.com/maywoodmedical/Oscar/raw/main/EchartShortcut.user.js
 // @downloadURL https://github.com/maywoodmedical/Oscar/raw/main/EchartShortcut.user.js
-// @version 1.5
+// @version 2.0
 // @grant       none
 // ==/UserScript==
 
