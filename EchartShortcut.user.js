@@ -6,7 +6,7 @@
 // @require http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js
 // @updateURL https://github.com/maywoodmedical/Oscar/raw/main/EchartShortcut.user.js
 // @downloadURL https://github.com/maywoodmedical/Oscar/raw/main/EchartShortcut.user.js
-// @version 1.2
+// @version 1.3
 // @grant       none
 // ==/UserScript==
 
@@ -49,7 +49,7 @@ var input = document.createElement('input');
 input.type = 'button';
 input.value = 'Lifelab';
 input.onclick = showAlert;
-input.setAttribute('style', 'width:60px;font-size:16px;z-index:1;position:fixed;bottom:0px;left:0px; ');
+input.setAttribute('style', 'width:60px;font-size:16px;z-index:1;position:fixed;bottom:3px;left:0px; ');
 document.body.appendChild(input);
 function showAlert()
 {
@@ -66,7 +66,7 @@ var input1 = document.createElement('input');
 input1.type = 'button';
 input1.value = 'Imaging';
 input1.onclick = showAlert1;
-input1.setAttribute('style', 'width:70px;font-size:16px;z-index:1;position:fixed;bottom:0px;left:60px; ');
+input1.setAttribute('style', 'width:70px;font-size:16px;z-index:1;position:fixed;bottom:3px;left:60px; ');
 document.body.appendChild(input1);
 function showAlert1()
 {
@@ -82,7 +82,7 @@ var input2 = document.createElement('input');
 input2.type = 'button';
 input2.value = 'Results';
 input2.onclick = showAlert2;
-input2.setAttribute('style', 'width:60px;font-size:16px;z-index:1;position:fixed;bottom:0px;left:130px; ');
+input2.setAttribute('style', 'width:60px;font-size:16px;z-index:1;position:fixed;bottom:3px;left:130px; ');
 document.body.appendChild(input2);
 function showAlert2()
 {
