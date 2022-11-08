@@ -9,7 +9,7 @@
 // @require   http://ajax.googleapis.com/ajax/libs/jquery/1.3.1/jquery.min.js
 // @updateURL https://github.com/maywoodmedical/Oscar/raw/main/PreventionsShortcut.user.js
 // @downloadURL https://github.com/maywoodmedical/Oscar/raw/main/PreventionsShortcut.user.js
-// @version     1.0
+// @version     1.1
 // @grant       none
 // ==/UserScript==
 
@@ -181,7 +181,7 @@ var input1 = document.createElement('input');
 input1.type = 'button';
 input1.value = 'Fit';
 input1.onclick = ButtonFunction1;
-input1.setAttribute('style', 'width:38px;font-size:13px;z-index:1;position:fixed;bottom:30px;left:0px;');
+input1.setAttribute('style', 'width:38px;font-size:13px;z-index:1;position:fixed;bottom:40px;left:0px;');
 document.body.appendChild(input1);
 
 function ButtonFunction1() {
@@ -195,7 +195,7 @@ var input2 = document.createElement('input');
 input2.type = 'button';
 input2.value = 'Pap';
 input2.onclick = ButtonFunction2;
-input2.setAttribute('style', 'width:38px;font-size:13px;z-index:1;position:fixed;bottom:30px;left:38px;');
+input2.setAttribute('style', 'width:38px;font-size:13px;z-index:1;position:fixed;bottom:40px;left:38px;');
 document.body.appendChild(input2);
 
 function ButtonFunction2() {
@@ -209,7 +209,7 @@ var input3 = document.createElement('input');
 input3.type = 'button';
 input3.value = 'Mam';
 input3.onclick = ButtonFunction3;
-input3.setAttribute('style', 'width:38px;font-size:13px;z-index:1;position:fixed;bottom:30px;left:76px;');
+input3.setAttribute('style', 'width:38px;font-size:13px;z-index:1;position:fixed;bottom:40px;left:76px;');
 document.body.appendChild(input3);
 
 function ButtonFunction3() {
@@ -223,7 +223,7 @@ var input4 = document.createElement('input');
 input4.type = 'button';
 input4.value = 'Col';
 input4.onclick = ButtonFunction4;
-input4.setAttribute('style', 'width:38px;font-size:13px;z-index:1;position:fixed;bottom:30px;left:114px;');
+input4.setAttribute('style', 'width:38px;font-size:13px;z-index:1;position:fixed;bottom:40px;left:114px;');
 document.body.appendChild(input4);
 
 function ButtonFunction4() {
@@ -238,7 +238,7 @@ var input5 = document.createElement('input');
 input5.type = 'button';
 input5.value = 'Flu';
 input5.onclick = ButtonFunction5;
-input5.setAttribute('style', 'width:38px;font-size:13px;z-index:1;position:fixed;bottom:30px;left:152px;');
+input5.setAttribute('style', 'width:38px;font-size:13px;z-index:1;position:fixed;bottom:40px;left:152px;');
 document.body.appendChild(input5);
 
 function ButtonFunction5() {
