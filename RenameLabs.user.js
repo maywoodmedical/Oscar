@@ -6,7 +6,7 @@
 // @require http://ajax.googleapis.com/ajax/libs/jquery/1.3.1/jquery.min.js
 // @updateURL https://github.com/maywoodmedical/Oscar/raw/main/RenameLabs.user.js
 // @downloadURL https://github.com/maywoodmedical/Oscar/raw/main/RenameLabs.user.js
-// @version 1.5
+// @version 1.6
 // @grant       none
 // ==/UserScript==
 
@@ -502,6 +502,9 @@ function renameTheLab(strOldName) {
         case 'CHEM17':
             strNewName = 'CRP/SPEP';
             break;
+        case 'CHEM17.5':
+            strNewName = 'C1 Inh';
+            break;            
         case 'CHEM18':
             strNewName = 'ANA/RF/Rheum';
             break;
