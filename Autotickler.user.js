@@ -13,7 +13,7 @@
 // @require   http://ajax.googleapis.com/ajax/libs/jquery/1.3.1/jquery.min.js
 // @updateURL https://github.com/maywoodmedical/Oscar/raw/main/Autotickler.user.js
 // @downloadURL https://github.com/maywoodmedical/Oscar/raw/main/Autotickler.user.js
-// @version     1.7
+// @version     1.8
 // @grant       none
 // ==/UserScript==
 
@@ -504,6 +504,12 @@ function ButtonFunction2() {
     $('#Aller1').focus(function() {
         $('#Time3').click() //alert(this.id)
     });
+    $('#Aller5').focus(function() {
+        $('#Time2').click() //alert(this.id)
+    });
+    $('#Aller0').focus(function() {
+        $('#Time2').click() //alert(this.id)
+    });
     document.getElementById('Time1').checked = true
     document.getElementById('Radio2Div').addEventListener('change', function() {
         for (i = 0; i < AB.length; i++) {
@@ -584,6 +590,12 @@ function ButtonFunction3() {
     //****set default times for pap*****
     $('#Aller1').focus(function() {
         $('#Time3').click() //alert(this.id)
+    });
+    $('#Aller5').focus(function() {
+        $('#Time2').click() //alert(this.id)
+    });
+    $('#Aller0').focus(function() {
+        $('#Time2').click() //alert(this.id)
     });
     document.getElementById('Time1').checked = true
     document.getElementById('Radio2Div').addEventListener('change', function() {
