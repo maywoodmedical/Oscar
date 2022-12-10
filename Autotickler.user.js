@@ -13,7 +13,7 @@
 // @require   http://ajax.googleapis.com/ajax/libs/jquery/1.3.1/jquery.min.js
 // @updateURL https://github.com/maywoodmedical/Oscar/raw/main/Autotickler.user.js
 // @downloadURL https://github.com/maywoodmedical/Oscar/raw/main/Autotickler.user.js
-// @version     1.6
+// @version     1.7
 // @grant       none
 // ==/UserScript==
 
@@ -472,7 +472,7 @@ function ButtonFunction2() {
                     addthis = document.getElementById('myOther').value
                 }
                 $(myElement).html(RestoreHTML)
-                window.open(vPath + '/eform/efmformadd_data.jsp?fid=' + inputvar + '&demographic_no=' + demono + '&appointment=0' + '&myparam1=' + addthis + '&myparam2=' + addthis2) //PREVENTION SCREEN********
+                //window.open(vPath + '/eform/efmformadd_data.jsp?fid=' + inputvar + '&demographic_no=' + demono + '&appointment=0' + '&myparam1=' + addthis + '&myparam2=' + addthis2) //PREVENTION SCREEN********
                 switch (addthis) {
                     case 'Mammogram':
                         vPrev = 'MAM'
