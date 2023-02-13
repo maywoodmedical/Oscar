@@ -6,7 +6,7 @@
 // @require http://ajax.googleapis.com/ajax/libs/jquery/1.3.1/jquery.min.js
 // @updateURL https://github.com/maywoodmedical/Oscar/raw/main/RenameLabs.user.js
 // @downloadURL https://github.com/maywoodmedical/Oscar/raw/main/RenameLabs.user.js
-// @version 1.6
+// @version 1.7
 // @grant       none
 // ==/UserScript==
 
@@ -278,13 +278,13 @@ if (ExcelArray.indexOf(teststring) == -1) {
     input5.type = 'button';
     input5.value = 'Rename the Labs';
     input5.onclick = RenameLabs
-    input5.setAttribute('style', 'font-size:14px;position:absolute;top:50px;left:10px;');
+    input5.setAttribute('style', 'font-size:14px;position:absolute;top:60px;left:10px;');
     document.body.appendChild(input5);
     var input6 = document.createElement('input');
     input6.type = 'button';
     input6.value = 'Reset Lab Names';
     input6.onclick = ResetNames
-    input6.setAttribute('style', 'font-size:14px;position:absolute;top:50px;left:110px;');
+    input6.setAttribute('style', 'font-size:14px;position:absolute;top:60px;left:110px;');
     document.body.appendChild(input6);
 } else {
     //**************************************Highlight 
