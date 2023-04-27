@@ -13,7 +13,7 @@
 // @require   http://ajax.googleapis.com/ajax/libs/jquery/1.3.1/jquery.min.js
 // @updateURL https://github.com/maywoodmedical/Oscar/raw/main/Autotickler.user.js
 // @downloadURL https://github.com/maywoodmedical/Oscar/raw/main/Autotickler.user.js
-// @version     2.5
+// @version     2.6
 // @grant       none
 // ==/UserScript==
 
