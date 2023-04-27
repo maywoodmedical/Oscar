@@ -734,19 +734,6 @@ function ButtonFunction9() {
  window.open(vPath + 'oscarPrevention/AddPreventionData.jsp?4=4&prevention=COLONOSCOPY&demographic_no=' + demoNo + '&prevResultDesc=', 'myWindow', 'width=800, height=600');
 }
 
-var input10 = document.createElement('input');
-input10.type = 'button';
-input10.value = 'Tickler';
-input10.onclick = ButtonFunction10;
-input10.setAttribute('style', 'width:40px;font-size:14px;position:absolute;top:13px;right:628px;background-color: light gray;');
-document.body.appendChild(input10);
-
-function ButtonFunction10() {
-  //y = (30 / 86400) //5 seconds
-  //setCookie('RELOAD', 'RELOADED', y, 'path=/') //alert(input202.value)
-  //  myWindow = window.open(vPath + 'oscarPrevention/AddPreventionData.jsp?4=4&prevention=COLONOSCOPY&demographic_no=' + demoNo + '&prevResultDesc=', 'myWindow', 'width=800, height=600');
- window.open(vPath + '/tickler/ticklerAdd.jsp?bFirstDisp=false&demographic_no=' + demoNo + '&prevResultDesc=', 'myWindow', 'width=800, height=600');
-}
 
     /*var input50 = document.createElement('input');
     input50.type = 'button';
