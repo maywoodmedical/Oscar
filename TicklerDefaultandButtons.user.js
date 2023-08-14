@@ -7,7 +7,7 @@
 // @require   http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js
 // @updateURL https://github.com/maywoodmedical/Oscar/raw/main/TicklerDefaultandButtons.user.js
 // @downloadURL https://github.com/maywoodmedical/Oscar/raw/main/TicklerDefaultandButtons.user.js
-// @version 1.1
+// @version 2.0
 // ==/UserScript==
 
 // modified from Stanscripts https://github.com/DrStanMD
@@ -70,7 +70,7 @@ var input1 = document.createElement('input');
 input1.type = 'button';
 input1.value = 'To Fax';
 input1.onclick = showAlert1;
-input1.setAttribute('style', 'font-size:12px;position:fixed;top:20px;right:55px; ');
+input1.setAttribute('style', 'font-size:12px;position:fixed;top:20px;right:60px; ');
 document.body.appendChild(input1);
 
 function showAlert1() {
@@ -102,7 +102,7 @@ var input2 = document.createElement('input');
 input2.type = 'button';
 input2.value = 'TCI Person';
 input2.onclick = showAlert2;
-input2.setAttribute('style', 'font-size:12px;position:fixed;top:20px;right:115px; ');
+input2.setAttribute('style', 'font-size:12px;position:fixed;top:20px;right:118px; ');
 document.body.appendChild(input2);
 
 function showAlert2() {
@@ -121,7 +121,7 @@ function showAlert2() {
     mytextarea[0].value = 'TCI in person re: results' //+ mytextarea[0].value <-- add this if do not want each button click to rewrite previous text
     $(mytextarea).focus();
   
-    var theDefault = '*Front, Desk';
+    var theDefault = 'Support, WaiveTheWait';
     var theOptions = document.getElementsByName('task_assigned_to')[0].options;
     for (var theOption of theOptions) {
         if (typeof(theOption) == 'object') {
@@ -155,7 +155,7 @@ function showAlert3() {
     $(x[0]).val('TCI phone re: results')
     $(x).focus();
 
-    var theDefault = '*Front, Desk';
+    var theDefault = 'Support, WaiveTheWait';
     var theOptions = document.getElementsByName('task_assigned_to')[0].options;
     for (var theOption of theOptions) {
         if (typeof(theOption) == 'object') {
@@ -168,13 +168,13 @@ function showAlert3() {
 }
 var input4 = document.createElement('input');
 input4.type = 'button';
-input4.value = '14078';
+input4.value = 'Urgent';
 input4.onclick = showAlert4;
-input4.setAttribute('style', 'font-size:12px;position:fixed;top:20px;right:0px; ');
+input4.setAttribute('style', 'font-size:12px;position:fixed;top:20px;right:0px; color:red');
 document.body.appendChild(input4);
 
 function showAlert4() {
-    var theDefault = 'Normal'; 
+    var theDefault = 'High'; 
     var theOptions = document.getElementsByName('priority')[0].options;
     for (var theOption of theOptions) {
         if (typeof(theOption) == 'object') {
@@ -186,7 +186,7 @@ function showAlert4() {
     }
 
     x = document.getElementsByName('textarea')
-    $(x[0]).val('14078, Dx: v762, pls call patient to advise of normal PAP smear result and to follow up for repeat in 3 years + document in chart + bill.')
+    $(x[0]).val('')
     $(x).focus();
 
     var theDefault = '*Front, Desk';
