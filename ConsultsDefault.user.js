@@ -6,7 +6,7 @@
 // @require   http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js
 // @updateURL https://github.com/maywoodmedical/Oscar/raw/main/ConsultsDefault.user.js
 // @downloadURL https://github.com/maywoodmedical/Oscar/raw/main/ConsultsDefault.user.js
-// @version 1.0
+// @version 1.1
 // ==/UserScript==
 
 //========Get Path============
