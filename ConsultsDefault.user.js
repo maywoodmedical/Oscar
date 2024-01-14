@@ -23,7 +23,7 @@ if (location.search) {
     }
 } //alert(params.docType)
 
-var theDefault = 'MSP Numbers: Dr. Hoi Ling Irene Iu ("iu" NOT "Lu") 30205, Dr. Hsu-An Ann Lin 60768, Dr. Louis Wang 37475, Dr. Xuan (Linda) Wang 37588. Thank you for informing the patient of their appointment details and forwarding us a copy for our records.';
+var theDefault = 'MSP Numbers: Dr. Hoi Ling Irene Iu ("iu" NOT "Lu") 30205, Dr. Hsu-An Ann Lin 60768, Dr. Louis Wang 37475, Dr. Xuan (Linda) Wang 37588, Dr. Jeffrey Leong J2776. Thank you for informing the patient of their appointment details and forwarding us a copy.';
 var theOptions = document.getElementsByName('appointmentInstructions')[0].options;
 for (var theOption of theOptions) {
     if (typeof(theOption) == 'object') {
