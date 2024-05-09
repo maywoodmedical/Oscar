@@ -7,7 +7,7 @@
 // @require   http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js
 // @updateURL https://github.com/maywoodmedical/Oscar/raw/main/TicklerDefaultandButtons.user.js
 // @downloadURL https://github.com/maywoodmedical/Oscar/raw/main/TicklerDefaultandButtons.user.js
-// @version 2.0
+// @version 3.0
 // ==/UserScript==
 
 // modified from Stanscripts https://github.com/DrStanMD
@@ -26,7 +26,7 @@ if (location.search) {
     }
 } //alert(params.docType)
 
-var theDefault = '*Front, Desk';
+var theDefault = '*Front , Desk';
 var theOptions = document.getElementsByName('task_assigned_to')[0].options;
 for (var theOption of theOptions) {
     if (typeof(theOption) == 'object') {
@@ -70,7 +70,7 @@ var input1 = document.createElement('input');
 input1.type = 'button';
 input1.value = 'To Fax';
 input1.onclick = showAlert1;
-input1.setAttribute('style', 'font-size:12px;position:fixed;top:20px;right:60px; ');
+input1.setAttribute('style', 'font-size:12px;position:fixed;top:10px;right:60px; ');
 document.body.appendChild(input1);
 
 function showAlert1() {
@@ -84,10 +84,10 @@ function showAlert1() {
             }
         }
     }
-    x = document.getElementsByName('textarea')
+    x = document.getElementsByName('ticklerMessage')
     $(x[0]).val('Please fax: ')
     $(x).focus();
-    var theDefault = '*Front, Desk'; //can change to other users as default
+    var theDefault = '*Front , Desk'; //can change to other users as default
     var theOptions = document.getElementsByName('task_assigned_to')[0].options;
     for (var theOption of theOptions) {
         if (typeof(theOption) == 'object') {
@@ -102,7 +102,7 @@ var input2 = document.createElement('input');
 input2.type = 'button';
 input2.value = 'TCI Person';
 input2.onclick = showAlert2;
-input2.setAttribute('style', 'font-size:12px;position:fixed;top:20px;right:118px; ');
+input2.setAttribute('style', 'font-size:12px;position:fixed;top:10px;right:118px; ');
 document.body.appendChild(input2);
 
 function showAlert2() {
@@ -117,11 +117,11 @@ function showAlert2() {
         }
     }
 
-    var mytextarea = document.getElementsByName('textarea')
+    var mytextarea = document.getElementsByName('ticklerMessage')
     mytextarea[0].value = 'TCI in person re: results' //+ mytextarea[0].value <-- add this if do not want each button click to rewrite previous text
     $(mytextarea).focus();
   
-    var theDefault = 'Support, WaiveTheWait';
+    var theDefault = 'Support , WaiveTheWait';
     var theOptions = document.getElementsByName('task_assigned_to')[0].options;
     for (var theOption of theOptions) {
         if (typeof(theOption) == 'object') {
@@ -136,7 +136,7 @@ var input3 = document.createElement('input');
 input3.type = 'button';
 input3.value = 'TCI Phone';
 input3.onclick = showAlert3;
-input3.setAttribute('style', 'font-size:12px;position:fixed;top:20px;right:200px; ');
+input3.setAttribute('style', 'font-size:12px;position:fixed;top:10px;right:200px; ');
 document.body.appendChild(input3);
 
 function showAlert3() {
@@ -151,11 +151,11 @@ function showAlert3() {
         }
     }
 
-    x = document.getElementsByName('textarea')
+    x = document.getElementsByName('ticklerMessage')
     $(x[0]).val('TCI phone re: results')
     $(x).focus();
 
-    var theDefault = 'Support, WaiveTheWait';
+    var theDefault = 'Support , WaiveTheWait';
     var theOptions = document.getElementsByName('task_assigned_to')[0].options;
     for (var theOption of theOptions) {
         if (typeof(theOption) == 'object') {
@@ -170,7 +170,7 @@ var input4 = document.createElement('input');
 input4.type = 'button';
 input4.value = 'Urgent';
 input4.onclick = showAlert4;
-input4.setAttribute('style', 'font-size:12px;position:fixed;top:20px;right:0px; color:red');
+input4.setAttribute('style', 'font-size:12px;position:fixed;top:10px;right:0px; color:red');
 document.body.appendChild(input4);
 
 function showAlert4() {
@@ -185,11 +185,11 @@ function showAlert4() {
         }
     }
 
-    x = document.getElementsByName('textarea')
+    x = document.getElementsByName('ticklerMessage')
     $(x[0]).val('')
     $(x).focus();
 
-    var theDefault = '*Front, Desk';
+    var theDefault = '*Front , Desk';
     var theOptions = document.getElementsByName('task_assigned_to')[0].options;
     for (var theOption of theOptions) {
         if (typeof(theOption) == 'object') {
