@@ -13,7 +13,7 @@
 // @require   http://ajax.googleapis.com/ajax/libs/jquery/1.3.1/jquery.min.js
 // @updateURL https://github.com/maywoodmedical/Oscar/raw/main/Autotickler.user.js
 // @downloadURL https://github.com/maywoodmedical/Oscar/raw/main/Autotickler.user.js
-// @version     2.6
+// @version     3.0
 // @grant       none
 // ==/UserScript==
 
@@ -394,7 +394,7 @@ AA[6] = [
 AB = []
 AB[0] = [
     '6 months',
-    '180'
+    '182'
 ]
 AB[1] = [
     'One year',
@@ -449,7 +449,7 @@ input2.type = 'button';
 input2.value = 'AutoReminder';
 input2.id = 'AutoReminder';
 input2.onclick = ButtonFunction2;
-input2.setAttribute('style', 'font-size:14px;position:absolute;top:60px;right:130px;background-color: #FFC0CB;');
+input2.setAttribute('style', 'font-size:14px;position:absolute;top:60px;right:160px;background-color: #FFC0CB;');
 //input2.setAttribute('style', 'font-size:16px;position:absolute;top:' + (400 + dd) + 'px;right:0px;background-color: #FFC0CB;'); <-- original setting
 document.body.appendChild(input2);
 var addthis = ''
@@ -532,7 +532,7 @@ input3.type = 'button';
 input3.value = 'AutoTickler';
 input3.id = 'AutoTickler';
 input3.onclick = ButtonFunction3;
-input3.setAttribute('style', 'font-size:14px;position:absolute;top:60px;right:209px;background-color: yellow;');
+input3.setAttribute('style', 'font-size:14px;position:absolute;top:60px;right:239px;background-color: yellow;');
 //input3.setAttribute('style', 'font-size:16px;position:absolute;top:' + (430 + dd) + 'px;right:0px;background-color: lime;'); <-- original setting
 document.body.appendChild(input3);
 var addthis = ''
@@ -680,7 +680,7 @@ var input6 = document.createElement('input');
 input6.type = 'button';
 input6.value = 'Fit';
 input6.onclick = ButtonFunction6;
-input6.setAttribute('style', 'width:30px;font-size:14px;position:absolute;top:60px;right:100px;background-color: lightblue;');
+input6.setAttribute('style', 'width:30px;font-size:14px;position:absolute;top:60px;right:130px;background-color: lightblue;');
 document.body.appendChild(input6);
 
 function ButtonFunction6() {
@@ -695,7 +695,7 @@ var input7 = document.createElement('input');
 input7.type = 'button';
 input7.value = 'Pap';
 input7.onclick = ButtonFunction7;
-input7.setAttribute('style', 'width:30px;font-size:14px;position:absolute;top:60px;right:70px;background-color: lightblue;');
+input7.setAttribute('style', 'width:30px;font-size:14px;position:absolute;top:60px;right:100px;background-color: lightblue;');
 document.body.appendChild(input7);
 
 function ButtonFunction7() {
@@ -704,30 +704,45 @@ function ButtonFunction7() {
   //  myWindow = window.open(vPath + 'oscarPrevention/AddPreventionData.jsp?prevention=PAP&demographic_no=' + demoNo + '&prevResultDesc=', 'myWindow', 'width=800, height=600');
  window.open(vPath + 'oscarPrevention/AddPreventionData.jsp?1=1&prevention=PAP&demographic_no=' + demono + '&prevResultDesc=', 'myWindow', 'width=800, height=600');
 }
-  
 
+  
 var input8 = document.createElement('input');
 input8.type = 'button';
-input8.value = 'Mam';
+input8.value = 'HPV';
 input8.onclick = ButtonFunction8;
-input8.setAttribute('style', 'width:30px;font-size:14px;position:absolute;top:60px;right:40px;background-color: lightblue;');
+input8.setAttribute('style', 'width:30px;font-size:14px;position:absolute;top:60px;right:70px;background-color: lightblue;');
 document.body.appendChild(input8);
 
 function ButtonFunction8() {
+  //y = (30 / 86400) //5 seconds
+  //setCookie('RELOAD', 'RELOADED', y, 'path=/') //alert(input202.value)
+  //  myWindow = window.open(vPath + 'oscarPrevention/AddPreventionData.jsp?prevention=HPV-CERVIX&demographic_no=' + demoNo + '&prevResultDesc=', 'myWindow', 'width=800, height=600');
+ window.open(vPath + 'oscarPrevention/AddPreventionData.jsp?1=1&prevention=HPV-CERVIX&demographic_no=' + demono + '&prevResultDesc=', 'myWindow', 'width=800, height=600');
+}
+  
+
+var input9 = document.createElement('input');
+input9.type = 'button';
+input9.value = 'Mam';
+input9.onclick = ButtonFunction9;
+input9.setAttribute('style', 'width:30px;font-size:14px;position:absolute;top:60px;right:40px;background-color: lightblue;');
+document.body.appendChild(input9);
+
+function ButtonFunction9() {
   //y = (30 / 86400) //5 seconds
   //setCookie('RELOAD', 'RELOADED', y, 'path=/') //alert(input202.value)
   //  myWindow = window.open(vPath + 'oscarPrevention/AddPreventionData.jsp?4=4&prevention=MAM&demographic_no=' + demoNo + '&prevResultDesc=', 'myWindow', 'width=800, height=600');
  window.open(vPath + 'oscarPrevention/AddPreventionData.jsp?4=4&prevention=MAM&demographic_no=' + demoNo + '&prevResultDesc=', 'myWindow', 'width=800, height=600');
 }
 
-var input9 = document.createElement('input');
-input9.type = 'button';
-input9.value = 'Col';
-input9.onclick = ButtonFunction9;
-input9.setAttribute('style', 'width:30px;font-size:14px;position:absolute;top:60px;right:10px;background-color: lightblue;');
-document.body.appendChild(input9);
+var input10 = document.createElement('input');
+input10.type = 'button';
+input10.value = 'Col';
+input10.onclick = ButtonFunction10;
+input10.setAttribute('style', 'width:30px;font-size:14px;position:absolute;top:60px;right:10px;background-color: lightblue;');
+document.body.appendChild(input10);
 
-function ButtonFunction9() {
+function ButtonFunction10() {
   //y = (30 / 86400) //5 seconds
   //setCookie('RELOAD', 'RELOADED', y, 'path=/') //alert(input202.value)
   //  myWindow = window.open(vPath + 'oscarPrevention/AddPreventionData.jsp?4=4&prevention=COLONOSCOPY&demographic_no=' + demoNo + '&prevResultDesc=', 'myWindow', 'width=800, height=600');
