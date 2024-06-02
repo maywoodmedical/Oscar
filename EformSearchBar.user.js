@@ -7,7 +7,7 @@
 // @require   http://ajax.googleapis.com/ajax/libs/jquery/1.3.1/jquery.min.js
 // @updateURL https://github.com/maywoodmedical/Oscar/raw/main/EformSearchBar.user.js
 // @downloadURL https://github.com/maywoodmedical/Oscar/raw/main/EformSearchBar.user.js
-// @version     1.1
+// @version     1.3
 // @grant       none
 // ==/UserScript==
 
@@ -31,7 +31,9 @@ var newURL = vPath + "/eform/efmformslistadd.jsp?group_view=&demographic_no=" + 
 
 $(document).ready(function() {
     //$('#enTemplate').width("250px"); //widens search field
-    var searchbar = "<input id='referral_name' style ='background-color: white; color:gray;' list='CP' name='referral_name' placeholder='eForm name (or partial name)' type='text'><datalist id='CP'></datalist>"
+    var searchbar = "<input id='referral_name' ; color:gray;' list='CP' name='referral_name' placeholder='eForm name (or partial name)' type='text'><datalist id='CP'></datalist>"
+  
+    //$('#rightNavBar').append(searchbar) //append to top row
     $('#cppBoxes').append(searchbar) //append to top row
     //$('#toolbar').prepend(searchbar) //append to bottom row
     $('#referral_name').width("202px")
