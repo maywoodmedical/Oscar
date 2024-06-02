@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name        Hide Echart Stuff
+// @name        Echart Hide Stuff
 // @namespace   https://github.com/maywoodmedical/Oscar
 // @description Hides the Research bar, Right Navigation Bar headers, etc. 
 // @include     */casemgmt/forward.jsp?action=view&demographic*
