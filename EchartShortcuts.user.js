@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name        Echart Shortcut
+// @name        Echart Shortcuts
 // @namespace   https://github.com/maywoodmedical/Oscar
 // @description Various navigation buttons for echart screen including Lifelabs, Imaging, Results. Set your own specific fid (form number) or Measurement groupName
 // @include     */casemgmt/forward.jsp?action=view&demographic*
