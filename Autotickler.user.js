@@ -13,7 +13,7 @@
 // @require   http://ajax.googleapis.com/ajax/libs/jquery/1.3.1/jquery.min.js
 // @updateURL https://github.com/maywoodmedical/Oscar/raw/main/Autotickler.user.js
 // @downloadURL https://github.com/maywoodmedical/Oscar/raw/main/Autotickler.user.js
-// @version     3.0
+// @version     3.1
 // @grant       none
 // ==/UserScript==
 
@@ -380,7 +380,7 @@ AA[3] = [
     ''
 ]
 AA[4] = [
-    'CEA',
+    'HPV',
     ''
 ]
 AA[5] = [
@@ -486,6 +486,9 @@ function ButtonFunction2() {
                     case 'FIT':
                         vPrev = 'FOBT'
                         break;
+                    case 'HPV':
+                        vPrev = 'HPV-CERVIX'
+                        break;
                     default:
                         vPrev = ''
                 }
@@ -509,6 +512,12 @@ function ButtonFunction2() {
     });
     $('#Aller0').focus(function() {
         $('#Time2').click() //alert(this.id)
+    });
+    $('#Aller4').focus(function() {
+        $('#Time4').click() //alert(this.id)
+    });
+    $('#Aller2').focus(function() {
+        $('#Time5').click() //alert(this.id)
     });
     document.getElementById('Time1').checked = true
     document.getElementById('Radio2Div').addEventListener('change', function() {
@@ -574,6 +583,9 @@ function ButtonFunction3() {
                     case 'FIT':
                         vPrev = 'FOBT'
                         break;
+                    case 'HPV':
+                        vPrev = 'HPV-CERVIX'
+                        break;
                     default:
                         vPrev = ''
                 }
@@ -596,6 +608,12 @@ function ButtonFunction3() {
     });
     $('#Aller0').focus(function() {
         $('#Time2').click() //alert(this.id)
+    });
+    $('#Aller4').focus(function() {
+        $('#Time4').click() //alert(this.id)
+    });
+    $('#Aller2').focus(function() {
+        $('#Time5').click() //alert(this.id)
     });
     document.getElementById('Time1').checked = true
     document.getElementById('Radio2Div').addEventListener('change', function() {
@@ -678,7 +696,7 @@ if (demono > -1) {
     
 var input6 = document.createElement('input');
 input6.type = 'button';
-input6.value = 'Fit';
+input6.value = 'FIT';
 input6.onclick = ButtonFunction6;
 input6.setAttribute('style', 'width:30px;font-size:14px;position:absolute;top:60px;right:130px;background-color: lightblue;');
 document.body.appendChild(input6);
