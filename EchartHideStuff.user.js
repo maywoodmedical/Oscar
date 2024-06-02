@@ -14,7 +14,7 @@
 //- The @grant directives are needed to restore the proper sandbox.
 /* global $, waitForKeyElements */
 
-
+/*
 waitForKeyElements ("legend:contains('Research')", removeFieldsetWithLegend);
 
 function removeFieldsetWithLegend (jNode) {
@@ -29,7 +29,8 @@ function removeFieldsetWithLegend (jNode) {
         fieldsetElement.remove();
     }
 }
-
+*/
+    
 waitForKeyElements ("#unresolvedIssues", removeUnresolvedIssuesDiv);
 
 function removeUnresolvedIssuesDiv (jNode) {
