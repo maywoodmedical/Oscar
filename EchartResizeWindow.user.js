@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name        Resize Echart Window
+// @name        Echart Resize Window
 // @namespace   https://github.com/maywoodmedical/Oscar
 // @description Resizes the Echart window
 // @include     */casemgmt/forward.jsp?action=view&demographic*
