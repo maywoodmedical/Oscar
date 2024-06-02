@@ -4,8 +4,8 @@
 // @description Organize documents in chronologic order
 // @include     *documentManager/documentReport.jsp*
 // @require http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js
-// @updateURL 
-// @downloadURL 
+// @updateURL https://github.com/maywoodmedical/Oscar/raw/main/DocumentSorting.user.js
+// @downloadURL https://github.com/maywoodmedical/Oscar/raw/main/DocumentSorting.user.js
 // @version 1.0
 // @grant       none
 // ==/UserScript==
