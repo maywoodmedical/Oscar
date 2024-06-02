@@ -3,27 +3,17 @@
 // @description Adds Navigation buttons for Fit/Pap/Mam/Col/Flu 
 // @namespace   https://github.com/maywoodmedical/Oscar
 // @include  *casemgmt/forward.jsp?action*
-// @include  *demographic/demographiccontrol.jsp?demographic_no*
 // @updateURL https://github.com/myingbull/Oscar/edit/main/AllergiesAndPreventions.user.js
 // @downloadURL  https://github.com/myingbull/Oscar/edit/main/AllergiesAndPreventions.user.js
 // @require   http://ajax.googleapis.com/ajax/libs/jquery/1.3.1/jquery.min.js
 // @updateURL https://github.com/maywoodmedical/Oscar/raw/main/PreventionsShortcut.user.js
 // @downloadURL https://github.com/maywoodmedical/Oscar/raw/main/PreventionsShortcut.user.js
-// @version     1.1
+// @version     1.3
 // @grant       none
 // ==/UserScript==
 
 // modified from Stanscripts https://github.com/DrStanMD
 
-/*
-Indemnity
-Although reasonable care is taken to test the scripts before publishing, 
-everything you see here is meant to be informational only, and should be used with caution. 
-No guarantee is made or implied about the scripts here whatsoever. 
-Using scripts described here may result in errant behavior in the EMR, 
-inadvertently harming patients, and general badness. 
-Using any parts of the code implies you fully understand the code and the risks associated with using it.
-*/
 
 function setCookie(cname, cvalue, exdays, cpath) {
     var d = new Date();
@@ -179,9 +169,9 @@ function ButtonFunction2() {
 
 var input1 = document.createElement('input');
 input1.type = 'button';
-input1.value = 'Fit';
+input1.value = 'FIT';
 input1.onclick = ButtonFunction1;
-input1.setAttribute('style', 'width:38px;font-size:13px;z-index:1;position:fixed;bottom:40px;left:0px;');
+input1.setAttribute('style', 'width:30px; height:22px; font-size:10px;z-index:1;position:fixed;bottom:52px;right:165px;');
 document.body.appendChild(input1);
 
 function ButtonFunction1() {
@@ -195,7 +185,7 @@ var input2 = document.createElement('input');
 input2.type = 'button';
 input2.value = 'Pap';
 input2.onclick = ButtonFunction2;
-input2.setAttribute('style', 'width:38px;font-size:13px;z-index:1;position:fixed;bottom:40px;left:38px;');
+input2.setAttribute('style', 'width:30px; height:22px; font-size:10px;z-index:1;position:fixed;bottom:30px;right:165px;');
 document.body.appendChild(input2);
 
 function ButtonFunction2() {
@@ -207,26 +197,40 @@ function ButtonFunction2() {
 
 var input3 = document.createElement('input');
 input3.type = 'button';
-input3.value = 'Mam';
+input3.value = 'HPV';
 input3.onclick = ButtonFunction3;
-input3.setAttribute('style', 'width:38px;font-size:13px;z-index:1;position:fixed;bottom:40px;left:76px;');
+input3.setAttribute('style', 'width:30px; height:22px; font-size:10px;z-index:1;position:fixed;bottom:8px;right:165px;');
 document.body.appendChild(input3);
 
 function ButtonFunction3() {
+  //y = (30 / 86400) //5 seconds
+  //setCookie('RELOAD', 'RELOADED', y, 'path=/') //alert(input202.value)
+  //  myWindow = window.open(vPath + 'oscarPrevention/AddPreventionData.jsp?prevention=HPV-CERVIX&demographic_no=' + demoNo + '&prevResultDesc=', 'myWindow', 'width=800, height=600');
+ window.open(vPath + 'oscarPrevention/AddPreventionData.jsp?1=1&prevention=HPV-CERVIX&demographic_no=' + demono + '&prevResultDesc=', 'myWindow', 'width=800, height=600');
+}
+
+var input4 = document.createElement('input');
+input4.type = 'button';
+input4.value = 'Mam';
+input4.onclick = ButtonFunction4;
+input4.setAttribute('style', 'width:30px; height:22px; font-size:10px;z-index:1;position:fixed;bottom:52px;right:135px;');
+document.body.appendChild(input4);
+
+function ButtonFunction4() {
   y = (30 / 86400) //5 seconds
   setCookie('RELOAD', 'RELOADED', y, 'path=/') //alert(input202.value)
 //  myWindow = window.open(vPath + 'oscarPrevention/AddPreventionData.jsp?4=4&prevention=MAM&demographic_no=' + demoNo + '&prevResultDesc=', 'myWindow', 'width=800, height=600');
  myWindow = window.open(vPath + 'oscarPrevention/AddPreventionData.jsp?4=4&prevention=MAM&demographic_no=' + demoNo + '&prevResultDesc=', 'myWindow', 'width=800, height=600');
 }
 
-var input4 = document.createElement('input');
-input4.type = 'button';
-input4.value = 'Col';
-input4.onclick = ButtonFunction4;
-input4.setAttribute('style', 'width:38px;font-size:13px;z-index:1;position:fixed;bottom:40px;left:114px;');
-document.body.appendChild(input4);
+var input5 = document.createElement('input');
+input5.type = 'button';
+input5.value = 'Col';
+input5.onclick = ButtonFunction5;
+input5.setAttribute('style', 'width:30px; height:22px; font-size:10px;z-index:1;position:fixed;bottom:30px;right:135px;');
+document.body.appendChild(input5);
 
-function ButtonFunction4() {
+function ButtonFunction5() {
   y = (30 / 86400) //5 seconds
   setCookie('RELOAD', 'RELOADED', y, 'path=/') //alert(input202.value)
 //  myWindow = window.open(vPath + 'oscarPrevention/AddPreventionData.jsp?4=4&prevention=COLONOSCOPY&demographic_no=' + demoNo + '&prevResultDesc=', 'myWindow', 'width=800, height=600');
@@ -234,14 +238,14 @@ function ButtonFunction4() {
 }
 
 
-var input5 = document.createElement('input');
-input5.type = 'button';
-input5.value = 'Flu';
-input5.onclick = ButtonFunction5;
-input5.setAttribute('style', 'width:38px;font-size:13px;z-index:1;position:fixed;bottom:40px;left:152px;');
-document.body.appendChild(input5);
+var input6 = document.createElement('input');
+input6.type = 'button';
+input6.value = 'Flu';
+input6.onclick = ButtonFunction6;
+input6.setAttribute('style', 'width:30px; height:22px; font-size:10px;z-index:1;position:fixed;bottom:8px;right:135px;');
+document.body.appendChild(input6);
 
-function ButtonFunction5() {
+function ButtonFunction6() {
   y = (30 / 86400) //5 seconds
   setCookie('RELOAD', 'RELOADED', y, 'path=/') //alert(input202.value)
 //  myWindow = window.open(vPath + 'oscarPrevention/AddPreventionData.jsp?4=4&prevention=Flu&demographic_no=' + demoNo + '&prevResultDesc=', 'myWindow', 'width=800, height=600');
