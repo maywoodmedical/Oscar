@@ -1,12 +1,12 @@
 // ==UserScript==
-// @name        Echart Shortcuts
+// @name        Echart Shortcut
 // @namespace   https://github.com/maywoodmedical/Oscar
 // @description Various navigation buttons for echart screen including Lifelabs, Imaging, Results. Set your own specific fid (form number) or Measurement groupName
 // @include     */casemgmt/forward.jsp?action=view&demographic*
 // @require http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js
 // @updateURL https://github.com/maywoodmedical/Oscar/raw/main/EchartShortcut.user.js
 // @downloadURL https://github.com/maywoodmedical/Oscar/raw/main/EchartShortcut.user.js
-// @version 2.3
+// @version 2.5
 // @grant       none
 // ==/UserScript==
 
@@ -49,7 +49,7 @@ var input = document.createElement('input');
 input.type = 'button';
 input.value = 'Lifelab';
 input.onclick = showAlert;
-input.setAttribute('style', 'width:60px;font-size:16px;z-index:1;position:fixed;bottom:13px;left:0px; ');
+input.setAttribute('style', 'width:60px;font-size:14px;z-index:1;position:fixed;bottom:52px;right:75px; ');
 document.body.appendChild(input);
 function showAlert()
 {
@@ -66,7 +66,7 @@ var input1 = document.createElement('input');
 input1.type = 'button';
 input1.value = 'Imaging';
 input1.onclick = showAlert1;
-input1.setAttribute('style', 'width:70px;font-size:16px;z-index:1;position:fixed;bottom:13px;left:60px; ');
+input1.setAttribute('style', 'width:60px;font-size:14px;z-index:1;position:fixed;bottom:30px;right:75px; ');
 document.body.appendChild(input1);
 function showAlert1()
 {
@@ -82,15 +82,13 @@ var input2 = document.createElement('input');
 input2.type = 'button';
 input2.value = 'Results';
 input2.onclick = showAlert2;
-input2.setAttribute('style', 'width:60px;font-size:16px;z-index:1;position:fixed;bottom:13px;left:130px; ');
+input2.setAttribute('style', 'width:60px;font-size:14px;z-index:1;position:fixed;bottom:8px;right:75px; ');
 document.body.appendChild(input2);
 function showAlert2()
 {
   $('#menu2 > a:nth-child(2)').click()
   //window.open(vPath + '/oscar/lab/CumulativeLabValues3.jsp?demographic_no=2229', 'CumulativeLabs', 'width=1000,height=500')
 }
-
-
 
 /*
 var input5 = document.createElement('input');
@@ -326,3 +324,4 @@ function showAlert180()
 {
   window.open(vPath + 'oscarEncounter/oscarMeasurements/TemplateFlowSheet.jsp?demographic_no='+demo_no+'&template=diab2')
 }   
+
