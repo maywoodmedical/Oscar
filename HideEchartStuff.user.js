@@ -1,7 +1,7 @@
 // ==UserScript==
-// @name        Hide Stuff
+// @name        Hide Echart Stuff
 // @namespace   https://github.com/maywoodmedical/Oscar
-// @description Hides the Research bar
+// @description Hides the Research bar, Right Navigation Bar headers, etc. 
 // @include     */casemgmt/forward.jsp?action=view&demographic*
 // @require http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js
 // @require  https://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js
