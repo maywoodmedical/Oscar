@@ -6,7 +6,7 @@
 // @require http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js
 // @updateURL https://github.com/maywoodmedical/Oscar/raw/main/DocumentSorting.user.js
 // @downloadURL https://github.com/maywoodmedical/Oscar/raw/main/DocumentSorting.user.js
-// @version 1.0
+// @version 1.1
 // @grant       none
 // ==/UserScript==
 
@@ -39,3 +39,27 @@
     // Wait for 0.5 seconds before clicking on the table header
     setTimeout(clickOnObservedHeader, 500);
 })();
+
+
+
+// Function to maximize window height and set width to 75% of screen size
+(function() {
+    'use strict';
+
+    function maximizeWindow() {
+        var screenWidth = window.screen.availWidth;
+        var newWidth = screenWidth * 0.70; // 75% of screen width
+        // Calculate left position to start from the left of the screen
+        var leftPosition = screen.left;
+        window.resizeTo(newWidth, window.screen.availHeight);
+        // Move window to the left of the screen
+        window.moveTo(leftPosition, 0);
+    }
+
+    // Wait for the document to be fully loaded
+    $(document).ready(function() {
+        // Maximize window
+        maximizeWindow();
+    });
+})();
+
