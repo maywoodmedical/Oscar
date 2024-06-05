@@ -1,12 +1,13 @@
 // ==UserScript==
-// @name        Document Sorting
+// @name        Documents and Inbox Sorting
 // @namespace   https://github.com/maywoodmedical/Oscar
-// @description Organize documents in chronologic order
+// @description Organize documents in chronologic order, and load all inbox items
 // @include     *documentManager/documentReport.jsp*
+// @include     *documentManager/inboxManage.do*
 // @require http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js
 // @updateURL https://github.com/maywoodmedical/Oscar/raw/main/DocumentSorting.user.js
 // @downloadURL https://github.com/maywoodmedical/Oscar/raw/main/DocumentSorting.user.js
-// @version 1.1
+// @version 1.2
 // @grant       none
 // ==/UserScript==
 
@@ -63,3 +64,17 @@
     });
 })();
 
+
+// Function to automatically click Load All Inbox 
+(function() {
+    'use strict';
+
+    window.addEventListener('load', function() {
+        setTimeout(function() {
+            var loadAllButton = document.querySelector('input.smallButton[value="Load All Inbox"]');
+            if(loadAllButton) {
+                loadAllButton.click();
+            }
+        }, 500); // 500 milliseconds = 1 second
+    });
+})();
