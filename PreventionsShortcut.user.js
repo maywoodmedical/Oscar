@@ -8,7 +8,7 @@
 // @require   http://ajax.googleapis.com/ajax/libs/jquery/1.3.1/jquery.min.js
 // @updateURL https://github.com/maywoodmedical/Oscar/raw/main/PreventionsShortcut.user.js
 // @downloadURL https://github.com/maywoodmedical/Oscar/raw/main/PreventionsShortcut.user.js
-// @version     1.3
+// @version     1.4
 // @grant       none
 // ==/UserScript==
 
@@ -203,10 +203,10 @@ input3.setAttribute('style', 'width:30px; height:22px; font-size:10px;z-index:1;
 document.body.appendChild(input3);
 
 function ButtonFunction3() {
-  //y = (30 / 86400) //5 seconds
-  //setCookie('RELOAD', 'RELOADED', y, 'path=/') //alert(input202.value)
+  y = (30 / 86400) //5 seconds
+  setCookie('RELOAD', 'RELOADED', y, 'path=/') //alert(input202.value)
   //  myWindow = window.open(vPath + 'oscarPrevention/AddPreventionData.jsp?prevention=HPV-CERVIX&demographic_no=' + demoNo + '&prevResultDesc=', 'myWindow', 'width=800, height=600');
- window.open(vPath + 'oscarPrevention/AddPreventionData.jsp?1=1&prevention=HPV-CERVIX&demographic_no=' + demono + '&prevResultDesc=', 'myWindow', 'width=800, height=600');
+ myWindow = window.open(vPath + 'oscarPrevention/AddPreventionData.jsp?4=4&prevention=HPV-CERVIX&demographic_no=' + demoNo + '&prevResultDesc=', 'myWindow', 'width=800, height=600');
 }
 
 var input4 = document.createElement('input');
