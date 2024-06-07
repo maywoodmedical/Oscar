@@ -13,7 +13,7 @@
 // @require   http://ajax.googleapis.com/ajax/libs/jquery/1.3.1/jquery.min.js
 // @updateURL https://github.com/maywoodmedical/Oscar/raw/main/Autotickler.user.js
 // @downloadURL https://github.com/maywoodmedical/Oscar/raw/main/Autotickler.user.js
-// @version     3.1
+// @version     3.2
 // @grant       none
 // ==/UserScript==
 
@@ -262,11 +262,14 @@ if (params.myparam1) {
     var newYear = newDate.getFullYear()
     var newMonth = newDate.getMonth() + 1;
     var newDay = newDate.getDate();
-    var newD = newYear + '-' + newMonth + '-' + newDay;
+    var formattedMonth = (newMonth < 10) ? '0' + newMonth : newMonth;
+    var formattedDay = (newDay < 10) ? '0' + newDay : newDay;
+    var newD = newYear + '-' + formattedMonth + '-' + formattedDay;
+    //var newD = newYear + '-' + newMonth + '-' + newDay;  
     document.serviceform.xml_appointment_date.value = newD;
     //alert(newvalue)
     //var e = $('body > table:nth-child(3) > tbody:nth-child(4) > tr:nth-child(5) > td:nth-child(2) > textarea:nth-child(1)')
-    var mytextarea = document.getElementsByName('textarea');
+    var mytextarea = document.getElementsByName('ticklerMessage');
     //alert(mytextarea[0].value + " " + newvalue) 
     mytextarea[0].value = mytextarea[0].value + " " + newvalue
     //this.window.reload()
