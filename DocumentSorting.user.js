@@ -49,7 +49,7 @@
 
     function maximizeWindow() {
         var screenWidth = window.screen.availWidth;
-        var newWidth = screenWidth * 0.70; // 75% of screen width
+        var newWidth = screenWidth * 0.85; // 85% of screen width
         // Calculate left position to start from the left of the screen
         var leftPosition = screen.left;
         window.resizeTo(newWidth, window.screen.availHeight);
