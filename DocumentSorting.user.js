@@ -7,11 +7,11 @@
 // @require http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js
 // @updateURL https://github.com/maywoodmedical/Oscar/raw/main/DocumentSorting.user.js
 // @downloadURL https://github.com/maywoodmedical/Oscar/raw/main/DocumentSorting.user.js
-// @version 1.3
+// @version 1.4
 // @grant       none
 // ==/UserScript==
 
-
+/*
 (function() {
     'use strict';
 
@@ -40,7 +40,7 @@
     // Wait for 0.5 seconds before clicking on the table header
     setTimeout(clickOnObservedHeader, 500);
 })();
-
+*/
 
 
 // Function to maximize window height and set width to 75% of screen size
