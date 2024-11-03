@@ -5,10 +5,11 @@
 // @include     */oscar/billing.do?billRegion=BC&billForm*
 // @include     */oscar/billing/CA/BC/billingBC.jsp?*
 // @include     */oscar/billing/CA/BC/SaveBilling.do*
+// @include     */oscar/CaseManagementEntry.do*
 // @require http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js
 // @updateURL 
 // @downloadURL 
-// @version 1.0
+// @version 1.1
 // @grant       none
 // ==/UserScript==
 
@@ -17,18 +18,19 @@
 
     // Create the button
     const button = document.createElement('button');
-    button.innerText = 'Calculate 15-Minute Increments';
-    button.style.margin = '10px';
-    button.style.position = 'absolute';
-    button.style.bottom = '10px';
-    button.style.right = '10px';
+    button.innerText = 'Time';
     button.className = 'btn btn-primary'; // Add any Bootstrap classes or styles you need
-
-    // Get the target div and set its position to relative
-    const targetDiv = document.querySelector('.tool-table.table-responsive');
+     
+          // Get the target div (buttonRow)
+    const targetDiv = document.getElementById('buttonRow');
     if (targetDiv) {
-        targetDiv.style.position = 'relative'; // Ensure the button is positioned relative to this div
         targetDiv.appendChild(button); // Append the button to the target div
+
+        // Create a feedback div for error messages
+        const feedbackDiv = document.createElement('div');
+        feedbackDiv.style.color = 'red';
+        targetDiv.appendChild(feedbackDiv);
+      
 
         // Button click event
         button.addEventListener('click', function() {
