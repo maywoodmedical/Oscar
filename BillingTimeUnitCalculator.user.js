@@ -4,6 +4,7 @@
 // @description Calculate the number of 15 minute units after inputting start and end times
 // @include     */oscar/billing.do?billRegion=BC&billForm*
 // @include     */oscar/billing/CA/BC/billingBC.jsp?*
+// @include     */oscar/billing/CA/BC/SaveBilling.do*
 // @require http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js
 // @updateURL 
 // @downloadURL 
