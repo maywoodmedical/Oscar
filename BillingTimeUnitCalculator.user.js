@@ -9,7 +9,7 @@
 // @require http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js
 // @updateURL https://github.com/maywoodmedical/Oscar/raw/main/BillingTimeUnitCalculator.user.js
 // @downloadURL https://github.com/maywoodmedical/Oscar/raw/main/BillingTimeUnitCalculator.user.js
-// @version 1.1
+// @version 1.2
 // @grant       none
 // ==/UserScript==
 
@@ -19,6 +19,8 @@
     // Create the button
     const button = document.createElement('button');
     button.innerText = 'Time';
+    button.style.backgroundColor = 'green'; // Set background color to green
+    button.style.border = '1px solid green'; // Set border color to green
     button.className = 'btn btn-primary'; // Add any Bootstrap classes or styles you need
      
           // Get the target div (buttonRow)
