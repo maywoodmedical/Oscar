@@ -4,10 +4,7 @@
 // @description left click to copy lab values automatically
 // @include  *lab/CA/ALL/labDisplay.jsp?segmentID*
 // @include  *lab/CA/ALL/labDisplay.jsp?demographicId*
-// @include  *dms/MultiPageDocDisplay.jsp?segmentID*
 // @include  *lab/CA/ALL/labDisplay.jsp?inWindow=true&segmentID*
-// @include  *dms/showDocument.jsp?inWindow*
-// @include  *dms/showDocument.jsp?segmentID*
 // @require   http://ajax.googleapis.com/ajax/libs/jquery/1.3.1/jquery.min.js
 // @updateURL https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/CopyLabs.user.js
 // @downloadURL https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/CopyLabs.user.js
