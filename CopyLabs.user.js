@@ -9,8 +9,8 @@
 // @include  *dms/showDocument.jsp?inWindow*
 // @include  *dms/showDocument.jsp?segmentID*
 // @require   http://ajax.googleapis.com/ajax/libs/jquery/1.3.1/jquery.min.js
-// @updateURL 
-// @downloadURL 
+// @updateURL https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/CopyLabs.user.js
+// @downloadURL https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/CopyLabs.user.js
 // @version     1.0
 // @grant       none
 // ==/UserScript==
