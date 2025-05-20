@@ -6,8 +6,8 @@
 // @require http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js
 // @require  https://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js
 // @require  https://gist.github.com/raw/2625891/waitForKeyElements.js
-// @updateURL 
-// @downloadURL 
+// @updateURL https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/MedicationsPanel.user.js
+// @downloadURL https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/MedicationsPanel.user.js
 // @grant    GM_addStyle
 // @grant    GM.getValue
 // @noframes
