@@ -7,9 +7,9 @@
 // @grant         GM.xmlHttpRequest
 // @connect       maywoodmedicalclinic.openosp.ca
 // @allFrames     true
-// @updateURL     https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/LabHoverResults.user.js
-// @downloadURL   https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/LabHoverResults.user.js
-// @version       7.0
+// @updateURL     
+// @downloadURL   
+// @version       7.1
 // ==/UserScript==
 
 
@@ -78,6 +78,13 @@
         { search: "Direct Antiglobulin Test, IgG Specific", id: "55776-9", label: "Direct Antiglobulin Test, IgG Specific", min: 0, max: 0 },
         { search: "Direct Antiglobulin Test, C3d Specific", id: "55774-4", label: "Direct Antiglobulin Test, C3d Specific", min: 0, max: 0 },
         { search: "Direct Antiglobulin Test, Polyspecific", id: "1007-4", label: "Direct Antiglobulin Test, Polyspecific", min: 0, max: 0 },
+        { search: "Alpha 1 Globulin", id: "2865-4", label: "Alpha 1 Globulin", min: 2, max: 4 },
+        { search: "Alpha 2 Globulin", id: "2868-8", label: "Alpha 2 Globulin", min: 5, max: 9 },
+        { search: "Beta 1 Globulin", id: "32730-4", label: "Beta 1 Globulin", min: 3, max: 6 },
+        { search: "Beta 2 Globulin", id: "32731-2", label: "Beta 2 Globulin", min: 2, max: 5 },
+        { search: "Gamma Globulin", id: "2874-6", label: "Gamma Globulin", min: 7, max: 14 },
+        { search: "Protein Monoclonal Band 1", id: "51435-6", label: "Protein Monoclonal Band 1", min: 0, max: 0 },
+      
       
         // DIABETES & GLUCOSE
         { search: "Hemoglobin A1C/Total Hemoglobin (IFCC)", id: "XXX-2604", label: "A1C-IFCC", min: 20, max: 42 },
@@ -205,6 +212,7 @@
         { search: "IgG Subclass 2", id: "2467-9", label: "IgG Subclass 2", min: 1.15, max: 5.7 },
         { search: "IgG Subclass 3", id: "2468-7", label: "IgG Subclass 3", min: 0.24, max: 1.25 },
         { search: "IgG Subclass 4", id: "2469-5", label: "IgG Subclass 4", min: 0.052, max: 1.250 },
+        { search: "Mono", id: "5213-4", label: "Mono", min: 0, max: 0 },
       
         // IMMUNOLOGY & INFLAMMATION
         { search: "Extractable Nuclear Ab Screen", id: "14722-3", label: "ENA", min: 0, max: 0 },
