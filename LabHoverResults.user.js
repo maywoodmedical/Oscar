@@ -9,7 +9,7 @@
 // @allFrames     true
 // @updateURL     https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/LabHoverResults.user.js
 // @downloadURL   https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/LabHoverResults.user.js
-// @version       7.1
+// @version       7.2
 // ==/UserScript==
 
 
@@ -121,6 +121,7 @@
         { search: "Aspartate Aminotransferase", id: "1920-8", label: "AST", min: 0, max: 35 },
         { search: "Alkaline Phosphatase", id: "6768-6", label: "ALP", min: 35, max: 120 },
         { search: "Lactate Dehydrogenase", id: "2532-0", label: "LDH", min: 100, max: 225 },
+        { search: "Lactate", id: "2524-7", label: "Lactate", min: 0.5, max: 2.2 },
         { search: "Total Bilirubin", id: "14631-6", label: "T Bili", min: 0, max: 22 },
         { search: "Direct Bilirubin", id: "14629-0", label: "Direct Bili", min: 0, max: 7 },
         { search: "Creatine Kinase", id: "2157-6", label: "CK", min: 30, max: 200 },
