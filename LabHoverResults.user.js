@@ -1,17 +1,16 @@
 // ==UserScript==
-// @name          Lab Hover Results
-// @description   hover over labs to see instant historical overview and visual trendline
-// @namespace     https://github.com/maywoodmedical/Oscar
+// @name         Lab Hover Results
+// @description  hover over labs to see instant historical overview and visual trendline
+// @namespace    https://github.com/maywoodmedical/Oscar
 // @match         *://maywoodmedicalclinic.openosp.ca/oscar/lab/*
 // @grant         GM_xmlhttpRequest
 // @grant         GM.xmlHttpRequest
 // @connect       maywoodmedicalclinic.openosp.ca
-// @allFrames     true
-// @updateURL     https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/LabHoverResults.user.js
-// @downloadURL   https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/LabHoverResults.user.js
-// @version       7.2
+// @allFrames      true
+// @updateURL      https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/LabHoverResults.user.js
+// @downloadURL    https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/LabHoverResults.user.js
+// @version        7.4
 // ==/UserScript==
-
 
 (function() {
     'use strict';
@@ -20,20 +19,23 @@
         return; 
     }
 
+    // --- State Variables ---
+    let currentHoveredCell = null;
+    let hoverTimeout = null;
+    let mouseX = 0;
+    let mouseY = 0;
+
     function getDemographicId(element) {
         const link = element.tagName === 'A' ? element : element.querySelector('a');
         if (link && link.href) {
             const match = link.href.match(/[?&]demo=(\d+)/);
             if (match) return match[1];
         }
-
         const urlParams = new URLSearchParams(window.location.search);
         const urlId = urlParams.get('demographicId') || urlParams.get('demo') || urlParams.get('demographicNo');
         if (urlId) return urlId;
-
         const hiddenDemo = document.querySelector('input[name="demo"], input[name="demographicNo"], input[name="demographicId"]');
         if (hiddenDemo && hiddenDemo.value) return hiddenDemo.value;
-        
         return null;
     }
 
@@ -84,8 +86,7 @@
         { search: "Beta 2 Globulin", id: "32731-2", label: "Beta 2 Globulin", min: 2, max: 5 },
         { search: "Gamma Globulin", id: "2874-6", label: "Gamma Globulin", min: 7, max: 14 },
         { search: "Protein Monoclonal Band 1", id: "51435-6", label: "Protein Monoclonal Band 1", min: 0, max: 0 },
-      
-      
+        
         // DIABETES & GLUCOSE
         { search: "Hemoglobin A1C/Total Hemoglobin (IFCC)", id: "XXX-2604", label: "A1C-IFCC", min: 20, max: 42 },
         { search: "Glucose 1h Post 50 g Glucose", id: "14754-6", label: "GTT 1h", min: 0, max: 7.7 },
@@ -115,13 +116,13 @@
         { search: "Sodium", id: "2951-2", label: "Na", min: 135, max: 145 },
         { search: "Urate", id: "14933-6", label: "Uric acid", min: 140, max: 430 },
         { search: "Urea", id: "22664-7", label: "Urea", min: 3.0, max: 8.0 },
+        { search: "Lactate", id: "2524-7", label: "Lactate", min: 0.5, max: 2.2 },
 
         // LIVER, ENZYMES & PROTEINS
         { search: "Alanine Aminotransferase", id: "1742-6", label: "ALT", min: 0, max: 40 },
         { search: "Aspartate Aminotransferase", id: "1920-8", label: "AST", min: 0, max: 35 },
         { search: "Alkaline Phosphatase", id: "6768-6", label: "ALP", min: 35, max: 120 },
         { search: "Lactate Dehydrogenase", id: "2532-0", label: "LDH", min: 100, max: 225 },
-        { search: "Lactate", id: "2524-7", label: "Lactate", min: 0.5, max: 2.2 },
         { search: "Total Bilirubin", id: "14631-6", label: "T Bili", min: 0, max: 22 },
         { search: "Direct Bilirubin", id: "14629-0", label: "Direct Bili", min: 0, max: 7 },
         { search: "Creatine Kinase", id: "2157-6", label: "CK", min: 30, max: 200 },
@@ -214,7 +215,7 @@
         { search: "IgG Subclass 3", id: "2468-7", label: "IgG Subclass 3", min: 0.24, max: 1.25 },
         { search: "IgG Subclass 4", id: "2469-5", label: "IgG Subclass 4", min: 0.052, max: 1.250 },
         { search: "Mono", id: "5213-4", label: "Mono", min: 0, max: 0 },
-      
+        
         // IMMUNOLOGY & INFLAMMATION
         { search: "Extractable Nuclear Ab Screen", id: "14722-3", label: "ENA", min: 0, max: 0 },
         { search: "Tissue Transglutaminase Ab IgA", id: "31017-7", label: "anti-TTG", min: 0, max: 12 },
@@ -276,29 +277,22 @@
 
     labConfigs.sort((a, b) => b.search.length - a.search.length);
 
-    let currentHoveredCell = null;
-    let hoverTimeout = null;
-
     function generateSparkline(values, isLatestAbnormal, config) {
         if (values.length < 2) return "";
         const width = 160; 
         const height = 35;
-        
         const dataMin = Math.min(...values); 
         const dataMax = Math.max(...values);
         const viewMin = Math.min(dataMin, config.min) * 0.85; 
         const viewMax = Math.max(dataMax, config.max) * 1.15;
         const viewRange = viewMax - viewMin || 1;
-
         const getX = (i) => (i / (values.length - 1)) * width;
         const getY = (val) => height - ((val - viewMin) / viewRange) * height;
         const rev = [...values].reverse();
         const points = rev.map((val, i) => `${getX(i)},${getY(val)}`).join(" ");
-        
         const yTop = getY(config.max);
         const yBottom = getY(config.min);
         const rangeBox = `<rect x="0" y="${Math.min(yTop, yBottom)}" width="${width}" height="${Math.abs(yBottom - yTop)}" fill="#f0f0f0" />`;
-
         const dotColor = isLatestAbnormal ? "red" : "black";
 
         return `<div style="margin:4px 0 8px 0; width: 160px;">
@@ -308,6 +302,25 @@
                 <circle cx="${width}" cy="${getY(rev[rev.length-1])}" r="3" fill="${dotColor}" stroke="white" stroke-width="0.5" />
             </svg>
         </div>`;
+    }
+
+    function updateTooltipPosition() {
+        const buffer = 15;
+        const tipWidth = tooltip.offsetWidth;
+        const tipHeight = tooltip.offsetHeight;
+
+        let x = mouseX + buffer;
+        let y = mouseY + buffer;
+
+        if (x + tipWidth > window.innerWidth) {
+            x = mouseX - tipWidth - buffer;
+        }
+        if (y + tipHeight > window.innerHeight) {
+            y = mouseY - tipHeight - buffer;
+        }
+
+        tooltip.style.left = Math.max(5, x) + 'px';
+        tooltip.style.top = Math.max(5, y) + 'px';
     }
 
     function scan() {
@@ -320,8 +333,16 @@
                     cell.setAttribute('data-hooked', 'true');
                     cell.style.cursor = "help";
 
-                    cell.addEventListener('mouseenter', () => {
+                    cell.addEventListener('mouseenter', (e) => {
                         clearTimeout(hoverTimeout);
+                        
+                        // FIX: Reset tooltip height and visibility immediately
+                        tooltip.innerHTML = '';
+                        tooltip.style.visibility = 'hidden';
+                        
+                        mouseX = e.clientX;
+                        mouseY = e.clientY;
+
                         hoverTimeout = setTimeout(() => {
                             currentHoveredCell = cell;
                             const pId = getDemographicId(cell); 
@@ -332,32 +353,18 @@
                     });
 
                     cell.addEventListener('mousemove', (e) => {
-                        const buffer = 15;
-                        const tipWidth = tooltip.offsetWidth || 176;
-                        const tipHeight = tooltip.offsetHeight || 200;
-
-                        let x = e.clientX + buffer;
-                        let y = e.clientY + buffer;
-
-                        if (x + tipWidth > window.innerWidth) {
-                            x = e.clientX - tipWidth - buffer;
+                        mouseX = e.clientX;
+                        mouseY = e.clientY;
+                        if (tooltip.style.visibility === 'visible') {
+                            updateTooltipPosition();
                         }
-
-                        if (y + tipHeight > window.innerHeight) {
-                            y = e.clientY - tipHeight - buffer;
-                        }
-
-                        x = Math.max(5, x);
-                        y = Math.max(5, y);
-
-                        tooltip.style.left = x + 'px';
-                        tooltip.style.top = y + 'px';
                     });
                     
                     cell.addEventListener('mouseleave', () => { 
                         clearTimeout(hoverTimeout);
                         currentHoveredCell = null;
                         tooltip.style.visibility = 'hidden'; 
+                        tooltip.innerHTML = ''; // Force height reset
                     });
                     break; 
                 }
@@ -380,7 +387,6 @@
 
         for (let i = 0; i < rows.length; i++) {
             if (count >= 20) break;
-
             const tds = rows[i].querySelectorAll('td');
             if (tds.length >= 6) {
                 const rawDate = tds[5].innerText.trim();
@@ -405,23 +411,18 @@
         if (count > 0) {
             const spark = count > 1 ? generateSparkline(dataPoints, latestAbnormal, config) : "";
             tooltip.innerHTML = `<b style="font-size:11px; display:block; margin-bottom:4px;">${config.label} History</b><div style="width:160px;">${spark}${resultsHtml}</div>`;
+            
+            // Set visible first so updateTooltipPosition uses accurate offsetHeight
             tooltip.style.visibility = 'visible';
+            updateTooltipPosition();
         } else {
             tooltip.style.visibility = 'hidden';
         }
     }
 
-// 1. Define the interval variable so we can change it
-let scanTimer = setInterval(scan, 200); // Fast scan (twice per second) at start
-
-// 2. Set a timer to switch to "Idle Mode" after 5 seconds
-setTimeout(() => {
-    clearInterval(scanTimer); // Stop the fast scan
-    
-    // 3. Start a slow "Idle Scan" once every 5 seconds 
-    // This catches any data that was delayed or loaded via user interaction
-    scanTimer = setInterval(scan, 5000); 
-    
-    console.log("Lab Hover: Switched to Idle Mode (5s interval) to save CPU.");
-}, 5000);
+    let scanTimer = setInterval(scan, 200); 
+    setTimeout(() => {
+        clearInterval(scanTimer); 
+        scanTimer = setInterval(scan, 5000); 
+    }, 5000);
 })();
