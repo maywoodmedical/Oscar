@@ -77,7 +77,8 @@
         { search: "Nucleated RBCs", id: "771-6", label: "Nucleated RBCs", min: 0, max: 0 },
         { search: "Direct Antiglobulin Test, IgG Specific", id: "55776-9", label: "Direct Antiglobulin Test, IgG Specific", min: 0, max: 0 },
         { search: "Direct Antiglobulin Test, C3d Specific", id: "55774-4", label: "Direct Antiglobulin Test, C3d Specific", min: 0, max: 0 },
-
+        { search: "Direct Antiglobulin Test, Polyspecific", id: "1007-4", label: "Direct Antiglobulin Test, Polyspecific", min: 0, max: 0 },
+      
         // DIABETES & GLUCOSE
         { search: "Hemoglobin A1C/Total Hemoglobin (IFCC)", id: "XXX-2604", label: "A1C-IFCC", min: 20, max: 42 },
         { search: "Glucose 1h Post 50 g Glucose", id: "14754-6", label: "GTT 1h", min: 0, max: 7.7 },
