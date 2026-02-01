@@ -9,7 +9,7 @@
 // @allFrames      true
 // @updateURL      https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/LabHoverResults.user.js
 // @downloadURL    https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/LabHoverResults.user.js
-// @version        7.6
+// @version        7.7
 // ==/UserScript==
 
 (function() {
@@ -46,7 +46,6 @@
         color: 'black', fontSize: '11px', borderRadius: '4px', 
         width: '176px', boxSizing: 'border-box',
         fontFamily: 'Verdana, Arial, Helvetica, sans-serif', pointerEvents: 'none',
-        boxShadow: '0 2px 10px rgba(0,0,0,0.2)', border: '1px solid #ccc'
     });
     document.body.appendChild(tooltip);
 
