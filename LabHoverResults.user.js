@@ -7,8 +7,8 @@
 // @grant         GM.xmlHttpRequest
 // @connect       maywoodmedicalclinic.openosp.ca
 // @allFrames     true
-// @updateURL     
-// @downloadURL   
+// @updateURL     https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/LabHoverResults.user.js
+// @downloadURL   https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/LabHoverResults.user.js
 // @version       7.1
 // ==/UserScript==
 
