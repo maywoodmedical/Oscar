@@ -9,7 +9,7 @@
 // @allFrames      true
 // @updateURL      https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/LabHoverResults.user.js
 // @downloadURL    https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/LabHoverResults.user.js
-// @version        7.4
+// @version        7.6
 // ==/UserScript==
 
 (function() {
@@ -122,7 +122,7 @@
         { search: "Alanine Aminotransferase", id: "1742-6", label: "ALT", min: 0, max: 40 },
         { search: "Aspartate Aminotransferase", id: "1920-8", label: "AST", min: 0, max: 35 },
         { search: "Alkaline Phosphatase", id: "6768-6", label: "ALP", min: 35, max: 120 },
-        { search: "Lactate Dehydrogenase", id: "2532-0", label: "LDH", min: 100, max: 225 },
+        { search: "Lactate Dehydrogenase", id: "14805-6", label: "LDH", min: 100, max: 225 },
         { search: "Total Bilirubin", id: "14631-6", label: "T Bili", min: 0, max: 22 },
         { search: "Direct Bilirubin", id: "14629-0", label: "Direct Bili", min: 0, max: 7 },
         { search: "Creatine Kinase", id: "2157-6", label: "CK", min: 30, max: 200 },
@@ -195,8 +195,10 @@
         { search: "Hepatitis C Virus Ab", id: "13955-0", label: "HCV Ab", min: 0, max: 0 },
         { search: "Helicobacter Pylori", id: "X10002", label: "H Pylori", min: 0, max: 0 },
         { search: "Hepatitis B Virus Core Ab IgG+IgM (Total)", id: "51914-0", label: "Hepatitis B Virus Core Ab IgG+IgM (Total)", min: 0, max: 0 },
-        { search: "Hepatitis B Virus Surface Ab", id: "5193-8", label: "Hepatitis B Virus Surface Ab", min: 0, max: 0 },
-        { search: "Hepatitis B Virus Surface Ag", id: "5196-1", label: "Hepatitis B Virus Surface Ag", min: 0, max: 0 },
+        { search: "Hepatitis B Virus Surface Ab", id: "5193-8", label: "HBs Ab", min: 0, max: 0 },
+        { search: "Hepatitis B Virus Surface Ag", id: "5196-1", label: "HBs Ag", min: 0, max: 0 },
+        { search: "Hepatitis Be Virus Ab", id: "13953-5", label: "HBe Ab", min: 0, max: 0 }, 
+        { search: "Hepatitis Be Virus Ag", id: "13954-3", label: "HBe Ag", min: 0, max: 0 },  
         { search: "aPTT Lupus Sensitive Actual/Normal", id: "48022-8", label: "aPTT Lupus Sensitive Actual/Normal", min: 0, max: 0 },
         { search: "DRVVT,", id: "6303-2", label: "DRVVT,", min: 0, max: 0 },
         { search: "Thrombophilia Interpretation", id: "XXX-2354", label: "Thrombophilia Interpretation", min: 0, max: 0 },
@@ -248,6 +250,7 @@
         { search: "Choriogonadotropin Intact+Beta Subunit", id: "45194-8", label: "bhCG", min: 0, max: 5 },
         { search: "Occult Blood Immunochemical", id: "58453-2", label: "FIT", min: 0, max: 100 },
         { search: "Alpha-1-Fetoprotein", id: "1834-1", label: "AFP", min: 0, max: 8 },
+        { search: "Alpha 1 Fetoprotein (Centaur)", id: "XXX-2280", label: "AFP", min: 0, max: 8 },
         { search: "Carcinoembryonic Ag", id: "XBC3679-9", label: "CEA", min: 0, max: 3.0 },
         { search: "Cancer Antigen 19-9", id: "XBC3671-7", label: "CA 19-9", min: 0, max: 37 },
         { search: "Cancer Antigen 125", id: "XBC3673-5", label: "CA 125", min: 0, max: 35 },
@@ -304,18 +307,23 @@
         </div>`;
     }
 
+    // Helper to consolidate math and account for Firefox status bar
     function updateTooltipPosition() {
         const buffer = 15;
+        const statusBuffer = 30; // Extra clearance for the Firefox hyperlink bar
         const tipWidth = tooltip.offsetWidth;
         const tipHeight = tooltip.offsetHeight;
 
         let x = mouseX + buffer;
         let y = mouseY + buffer;
 
+        // Horizontal correction
         if (x + tipWidth > window.innerWidth) {
             x = mouseX - tipWidth - buffer;
         }
-        if (y + tipHeight > window.innerHeight) {
+        
+        // Vertical correction including the Firefox status bar "safety zone"
+        if (y + tipHeight > window.innerHeight - statusBuffer) {
             y = mouseY - tipHeight - buffer;
         }
 
@@ -336,7 +344,6 @@
                     cell.addEventListener('mouseenter', (e) => {
                         clearTimeout(hoverTimeout);
                         
-                        // FIX: Reset tooltip height and visibility immediately
                         tooltip.innerHTML = '';
                         tooltip.style.visibility = 'hidden';
                         
@@ -364,7 +371,7 @@
                         clearTimeout(hoverTimeout);
                         currentHoveredCell = null;
                         tooltip.style.visibility = 'hidden'; 
-                        tooltip.innerHTML = ''; // Force height reset
+                        tooltip.innerHTML = ''; 
                     });
                     break; 
                 }
@@ -412,7 +419,6 @@
             const spark = count > 1 ? generateSparkline(dataPoints, latestAbnormal, config) : "";
             tooltip.innerHTML = `<b style="font-size:11px; display:block; margin-bottom:4px;">${config.label} History</b><div style="width:160px;">${spark}${resultsHtml}</div>`;
             
-            // Set visible first so updateTooltipPosition uses accurate offsetHeight
             tooltip.style.visibility = 'visible';
             updateTooltipPosition();
         } else {
