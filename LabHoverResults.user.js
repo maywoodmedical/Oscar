@@ -9,7 +9,7 @@
 // @allFrames      true
 // @updateURL      https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/LabHoverResults.user.js
 // @downloadURL    https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/LabHoverResults.user.js
-// @version        7.6
+// @version        7.7
 // ==/UserScript==
 
 (function() {
@@ -100,7 +100,7 @@
         { search: "Apolipoprotein B-100", id: "1871-3", label: "ApoB", min: 0.4, max: 1.05 },
         { search: "LDL Cholesterol", id: "39469-2", label: "LDL", min: 0, max: 3.4 },
         { search: "HDL Cholesterol", id: "14646-4", label: "HDL", min: 1.0, max: 2.2 },
-        { search: "Lipoprotein(a)", id: "43583-4", label: "Lp(a)", min: 0, max: 75 },
+        { search: "Lipoprotein (a)", id: "43583-4", label: "Lp(a)", min: 0, max: 75 },
         { search: "Triglycerides", id: "14927-8", label: "TG", min: 0, max: 1.7 },
         { search: "Cholesterol", id: "14647-2", label: "T Chol", min: 2.0, max: 5.2 },
 
