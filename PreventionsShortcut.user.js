@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name        Preventions Shortcut
+// @name        PreventionsShortcut
 // @description Adds Navigation buttons for Fit/Pap/Mam/Col/Flu 
 // @namespace   https://github.com/maywoodmedical/Oscar
 // @include  *casemgmt/forward.jsp?action*
@@ -8,7 +8,7 @@
 // @require   http://ajax.googleapis.com/ajax/libs/jquery/1.3.1/jquery.min.js
 // @updateURL https://github.com/maywoodmedical/Oscar/raw/main/PreventionsShortcut.user.js
 // @downloadURL https://github.com/maywoodmedical/Oscar/raw/main/PreventionsShortcut.user.js
-// @version     1.4
+// @version     1.5
 // @grant       none
 // ==/UserScript==
 
@@ -251,5 +251,6 @@ function ButtonFunction6() {
 //  myWindow = window.open(vPath + 'oscarPrevention/AddPreventionData.jsp?4=4&prevention=Flu&demographic_no=' + demoNo + '&prevResultDesc=', 'myWindow', 'width=800, height=600');
  myWindow = window.open(vPath + 'oscarPrevention/AddPreventionData.jsp?4=4&prevention=Flu&demographic_no=' + demoNo + '&prevResultDesc=', 'myWindow', 'width=800, height=600');
 }
+
 
 
