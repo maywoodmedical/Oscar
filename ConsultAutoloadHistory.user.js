@@ -1,12 +1,12 @@
 // ==UserScript==
-// @name        Consult Autoload History
+// @name        ConsultAutoloadHistory
 // @namespace   https://github.com/maywoodmedical/Oscar
 // @description Automatically click buttons to load patient history and medications
 // @include  *oscarEncounter/oscarConsultationRequest/ConsultationFormRequest.jsp?*
 // @require   http://ajax.googleapis.com/ajax/libs/jquery/1.3.1/jquery.min.js
 // @updateURL https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/ConsultAutoloadHistory.user.js
 // @downloadURL https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/ConsultAutoloadHistory.user.js
-// @version     1.0
+// @version     1.1
 // @grant       none
 // ==/UserScript==
 
