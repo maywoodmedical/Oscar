@@ -1,12 +1,12 @@
 // ==UserScript==
-// @name        Echart Shortcut
+// @name        EchartShortcuts
 // @namespace   https://github.com/maywoodmedical/Oscar
 // @description Various navigation buttons for echart screen including Lifelabs, Imaging, Results. Set your own specific fid (form number) or Measurement groupName
 // @include     */casemgmt/forward.jsp?action=view&demographic*
 // @require http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js
 // @updateURL https://github.com/maywoodmedical/Oscar/raw/main/EchartShortcut.user.js
 // @downloadURL https://github.com/maywoodmedical/Oscar/raw/main/EchartShortcut.user.js
-// @version 2.5
+// @version 2.6
 // @grant       none
 // ==/UserScript==
 
@@ -324,4 +324,5 @@ function showAlert180()
 {
   window.open(vPath + 'oscarEncounter/oscarMeasurements/TemplateFlowSheet.jsp?demographic_no='+demo_no+'&template=diab2')
 }   
+
 
