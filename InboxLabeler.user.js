@@ -1,12 +1,12 @@
 // ==UserScript==
-// @name        Inbox Labeler
+// @name        InboxLabeler
 // @namespace   https://github.com/maywoodmedical/Oscar
 // @description Click to copy and paste prelabel to document label field
 // @include     *oscar/lab/CA/ALL/labDisplay.jsp?inWindow=true&segmentID=*
 // @require http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js
 // @updateURL https://github.com/maywoodmedical/Oscar/blob/main/InboxLabeler.user.js
 // @downloadURL https://github.com/maywoodmedical/Oscar/blob/main/InboxLabeler.user.js
-// @version 2.2
+// @version 2.3
 // @grant       none
 // ==/UserScript==
 
