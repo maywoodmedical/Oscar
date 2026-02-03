@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name        Medications Panel
+// @name        MedicationsPanel
 // @namespace   https://github.com/maywoodmedical/Oscar
 // @description move Stage Medication button to left of containing box
 // @include     *oscarRx/choosePatient.do?*
@@ -11,7 +11,7 @@
 // @grant    GM_addStyle
 // @grant    GM.getValue
 // @noframes
-// @version 1.0
+// @version 1.1
 // ==/UserScript==
 //- The @grant directives are needed to restore the proper sandbox.
 /* global $, waitForKeyElements */
