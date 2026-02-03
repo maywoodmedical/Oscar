@@ -1,13 +1,13 @@
 // ==UserScript==
-// @name        Eform Search Bar
+// @name        Echart Eform Search Bar
 // @namespace   https://github.com/maywoodmedical/Oscar
-// @description adds a search bar for eforms in echart
+// @description adds a search bar for eforms in the echart
 // @include    *efmformslistadd.jsp*
 // @include     */casemgmt/forward.jsp?action=view&demographic*
 // @require   http://ajax.googleapis.com/ajax/libs/jquery/1.3.1/jquery.min.js
 // @updateURL https://github.com/maywoodmedical/Oscar/raw/main/EformSearchBar.user.js
 // @downloadURL https://github.com/maywoodmedical/Oscar/raw/main/EformSearchBar.user.js
-// @version     1.3
+// @version     1.4
 // @grant       none
 // ==/UserScript==
 
@@ -87,3 +87,4 @@ $(document).ready(function() {
     }
     getMeasures()
 });
+
