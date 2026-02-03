@@ -6,8 +6,8 @@
 // @match        *://maywoodmedicalclinic.openosp.ca/oscar/casemgmt/forward.jsp?action=view&demographicNo=*
 // @grant        none
 // @run-at       document-idle
-// @updateURL     
-// @downloadURL
+// @updateURL     https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/PreventionsExpand.user.js
+// @downloadURL   https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/PreventionsExpand.user.js
 // ==/UserScript==
 
 
