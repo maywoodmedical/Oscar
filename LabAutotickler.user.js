@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name        AutoTickler
+// @name        LabAutoTickler
 // @namespace   https://github.com/maywoodmedical/Oscar
 // @description Adds Reminders for screening follow up,link to Rx and invoice
 // @include  *lab/CA/ALL/labDisplay.jsp?segmentID*
@@ -13,7 +13,7 @@
 // @require   http://ajax.googleapis.com/ajax/libs/jquery/1.3.1/jquery.min.js
 // @updateURL https://github.com/maywoodmedical/Oscar/raw/main/Autotickler.user.js
 // @downloadURL https://github.com/maywoodmedical/Oscar/raw/main/Autotickler.user.js
-// @version     3.2
+// @version     3.3
 // @grant       none
 // ==/UserScript==
 
@@ -793,3 +793,4 @@ function ButtonFunction10() {
 
 
 }
+
