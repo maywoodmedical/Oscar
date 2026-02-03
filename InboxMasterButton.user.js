@@ -5,8 +5,8 @@
 // @description  When reviewing results in the inbox, add a button that navigates to the patient's master chart, and hide the useless Req# button
 // @match        *://maywoodmedicalclinic.openosp.ca/oscar/lab/CA/ALL/labDisplay.jsp*
 // @grant        none
-// @updateURL     
-// @downloadURL
+// @updateURL     https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/InboxMasterButton.user.js
+// @downloadURL   https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/InboxMasterButton.user.js
 // ==/UserScript==
 
 
