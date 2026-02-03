@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name        Echart Resize Window
+// @name        EchartResizeWindow
 // @namespace   https://github.com/maywoodmedical/Oscar
 // @description Resizes the Echart window
 // @include     */casemgmt/forward.jsp?action=view&demographic*
@@ -11,7 +11,7 @@
 // @grant    GM_addStyle
 // @grant    GM.getValue
 // @noframes
-// @version 1.3
+// @version 1.4
 // ==/UserScript==
 //- The @grant directives are needed to restore the proper sandbox.
 /* global $, waitForKeyElements */
