@@ -1,12 +1,12 @@
 // ==UserScript==
-// @name           Consults Default
+// @name           ConsultDefault
 // @namespace      https://github.com/maywoodmedical/Oscar
 // @description    Sets the default for Consults Appointment Instructions
 // @include        *oscar/oscarEncounter/oscarConsultationRequest/ConsultationFormRequest.jsp*
 // @require   http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js
 // @updateURL https://github.com/maywoodmedical/Oscar/raw/main/ConsultsDefault.user.js
 // @downloadURL https://github.com/maywoodmedical/Oscar/raw/main/ConsultsDefault.user.js
-// @version 1.2
+// @version 1.3
 // ==/UserScript==
 
 //========Get Path============
