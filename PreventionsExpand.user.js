@@ -1,7 +1,7 @@
 // ==UserScript==
-// @name         Preventions Expand
+// @name         PreventionsExpand
 // @namespace    https://github.com/maywoodmedical/Oscar
-// @version      1.5
+// @version      1.6
 // @description  automatically expands the Preventions sidebar on loading the echart
 // @match        *://maywoodmedicalclinic.openosp.ca/oscar/casemgmt/forward.jsp?action=view&demographicNo=*
 // @grant        none
