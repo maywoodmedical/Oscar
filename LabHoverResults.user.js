@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         Lab Hover Results
+// @name         LabHoverResults
 // @description  hover over labs to see instant historical overview and visual trendline
 // @namespace    https://github.com/maywoodmedical/Oscar
 // @match         *://maywoodmedicalclinic.openosp.ca/oscar/lab/*
@@ -9,7 +9,7 @@
 // @allFrames      true
 // @updateURL      https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/LabHoverResults.user.js
 // @downloadURL    https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/LabHoverResults.user.js
-// @version        7.7
+// @version        7.8
 // ==/UserScript==
 
 (function() {
