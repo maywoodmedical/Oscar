@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name        Billing Time Calculator
+// @name        BillingTimeUnitCalculator
 // @namespace   https://github.com/maywoodmedical/Oscar
 // @description Calculate the number of 15 minute units after inputting start and end times
 // @include     */oscar/billing.do?billRegion=BC&billForm*
@@ -9,7 +9,7 @@
 // @require http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js
 // @updateURL https://github.com/maywoodmedical/Oscar/raw/main/BillingTimeUnitCalculator.user.js
 // @downloadURL https://github.com/maywoodmedical/Oscar/raw/main/BillingTimeUnitCalculator.user.js
-// @version 1.3
+// @version 1.4
 // @grant       none
 // ==/UserScript==
 
