@@ -1,14 +1,14 @@
 // ==UserScript==
 // @name        LabCopyResults
 // @namespace   https://github.com/maywoodmedical/Oscar
-// @description left click to copy lab values automatically
+// @description left click to copy lab values automatically into a clipboard to then paste into echart easily
 // @include  *lab/CA/ALL/labDisplay.jsp?segmentID*
 // @include  *lab/CA/ALL/labDisplay.jsp?demographicId*
 // @include  *lab/CA/ALL/labDisplay.jsp?inWindow=true&segmentID*
 // @require   http://ajax.googleapis.com/ajax/libs/jquery/1.3.1/jquery.min.js
 // @updateURL https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/CopyLabs.user.js
 // @downloadURL https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/CopyLabs.user.js
-// @version     1.3
+// @version     1.4
 // @grant       none
 // ==/UserScript==
 
