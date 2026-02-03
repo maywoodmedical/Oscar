@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name        CopyLabs
+// @name        LabCopyResults
 // @namespace   https://github.com/maywoodmedical/Oscar
 // @description left click to copy lab values automatically
 // @include  *lab/CA/ALL/labDisplay.jsp?segmentID*
@@ -8,7 +8,7 @@
 // @require   http://ajax.googleapis.com/ajax/libs/jquery/1.3.1/jquery.min.js
 // @updateURL https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/CopyLabs.user.js
 // @downloadURL https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/CopyLabs.user.js
-// @version     1.2
+// @version     1.3
 // @grant       none
 // ==/UserScript==
 
