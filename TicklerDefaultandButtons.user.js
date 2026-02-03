@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name           Tickler Default and Buttons
+// @name           TicklerDefaultandButtons
 // @namespace      https://github.com/maywoodmedical/Oscar
 // @description    Sets the default for Tickler SendTo, hyperlink to document, autotickler
 // @include        */tickler/ticklerAdd.jsp*
@@ -7,7 +7,7 @@
 // @require   http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js
 // @updateURL https://github.com/maywoodmedical/Oscar/raw/main/TicklerDefaultandButtons.user.js
 // @downloadURL https://github.com/maywoodmedical/Oscar/raw/main/TicklerDefaultandButtons.user.js
-// @version 3.0
+// @version 3.1
 // ==/UserScript==
 
 // modified from Stanscripts https://github.com/DrStanMD
@@ -206,3 +206,4 @@ function showAlert4() {
 setTimeout(function() {
     $('textarea[name=\'textarea\']').focus()
 }, 300);
+
