@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name        Inbox Loading and Window Size
+// @name        InboxLoadingWindowSize
 // @namespace   https://github.com/maywoodmedical/Oscar
 // @description Organize documents in chronologic order, and load all inbox items
 // @include     *documentManager/documentReport.jsp*
@@ -7,7 +7,7 @@
 // @require http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js
 // @updateURL https://github.com/maywoodmedical/Oscar/raw/main/DocumentSorting.user.js
 // @downloadURL https://github.com/maywoodmedical/Oscar/raw/main/DocumentSorting.user.js
-// @version 1.5
+// @version 1.6
 // @grant       none
 // ==/UserScript==
 
