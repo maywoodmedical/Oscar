@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name        Preventions Default Normal
+// @name        PreventionsDefaultNormal
 // @namespace   https://github.com/maywoodmedical/Oscar
 // @description when preventions window opens the default selection for result is normal
 // @include     */oscarPrevention/AddPreventionData.jsp*
@@ -11,7 +11,7 @@
 // @grant    GM_addStyle
 // @grant    GM.getValue
 // @noframes
-// @version 1.0
+// @version 1.1
 // ==/UserScript==
 //- The @grant directives are needed to restore the proper sandbox.
 /* global $, waitForKeyElements */
