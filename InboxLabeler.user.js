@@ -6,55 +6,36 @@
 // @require http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js
 // @updateURL https://github.com/maywoodmedical/Oscar/blob/main/InboxLabeler.user.js
 // @downloadURL https://github.com/maywoodmedical/Oscar/blob/main/InboxLabeler.user.js
-// @version 2.0
+// @version 2.2
 // @grant       none
 // ==/UserScript==
 
 (function() {
     'use strict';
 
-    function setupClickToPaste() {
-        console.log('Setting up click-to-paste');
-
-        // Find all span elements with id containing "labelspan"
-        const spanElements = document.querySelectorAll('span[id*="labelspan"]');
-        const inputElement = document.querySelector('input[type="text"]');
-
-        if (!spanElements.length || !inputElement) {
-            console.error("Required elements not found.");
-            return;
-        }
-
-        spanElements.forEach(span => {
-            span.style.cursor = "pointer"; // visual cue
-
-            span.addEventListener("click", function() {
-                console.log("Prelabel clicked:", span);
-
-                // Get inner HTML from the clicked span
-                let text = span.innerHTML;
-
-                // Remove leading/trailing <i> tags
-                text = text.replace(/^<i>|<\/i>$/g, '');
-
-                // Add hyphen + space
-                text += "- ";
-
-                // Paste into the input
-                inputElement.value = text;
-
-                // Position cursor at end
-                inputElement.focus();
-                inputElement.setSelectionRange(inputElement.value.length, inputElement.value.length);
-            });
-        });
-
-        console.log("Click handlers attached.");
+    function pasteLogic(span, input) {
+        let text = span.innerHTML;
+        text = text.replace(/^<i>|<\/i>$/g, '');
+        text += "- ";
+        input.value = text;
+        input.focus();
+        input.setSelectionRange(input.value.length, input.value.length);
+        console.log("Auto-paste completed instantly.");
     }
 
-    // Wait for DOM to load
-    window.addEventListener('load', function() {
-        setTimeout(setupClickToPaste, 800); 
+    const observer = new MutationObserver((mutations, obs) => {
+        const span = document.querySelector('span[id*="labelspan"]');
+        const input = document.querySelector('input[type="text"]');
+
+        if (span && input) {
+            pasteLogic(span, input);
+            obs.disconnect(); // Stop watching once we've succeeded
+        }
     });
 
+    // Start watching the document for changes immediately
+    observer.observe(document.documentElement, {
+        childList: true,
+        subtree: true
+    });
 })();
