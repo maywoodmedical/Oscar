@@ -117,6 +117,9 @@
         { search: "Urate", id: "14933-6", label: "Uric acid", min: 140, max: 430 },
         { search: "Urea", id: "22664-7", label: "Urea", min: 3.0, max: 8.0 },
         { search: "Lactate", id: "2524-7", label: "Lactate", min: 0.5, max: 2.2 },
+        { search: "Serum Osmolality", id: "2692-2", label: "Serum Osmolality", min: 280, max: 300 },
+        { search: "AM Cortisol", id: "14679-5", label: "AM Cortisol", min: 140, max: 535 },
+        { search: "Renin", id: "35570-1", label: "Renin", min: 5, max: 75 },
 
         // LIVER, ENZYMES & PROTEINS
         { search: "Alanine Aminotransferase", id: "1742-6", label: "ALT", min: 0, max: 40 },
@@ -178,6 +181,9 @@
         { search: "Vitamin A", id: "14905-4", label: "Vitamin A", min: 1, max: 3 },
         { search: "Vitamin E (Alpha Tocopherol)", id: "14590-4", label: "Vitamin E (Alpha Tocopherol)", min: 13, max: 40 },
         { search: "Vitamin E/Cholesterol", id: "59250-1", label: "Vitamin E/Cholesterol", min: 3, max: 5 },
+        { search: "Testosterone Bioavailable", id: "41018-3", label: "Testosterone Bioavailable", min: 2.57, max: 10.79 },
+        { search: "Prostate Specific Ag Free", id: "10886-0", label: "PSA", min: 0, max: 0 },
+        { search: "Prostate Specific Ag Free/Prostate Specific Ag", id: "12841-3", label: "PSA", min: 0, max: 0 },
 
         // INFECTIOUS DISEASE / SEROLOGY
         { search: "Urine Neisseria gonorrhoeae rRNA (PCR/NAAT)", id: "60256-5", label: "Gonorrhoaea", min: 0, max: 0 },
@@ -217,6 +223,8 @@
         { search: "IgG Subclass 3", id: "2468-7", label: "IgG Subclass 3", min: 0.24, max: 1.25 },
         { search: "IgG Subclass 4", id: "2469-5", label: "IgG Subclass 4", min: 0.052, max: 1.250 },
         { search: "Mono", id: "5213-4", label: "Mono", min: 0, max: 0 },
+        { search: "Herpes Simplex Virus 1 Ab IgG", id: "51916-5", label: "Herpes Simplex Ab IgG", min: 0, max: 0 },
+        { search: "Herpes Simplex Virus 2 Ab IgG", id: "43180-9", label: "Herpes Simplex Ab IgG", min: 0, max: 0 },
         
         // IMMUNOLOGY & INFLAMMATION
         { search: "Extractable Nuclear Ab Screen", id: "14722-3", label: "ENA", min: 0, max: 0 },
@@ -276,6 +284,18 @@
         { search: "Granular Casts", id: "46134-3", label: "Granular Casts", min: 0, max: 0 },
         { search: "Crystals", id: "38459-4", label: "Crystals", min: 0, max: 0 },
         { search: "RBC Morphology", id: "6742-1", label: "RBC Morphology", min: 0, max: 0 },
+        { search: "Venous pH", id: "2746-6", label: "Venous pH", min: 7.32, max: 7.43 },
+        { search: "Venous pCO2", id: "2021-4", label: "Venous pCO2", min: 38, max: 50 },
+        { search: "Venous HCO3", id: "14627-4", label: "Venous HCO3", min: 22, max: 29 },
+        { search: "Venous Base Deficit", id: "1924-0", label: "Venous Base Deficit", min: 0, max: 0 },
+        { search: "Venous Base Excess", id: "1927-3", label: "Venous Base Excess", min: 0, max: 0 },
+        { search: "Venous Hemoglobin Oximetry", id: "76769-9", label: "Venous Hemoglobin Oximetry", min: 120, max: 155 },
+        { search: "Venous Carboxyhemoglobin/Total Hemoglobin", id: "2032-1", label: "Venous Carboxyhemoglobin/Total Hemoglobin", min: 0, max: 0.025 },
+        { search: "Venous Methemoglobin/Total Hemoglobin", id: "2617-9", label: "Venous Methemoglobin/Total Hemoglobin", min: 0, max: 0.015 },
+        { search: "Urine Osmolality", id: "2695-5", label: "Urine Osmolality", min: 50, max: 1200 },
+        { search: "Urine Sodium", id: "2955-3", label: "Urine Sodium", min: 0, max: 0 },
+        { search: "Urine Potassium", id: "2828-2", label: "Urine Potassium", min: 0, max: 0 },
+        { search: "Urine Chloride", id: "2078-4", label: "Urine Chloride", min: 0, max: 0 },
     ];
 
     labConfigs.sort((a, b) => b.search.length - a.search.length);
