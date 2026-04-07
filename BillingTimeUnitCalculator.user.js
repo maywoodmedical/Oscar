@@ -7,6 +7,7 @@
 // @include     */oscar/billing/CA/BC/SaveBilling.do*
 // @include     */oscar/CaseManagementEntry.do*
 // @require http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js
+// @updateURL https://github.com/maywoodmedical/Oscar/raw/main/BillingTimeUnitCalculator.user.js
 // @downloadURL https://github.com/maywoodmedical/Oscar/raw/main/BillingTimeUnitCalculator.user.js
 // @version 1.4
 // @grant       none
