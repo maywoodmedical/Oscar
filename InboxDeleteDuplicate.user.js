@@ -5,6 +5,8 @@
 // @match       *://*/oscar/casemgmt/forward.jsp*
 // @match       *://*/oscar/oscarEncounter/IncomingEncounter.do*
 // @match       *://*/oscar/documentManager/documentReport.jsp*
+// @updateURL https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/InboxDeleteDuplicate.user.js
+// @downloadURL https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/InboxDeleteDuplicate.user.js
 // @version     10.0
 // @grant       window.close
 // @run-at      document-start
