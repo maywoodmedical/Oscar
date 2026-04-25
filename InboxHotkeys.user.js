@@ -7,6 +7,8 @@
 // @match        https://maywoodmedicalclinic.openosp.ca/oscar/lab/CA/ALL/labDisplay.jsp*
 // @match        https://maywoodmedicalclinic.openosp.ca/oscar/documentManager/inboxManage.do*
 // @match        https://maywoodmedicalclinic.openosp.ca/oscar/documentManager/showDocument.jsp*
+//@updateURL     https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/InboxHotkeys.user.js
+//@downloadURL   https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/InboxHotkeys.user.js
 // @grant        window.close
 // ==/UserScript==
 
