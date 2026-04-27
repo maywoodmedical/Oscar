@@ -54,8 +54,8 @@
                 e.preventDefault();
                 
                 // --- CALIBRATION AREA ---
-                const x = 500; 
-                const y = 390; 
+                const x = 255; 
+                const y = 127; 
 
                 // Create a temporary Visual Tracker (Red Dot)
                 let dot = document.createElement('div');
