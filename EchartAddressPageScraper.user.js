@@ -8,6 +8,8 @@
 // @grant        GM_xmlhttpRequest
 // @grant        GM.xmlHttpRequest
 // @connect      maywoodmedicalclinic.openosp.ca
+// @updateURL    
+// @downloadURL
 // ==/UserScript==
 
 (function() {
