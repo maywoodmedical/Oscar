@@ -8,8 +8,8 @@
 // @grant        GM_xmlhttpRequest
 // @grant        GM.xmlHttpRequest
 // @connect      maywoodmedicalclinic.openosp.ca
-// @updateURL    
-// @downloadURL
+// @updateURL    https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/EchartAddressPageScraper.user.js
+// @downloadURL  https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/EchartAddressPageScraper.user.js
 // ==/UserScript==
 
 (function() {
