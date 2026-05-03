@@ -1,15 +1,15 @@
 // ==UserScript==
 // @name         InboxHotkeys
 // @namespace    http://tampermonkey.net/
-// @version      1.6
-// @description  Enter to Label, F1 to Acknowledge/Close, F1 to open next inbox item
-// @author       Gemini
-// @match        https://maywoodmedicalclinic.openosp.ca/oscar/lab/CA/ALL/labDisplay.jsp*
-// @match        https://maywoodmedicalclinic.openosp.ca/oscar/documentManager/inboxManage.do*
-// @match        https://maywoodmedicalclinic.openosp.ca/oscar/documentManager/showDocument.jsp*
-// @updateURL    https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/InboxHotkeys.user.js
+// @version      1.8
+// @description  Enter to Label, F1 to Acknowledge/Close, F1 to open next inbox item, Arrows for Page Nav
+// @author        Gemini
+// @match         https://maywoodmedicalclinic.openosp.ca/oscar/lab/CA/ALL/labDisplay.jsp*
+// @match         https://maywoodmedicalclinic.openosp.ca/oscar/documentManager/inboxManage.do*
+// @match         https://maywoodmedicalclinic.openosp.ca/oscar/documentManager/showDocument.jsp*
+// @updateURL     https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/InboxHotkeys.user.js
 // @downloadURL  https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/InboxHotkeys.user.js
-// @grant        window.close
+// @grant         window.close
 // ==/UserScript==
 
 (function() {
@@ -105,4 +105,24 @@
             }
         });
     }
-})();	
+
+    // --- 3. MULTI-PAGE DOCUMENT NAVIGATION (inWindow) ---
+    if (currentUrl.includes("showDocument.jsp?inWindow")) {
+        window.addEventListener('keydown', function(e) {
+            // Right Arrow for Next Page
+            if (e.key === "ArrowRight") {
+                let nextBtn = document.querySelector('a[id^="nextP_"]');
+                if (nextBtn) {
+                    nextBtn.click();
+                }
+            }
+            // Left Arrow for Previous Page
+            if (e.key === "ArrowLeft") {
+                let prevBtn = document.querySelector('a[id^="prevP_"]');
+                if (prevBtn) {
+                    prevBtn.click();
+                }
+            }
+        });
+    }
+})();
