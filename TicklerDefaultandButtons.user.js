@@ -1,14 +1,17 @@
 // ==UserScript==
-// @name           TicklerDefaultandButtons
-// @namespace      https://github.com/maywoodmedical/Oscar
-// @description    Sets the default for Tickler SendTo, hyperlink to document, autotickler
-// @include        */tickler/ticklerAdd.jsp*
-// @include        *tickler/ForwardDemographicTickler.do*
-// @require   http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js
+// @name            TicklerDefaultandButtons
+// @namespace       https://github.com/maywoodmedical/Oscar
+// @description     Sets the default for Tickler SendTo, hyperlink to document, autotickler
+// @include         */tickler/ticklerAdd.jsp*
+// @include         *tickler/ForwardDemographicTickler.do*
+// @require         http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js
 // @updateURL https://github.com/maywoodmedical/Oscar/raw/main/TicklerDefaultandButtons.user.js
 // @downloadURL https://github.com/maywoodmedical/Oscar/raw/main/TicklerDefaultandButtons.user.js
-// @version 3.1
+// @version 3.2
 // ==/UserScript==
+
+// Window Resize Logic: Increase height by 25%
+window.resizeTo(window.outerWidth, window.outerHeight * 1.2);
 
 // modified from Stanscripts https://github.com/DrStanMD
 
@@ -206,4 +209,4 @@ function showAlert4() {
 setTimeout(function() {
     $('textarea[name=\'textarea\']').focus()
 }, 300);
-
+*/
