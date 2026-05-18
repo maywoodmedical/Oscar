@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name        Move WTW Document Feedback
+// @name        InboxMoveWTWDocumentFeedback
 // @namespace   https://github.com/maywoodmedical/Oscar
 // @description Move WTW Document Feedback button location
 // @include     */documentManager/showDocument.jsp?*
@@ -11,7 +11,7 @@
 // @grant    GM_addStyle
 // @grant    GM.getValue
 // @noframes
-// @version 1.0
+// @version 1.1
 // ==/UserScript==
 //- The @grant directives are needed to restore the proper sandbox.
 /* global $, waitForKeyElements */
@@ -25,7 +25,9 @@
         if (btn) {
             // Get the current top position (defaulting to 100px if not found)
             const currentTop = parseInt(window.getComputedStyle(btn).top) || 100;
-            btn.style.top = (currentTop - 50) + 'px';
+            btn.style.top = (currentTop - 60) + 'px';
+            btn.style.right = '0px';
+            btn.style.left = 'auto';
         } else {
             // Try again if the button isn’t there yet (e.g., loaded dynamically)
             setTimeout(moveButton, 500);
