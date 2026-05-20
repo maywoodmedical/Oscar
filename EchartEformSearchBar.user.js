@@ -7,8 +7,8 @@
 // @include     *efmformslistadd.jsp*
 // @include     *maywoodmedicalclinic.openosp.ca/oscar/eform/*
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/1.3.1/jquery.min.js
-// @updateURL
-// @downloadURL
+// @updateURL   https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/EchartEformSearchBar.user.js
+// @downloadURL https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/EchartEformSearchBar.user.js
 // @version     5.0
 // @grant       none
 // ==/UserScript==
