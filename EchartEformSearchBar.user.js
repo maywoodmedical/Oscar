@@ -5,8 +5,8 @@
 // @include    *efmformslistadd.jsp*
 // @include     */casemgmt/forward.jsp?action=view&demographic*
 // @require   http://ajax.googleapis.com/ajax/libs/jquery/1.3.1/jquery.min.js
-// @updateURL https://github.com/maywoodmedical/Oscar/raw/main/EformSearchBar.user.js
-// @downloadURL https://github.com/maywoodmedical/Oscar/raw/main/EformSearchBar.user.js
+// @updateURL https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/EchartEformSearchBar.user.js
+// @downloadURL https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/EchartEformSearchBar.user.js
 // @version     2.0
 // @grant       none
 // ==/UserScript==
