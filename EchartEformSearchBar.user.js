@@ -1,13 +1,15 @@
 // ==UserScript==
 // @name        EchartEformSearchBar
 // @namespace   https://github.com/maywoodmedical/Oscar
-// @description adds a search bar for eforms in the echart
-// @include    *efmformslistadd.jsp*
-// @include     */casemgmt/forward.jsp?action=view&demographic*
-// @require   http://ajax.googleapis.com/ajax/libs/jquery/1.3.1/jquery.min.js
-// @updateURL https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/EchartEformSearchBar.user.js
-// @downloadURL https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/EchartEformSearchBar.user.js
-// @version     2.0
+// @description Automatically loads and filters all eForms using background fetching without requiring manual caching pages
+// @include     *action=view&demographic*
+// @include     *maywoodmedicalclinic.openosp.ca/oscar/oscarEncounter/*
+// @include     *efmformslistadd.jsp*
+// @include     *maywoodmedicalclinic.openosp.ca/oscar/eform/*
+// @require     https://ajax.googleapis.com/ajax/libs/jquery/1.3.1/jquery.min.js
+// @updateURL
+// @downloadURL
+// @version     5.0
 // @grant       none
 // ==/UserScript==
 
@@ -170,4 +172,3 @@
         });
     });
 })();
-
