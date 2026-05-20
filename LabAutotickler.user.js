@@ -1,20 +1,19 @@
 // ==UserScript==
-// @name        LabAutoTickler
-// @namespace   https://github.com/maywoodmedical/Oscar
-// @description Adds Reminders for screening follow up,link to Rx and invoice
-// @include  *lab/CA/ALL/labDisplay.jsp?segmentID*
-// @include  *lab/CA/ALL/labDisplay.jsp?demographicId*
-// @include  *dms/MultiPageDocDisplay.jsp?segmentID*
-// @include  *lab/CA/ALL/labDisplay.jsp?inWindow=true&segmentID*
-// @include  *dms/showDocument.jsp?inWindow*
-// @include  *tickler/ForwardDemographicTickler.do*
-// @include  *tickler/ticklerAdd.jsp*
-// @include  *dms/showDocument.jsp?segmentID*
-// @require   http://ajax.googleapis.com/ajax/libs/jquery/1.3.1/jquery.min.js
-// @updateURL https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/LabAutotickler.user.js
-// @downloadURL https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/LabAutotickler.user.js
-// @version     4.0
-// @grant       none
+// @name         LabAutoTickler
+// @namespace    https://github.com/maywoodmedical/Oscar
+// @description  Quicklink to preventions and autotickler panel 
+// @match        *://*.openosp.ca/oscar/lab/*labDisplay.jsp*
+// @match        *://*.openosp.ca/oscar/dms/MultiPageDocDisplay.jsp*
+// @match        *://*.openosp.ca/oscar/dms/showDocument.jsp*
+// @match        *://*.openosp.ca/oscar/documentManager/showDocument.jsp*
+// @match        *://*.openosp.ca/oscar/tickler/ForwardDemographicTickler.do*
+// @match        *://*.openosp.ca/oscar/tickler/ticklerAdd.jsp*
+// @run-at       document-end
+// @allFrames    true
+// @grant        none
+// @version      7.5
+// @updateURL
+// @downloadURL
 // ==/UserScript==
 
 (function() {
