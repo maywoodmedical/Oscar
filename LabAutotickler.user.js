@@ -12,8 +12,8 @@
 // @allFrames    true
 // @grant        none
 // @version      7.5
-// @updateURL
-// @downloadURL
+// @updateURL    https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/LabAutotickler.user.js
+// @downloadURL  https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/LabAutotickler.user.js
 // ==/UserScript==
 
 (function() {
