@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         InboxHotkeys
 // @namespace    http://tampermonkey.net/
-// @version      1.9
-// @description  Enter to Label, F1 to Acknowledge/Close, F1 to open next inbox item, Arrows for Page Nav
+// @version      2.1
+// @description  Enter to Label, F1 to Acknowledge/Close, F1 to open next inbox item, Arrows for Page Nav, Auto-resize Lab View and Inboxhub
 // @author       Gemini
 // @match        https://maywoodmedicalclinic.openosp.ca/oscar/web/inboxhub/Inboxhub.do?*
 // @match        https://maywoodmedicalclinic.openosp.ca/oscar/lab/CA/ALL/labDisplay.jsp*
@@ -17,6 +17,23 @@
     'use strict';
 
     const currentUrl = window.location.href;
+
+    // --- 0. AUTO-RESIZE WINDOW HEIGHT ---
+    // Fits the window to the maximum available vertical screen height while keeping current width
+    if (currentUrl.includes("labDisplay.jsp") || currentUrl.includes("Inboxhub.do")) {
+        window.addEventListener('load', () => {
+            // screen.availHeight gives the height minus the taskbar/dock
+            // screen.availTop ensures it accounts for any top bars (like Mac menu bars)
+            const availableHeight = window.screen.availHeight;
+            const currentWidth = window.outerWidth;
+            const topPos = window.screen.availTop || 0;
+            const leftPos = window.screenLeft || window.screenX;
+
+            // Move to top of screen and expand vertically
+            window.moveTo(leftPos, topPos);
+            window.resizeTo(currentWidth, availableHeight);
+        });
+    }
 
     // --- 1. DOCUMENT/LAB VIEW (labDisplay.jsp OR showDocument.jsp) ---
     if (currentUrl.includes("labDisplay.jsp") || currentUrl.includes("showDocument.jsp")) {
@@ -127,4 +144,3 @@
         });
     }
 })();
-
