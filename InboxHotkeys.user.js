@@ -1,15 +1,16 @@
 // ==UserScript==
 // @name         InboxHotkeys
 // @namespace    http://tampermonkey.net/
-// @version      1.8
+// @version      1.9
 // @description  Enter to Label, F1 to Acknowledge/Close, F1 to open next inbox item, Arrows for Page Nav
-// @author        Gemini
-// @match         https://maywoodmedicalclinic.openosp.ca/oscar/lab/CA/ALL/labDisplay.jsp*
-// @match         https://maywoodmedicalclinic.openosp.ca/oscar/documentManager/inboxManage.do*
-// @match         https://maywoodmedicalclinic.openosp.ca/oscar/documentManager/showDocument.jsp*
-// @updateURL     https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/InboxHotkeys.user.js
+// @author       Gemini
+// @match        https://maywoodmedicalclinic.openosp.ca/oscar/web/inboxhub/Inboxhub.do?*
+// @match        https://maywoodmedicalclinic.openosp.ca/oscar/lab/CA/ALL/labDisplay.jsp*
+// @match        https://maywoodmedicalclinic.openosp.ca/oscar/documentManager/inboxManage.do*
+// @match        https://maywoodmedicalclinic.openosp.ca/oscar/documentManager/showDocument.jsp*
+// @updateURL    https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/InboxHotkeys.user.js
 // @downloadURL  https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/InboxHotkeys.user.js
-// @grant         window.close
+// @grant        window.close
 // ==/UserScript==
 
 (function() {
@@ -46,16 +47,16 @@
         });
     }
 
-    // --- 2. MASTER INBOX LIST (inboxManage.do) ---
-    if (currentUrl.includes("inboxManage.do")) {
+    // --- 2. MASTER INBOX LIST (Inboxhub.do OR inboxManage.do) ---
+    if (currentUrl.includes("Inboxhub.do") || currentUrl.includes("inboxManage.do")) {
         window.addEventListener('keydown', function(e) {
             
             if (e.key === "F1") {
                 e.preventDefault();
                 
                 // --- CALIBRATION AREA ---
-                const x = 255; 
-                const y = 127; 
+                const x = 330; 
+                const y = 155; 
 
                 // Create a temporary Visual Tracker (Red Dot)
                 let dot = document.createElement('div');
@@ -126,3 +127,4 @@
         });
     }
 })();
+
