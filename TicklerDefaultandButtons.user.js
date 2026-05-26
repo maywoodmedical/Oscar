@@ -5,8 +5,8 @@
 // @include         */tickler/ticklerAdd.jsp*
 // @include         *tickler/ForwardDemographicTickler.do*
 // @require         http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js
-// @updateURL https://github.com/maywoodmedical/Oscar/raw/main/TicklerDefaultandButtons.user.js
-// @downloadURL https://github.com/maywoodmedical/Oscar/raw/main/TicklerDefaultandButtons.user.js
+// @updateURL https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/TicklerDefaultandButtons.user.js
+// @downloadURL https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/TicklerDefaultandButtons.user.js
 // @version 3.2
 // ==/UserScript==
 
