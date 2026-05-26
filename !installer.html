@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oscar EMR Userscript Installer</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+            max-width: 700px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f4f6f8;
+            color: #333;
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            border-top: 5px solid #0056b3;
+        }
+        .header-area {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        h2 {
+            margin-top: 0;
+            color: #111;
+        }
+        p {
+            color: #666;
+            font-size: 15px;
+            line-height: 1.5;
+        }
+        .btn-wrapper {
+            text-align: center;
+            margin: 30px 0;
+        }
+        button {
+            background-color: #0056b3;
+            color: white;
+            border: none;
+            padding: 16px 32px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        button:hover {
+            background-color: #004085;
+        }
+        button:active {
+            transform: scale(0.98);
+        }
+        .script-list-preview {
+            background: #fafafa;
+            border: 1px solid #e1e4e8;
+            border-radius: 6px;
+            padding: 15px 20px;
+            max-height: 200px;
+            overflow-y: auto;
+            text-align: left;
+            font-family: SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace;
+            font-size: 12px;
+            color: #444;
+        }
+        .script-list-preview h4 {
+            margin-top: 0;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            color: #555;
+            border-bottom: 1px solid #e1e4e8;
+            padding-bottom: 5px;
+        }
+        .footer-note {
+            margin-top: 25px;
+            font-size: 12px;
+            color: #999;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header-area">
+        <h2>OSCAR EMR Script Installer</h2>
+        <p>Clicking the button below will open separate browser tabs for all automation and workflow optimization scripts targeting your OSCAR environment.</p>
+    </div>
+    
+    <div class="btn-wrapper">
+        <button onclick="launchInstaller()">🚀 Batch Install All Scripts</button>
+    </div>
+
+    <div class="script-list-preview">
+        <h4>Scripts Included in Manifest:</h4>
+        <div id="manifest-list"></div>
+    </div>
+    
+    <div class="footer-note">
+        Reminder: Ensure your browser's pop-up blocker is set to "Always Allow" for this file so all tabs can launch simultaneously.
+    </div>
+</div>
+
+<script>
+// Base configuration targeting the raw files on the main branch
+const repoBaseUrl = "https://raw.githubusercontent.com/maywoodmedical/Oscar/main/";
+
+// Manifest of your custom scripts
+const targetScripts = [
+    "BillingTimeUnitCalculator.user.js",
+    "ConsultAutoloadHistory.user.js",
+    "ConsultDefault.user.js",
+    "EchartAddressPageScraper.user.js",
+    "EchartEformQuickSave.user.js",
+    "EchartEformSearchBar.user.js",
+    "EchartResizeWindow.user.js",
+    "EchartShortcuts.user.js",
+    "InboxDeleteDuplicate.user.js",
+    "InboxHotkeys.user.js",
+    "InboxLabeler.user.js",
+    "InboxLoadingWindowSize.user.js",
+    "InboxMasterButton.user.js",
+    "InboxMoveWTWDocumentFeedback.user.js",
+    "LabAutotickler.user.js",
+    "LabCopyResults.user.js",
+    "LabHoverResults.user.js",
+    "LoginAuto.user.js",
+    "MedicationsPanel.user.js",
+    "PreventionsDefaultNormal.user.js",
+    "PreventionsExpand.user.js",
+    "PreventionsShortcut.user.js",
+    "TicklerDefaultandButtons.user.js"
+];
+
+// Populate the UI preview block on load
+const listContainer = document.getElementById('manifest-list');
+targetScripts.forEach(script => {
+    const item = document.createElement('div');
+    item.textContent = "• " + script;
+    listContainer.appendChild(item);
+});
+
+function launchInstaller() {
+    // Iterates and builds the direct raw paths to spawn background installation windows
+    targetScripts.forEach(scriptName => {
+        const fullRawUrl = repoBaseUrl + scriptName;
+        window.open(fullRawUrl, '_blank');
+    });
+}
+</script>
+
+</body>
+</html>
