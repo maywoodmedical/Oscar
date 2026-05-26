@@ -4,8 +4,8 @@
 // @description    Sets the default for Consults Appointment Instructions, and hides Cortico consults panel
 // @include        *oscar/oscarEncounter/oscarConsultationRequest/ConsultationFormRequest.jsp*
 // @require   http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js
-// @updateURL https://github.com/maywoodmedical/Oscar/raw/main/ConsultsDefault.user.js
-// @downloadURL https://github.com/maywoodmedical/Oscar/raw/main/ConsultsDefault.user.js
+// @updateURL https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/ConsultDefault.user.js
+// @downloadURL https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/ConsultDefault.user.js
 // @version 1.4
 
 
