@@ -6,7 +6,7 @@
 // @require http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js
 // @updateURL https://github.com/maywoodmedical/Oscar/raw/main/EchartShortcut.user.js
 // @downloadURL https://github.com/maywoodmedical/Oscar/raw/main/EchartShortcut.user.js
-// @version 2.7
+// @version 2.8
 // @grant       none
 // ==/UserScript==
 
@@ -47,6 +47,14 @@ vPath = ('https://' + location.host + '/' + firstElement + '/')
 var myParam = location.search.split('demographicNo=') [1] //alert(myParam)
 var res = myParam.indexOf('&')
 var demo_no = myParam.substring(0, res) //var myWindow = window.open("","","width=200,height=100");
+
+// Calculate centered window specs
+var wWidth = 500; // Comfortable width for Oscar eForms
+var wHeight = screen.availHeight; 
+var wLeft = (screen.availWidth / 2) - (wWidth / 2);
+var wTop = 0; // Starts at the top to use full vertical space
+var windowSpecs = 'width=' + wWidth + ',height=' + wHeight + ',left=' + wLeft + ',top=' + wTop + ',toolbar=0,location=0,menubar=0,scrollbars=1,resizable=1';
+
 var input = document.createElement('input');
 input.type = 'button';
 input.value = 'Lifelab';
@@ -62,7 +70,7 @@ function showAlert()
   // FIXED: Removed the leading '/' from '/eform/...' since vPath now handles the single slash separator
   var formPath = vPath + 'eform/efmformadd_data.jsp?fid=273&demographic_no=' + demo_no
   //alert(formPath)
-  window.open(formPath, '_blank', 'toolbar=0,location=0,menubar=0')
+  window.open(formPath, 'LifelabsForm', windowSpecs)
 }
 // INSERT YOU OWN MEASUREMENT UNIQUE SELECTOR  HERE
 var input1 = document.createElement('input');
@@ -80,7 +88,7 @@ function showAlert1()
   // FIXED: Removed the leading '/' from '/eform/...' here as well
   var formPath = vPath + 'eform/efmformadd_data.jsp?fid=8&demographic_no=' + demo_no
   //alert(formPath)
-  window.open(formPath, '_blank', 'toolbar=0,location=0,menubar=0')
+  window.open(formPath, 'ImagingForm', windowSpecs)
 }
 var input2 = document.createElement('input');
 input2.type = 'button';
