@@ -10,7 +10,7 @@
 // @allFrames    true
 // @grant        unsafeWindow
 // @run-at       document-end
-// @uploadURL    https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/EchartEformQuickSave.user.js
+// @updateURL    https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/EchartEformQuickSave.user.js
 // @downloadURL  https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/EchartEformQuickSave.user.js
 // ==/UserScript==
 
