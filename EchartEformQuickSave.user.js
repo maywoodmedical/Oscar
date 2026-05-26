@@ -10,6 +10,8 @@
 // @allFrames    true
 // @grant        unsafeWindow
 // @run-at       document-end
+// @uploadURL    
+// @downloadURL  
 // ==/UserScript==
 
 (function() {
