@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         InboxHotkeys
 // @namespace    http://tampermonkey.net/
-// @version      2.1
-// @description  Enter to Label, F1 to Acknowledge/Close, F1 to open next inbox item, Arrows for Page Nav, Auto-resize Lab View and Inboxhub
+// @version      2.2
+// @description  Enter to Label, F1 to Acknowledge/Close, F1 to open next inbox item, Arrows for Page Nav, Auto-resize Lab View and Inboxhub, Auto-space document description hyphen
 // @author       Gemini
 // @match        https://maywoodmedicalclinic.openosp.ca/oscar/web/inboxhub/Inboxhub.do?*
 // @match        https://maywoodmedicalclinic.openosp.ca/oscar/lab/CA/ALL/labDisplay.jsp*
@@ -19,17 +19,13 @@
     const currentUrl = window.location.href;
 
     // --- 0. AUTO-RESIZE WINDOW HEIGHT ---
-    // Fits the window to the maximum available vertical screen height while keeping current width
     if (currentUrl.includes("labDisplay.jsp") || currentUrl.includes("Inboxhub.do")) {
         window.addEventListener('load', () => {
-            // screen.availHeight gives the height minus the taskbar/dock
-            // screen.availTop ensures it accounts for any top bars (like Mac menu bars)
             const availableHeight = window.screen.availHeight;
             const currentWidth = window.outerWidth;
             const topPos = window.screen.availTop || 0;
             const leftPos = window.screenLeft || window.screenX;
 
-            // Move to top of screen and expand vertically
             window.moveTo(leftPos, topPos);
             window.resizeTo(currentWidth, availableHeight);
         });
@@ -37,8 +33,28 @@
 
     // --- 1. DOCUMENT/LAB VIEW (labDisplay.jsp OR showDocument.jsp) ---
     if (currentUrl.includes("labDisplay.jsp") || currentUrl.includes("showDocument.jsp")) {
+        
+        // Fix trailing hyphen missing a space on document description fields
+        if (currentUrl.includes("showDocument.jsp")) {
+            window.addEventListener('load', () => {
+                let docDescInput = document.querySelector('input[name="documentDescription"]');
+                if (docDescInput) {
+                    let val = docDescInput.value;
+                    // If it ends with a hyphen and NOT followed by a space
+                    if (val.endsWith('-')) {
+                        let correctedValue = val + ' ';
+                        docDescInput.value = correctedValue;
+                        
+                        // Update the data-original-value attribute so native OSCAR blur events don't break it
+                        if (docDescInput.hasAttribute('data-original-value')) {
+                            docDescInput.setAttribute('data-original-value', correctedValue);
+                        }
+                    }
+                }
+            });
+        }
+
         window.addEventListener('keydown', function(e) {
-            
             // Press Enter to click the Label button
             if (e.key === "Enter") {
                 let labelBtn = document.querySelector('button[id^="createLabel_"]');
@@ -55,7 +71,6 @@
                     e.preventDefault();
                     ackBtn.click();
                     
-                    // Small delay to allow the acknowledge command to hit the server
                     setTimeout(() => {
                         window.close();
                     }, 500);
@@ -67,15 +82,12 @@
     // --- 2. MASTER INBOX LIST (Inboxhub.do OR inboxManage.do) ---
     if (currentUrl.includes("Inboxhub.do") || currentUrl.includes("inboxManage.do")) {
         window.addEventListener('keydown', function(e) {
-            
             if (e.key === "F1") {
                 e.preventDefault();
                 
-                // --- CALIBRATION AREA ---
                 const x = 330; 
                 const y = 155; 
 
-                // Create a temporary Visual Tracker (Red Dot)
                 let dot = document.createElement('div');
                 dot.style.cssText = `
                     position: fixed; 
@@ -92,7 +104,6 @@
                 document.body.appendChild(dot);
                 setTimeout(() => dot.remove(), 1200);
 
-                // Find the element at the pixel
                 let targetEl = document.elementFromPoint(x, y);
 
                 if (targetEl) {
@@ -127,14 +138,12 @@
     // --- 3. MULTI-PAGE DOCUMENT NAVIGATION (inWindow) ---
     if (currentUrl.includes("showDocument.jsp?inWindow")) {
         window.addEventListener('keydown', function(e) {
-            // Right Arrow for Next Page
             if (e.key === "ArrowRight") {
                 let nextBtn = document.querySelector('a[id^="nextP_"]');
                 if (nextBtn) {
                     nextBtn.click();
                 }
             }
-            // Left Arrow for Previous Page
             if (e.key === "ArrowLeft") {
                 let prevBtn = document.querySelector('a[id^="prevP_"]');
                 if (prevBtn) {
