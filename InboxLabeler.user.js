@@ -5,8 +5,8 @@
 // @match        *://*/oscar/lab/CA/ALL/labDisplay.jsp*
 // @match        *://*/oscar/documentManager/showDocument.jsp*
 // @require      http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js
-// @updateURL    https://github.com/maywoodmedical/Oscar/blob/main/InboxLabeler.user.js
-// @downloadURL  https://github.com/maywoodmedical/Oscar/blob/main/InboxLabeler.user.js
+// @updateURL    https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/InboxLabeler.user.js
+// @downloadURL  https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/InboxLabeler.user.js
 // @version      3.1
 // @grant        none
 // ==/UserScript==
