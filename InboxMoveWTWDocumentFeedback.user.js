@@ -6,12 +6,12 @@
 // @require http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js
 // @require  https://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js
 // @require  https://gist.github.com/raw/2625891/waitForKeyElements.js
-// @updateURL https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/MoveWTWDocumentFeedback.user.js
-// @downloadURL https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/MoveWTWDocumentFeedback.user.js
+// @updateURL https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/InboxMoveWTWDocumentFeedback.user.js
+// @downloadURL https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/InboxMoveWTWDocumentFeedback.user.js
 // @grant    GM_addStyle
 // @grant    GM.getValue
 // @noframes
-// @version 1.1
+// @version 1.2
 // ==/UserScript==
 //- The @grant directives are needed to restore the proper sandbox.
 /* global $, waitForKeyElements */
