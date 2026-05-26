@@ -7,6 +7,8 @@
 // @match        https://maywoodmedicalclinic.openosp.ca/oscar/login.do*
 // @grant        none
 // @run-at       document-end
+// @uploadURL    https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/LoginAuto.user.js
+// @downloadURL  https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/LoginAuto.user.js
 // ==/UserScript==
 
 (function() {
