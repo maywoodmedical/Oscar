@@ -6,7 +6,7 @@
 // @require http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js
 // @updateURL https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/EchartShortcuts.user.js
 // @downloadURL https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/EchartShortcuts.user.js
-// @version 2.8
+// @version 2.9
 // @grant       none
 // ==/UserScript==
 
@@ -51,7 +51,7 @@ var demo_no = myParam.substring(0, res) //var myWindow = window.open("","","widt
 // Calculate centered window specs
 var wWidth = 500; // Comfortable width for Oscar eForms
 var wHeight = screen.availHeight; 
-var wLeft = (screen.availWidth / 2) - (wWidth / 2);
+var wLeft = 200; // Opens close to the left side of the screen (adjust to 0 for absolute edge)
 var wTop = 0; // Starts at the top to use full vertical space
 var windowSpecs = 'width=' + wWidth + ',height=' + wHeight + ',left=' + wLeft + ',top=' + wTop + ',toolbar=0,location=0,menubar=0,scrollbars=1,resizable=1';
 
