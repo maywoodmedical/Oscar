@@ -7,13 +7,29 @@
 // @require         http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js
 // @updateURL https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/TicklerDefaultandButtons.user.js
 // @downloadURL https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/TicklerDefaultandButtons.user.js
-// @version 3.2
+// @version 3.3
 // ==/UserScript==
-
-// Window Resize Logic: Increase height by 25%
-window.resizeTo(window.outerWidth, window.outerHeight * 1.2);
-
 // modified from Stanscripts https://github.com/DrStanMD
+
+// Smart Window Resize Logic
+(function() {
+    var currentHeight = window.outerHeight;
+    var maxUsableHeight = screen.availHeight;
+
+    // 1. Cap it if it's already too big for the monitor
+    if (currentHeight > maxUsableHeight) {
+        window.resizeTo(window.outerWidth, maxUsableHeight);
+    } 
+    // 2. If it's opening in the small layout (e.g., less than 650px),
+    // expand it to comfortably show the hidden scroll-down buttons.
+    else if (currentHeight < 650) {
+        var targetHeight = 750; // Adjust this number if you need it slightly taller/shorter
+        // Ensure the target height doesn't exceed your screen
+        if (targetHeight > maxUsableHeight) targetHeight = maxUsableHeight;
+        
+        window.resizeTo(window.outerWidth, targetHeight);
+    }
+})();
 
 //========Get Path============
 var elements = (window.location.pathname.split('/', 2))
