@@ -4,21 +4,20 @@
 // @description  Click to copy and paste prelabel to document label field
 // @match        *://*/oscar/lab/CA/ALL/labDisplay.jsp*
 // @match        *://*/oscar/documentManager/showDocument.jsp*
-// @require      http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js
 // @updateURL    https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/InboxLabeler.user.js
 // @downloadURL  https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/InboxLabeler.user.js
-// @version      3.1
-// @grant        none
+// @version      3.2
+// @grant        GM_addStyle
 // ==/UserScript==
 
 (function() {
     'use strict';
 
     function getLabelInput() {
-        // Specifically look for documentDescription first (Document Manager), 
+        // Specifically look for documentDescription first (Document Manager),
         // then comment (Labs), then any text input as fallback.
-        return document.querySelector('input[name="documentDescription"]') || 
-               document.querySelector('input[id*="comment"]') || 
+        return document.querySelector('input[name="documentDescription"]') ||
+               document.querySelector('input[id*="comment"]') ||
                document.querySelector('input[type="text"]');
     }
 
@@ -27,6 +26,11 @@
         text = text.replace(/^<i>|<\/i>$/g, '');
         text += "- ";
         input.value = text;
+
+        // Notify the EMR's native framework that the value was programmatically changed
+        input.dispatchEvent(new Event('input', { bubbles: true }));
+        input.dispatchEvent(new Event('change', { bubbles: true }));
+
         input.focus();
         input.setSelectionRange(input.value.length, input.value.length);
         console.log("InboxLabeler: Auto-paste completed.");
@@ -38,17 +42,20 @@
             const active = document.activeElement;
 
             const isTypingElsewhere = active && (
-                active.tagName === 'INPUT' || 
-                active.tagName === 'TEXTAREA' || 
+                active.tagName === 'INPUT' ||
+                active.tagName === 'TEXTAREA' ||
                 active.isContentEditable
             );
-            
+
             // Only redirect if a label input exists and we aren't already in a field
             if (labelInput && !isTypingElsewhere && !e.ctrlKey && !e.metaKey && !e.altKey && e.key.length === 1) {
                 e.preventDefault();
                 labelInput.focus();
                 labelInput.setSelectionRange(labelInput.value.length, labelInput.value.length);
                 labelInput.value += e.key;
+
+                // Fire an event update so adjacent shortcuts acknowledge the typed characters
+                labelInput.dispatchEvent(new Event('input', { bubbles: true }));
             }
         });
     }
@@ -59,7 +66,7 @@
 
         if (span && input) {
             pasteLogic(span, input);
-            obs.disconnect(); 
+            obs.disconnect();
         }
     });
 
