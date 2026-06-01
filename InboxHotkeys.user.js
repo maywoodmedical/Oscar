@@ -1,16 +1,17 @@
 // ==UserScript==
 // @name         InboxHotkeys
 // @namespace    http://tampermonkey.net/
-// @version      2.2
-// @description  Enter to Label, F1 to Acknowledge/Close, F1 to open next inbox item, Arrows for Page Nav, Auto-resize Lab View and Inboxhub, Auto-space document description hyphen
+// @version      2.9
+// @description  Enter to Label, F1-F4 for Rows 1-4 Inbox items & Acknowledge/Close, Arrows for Page Nav & Text Navigation, Auto-resize Lab View and Inboxhub, Auto-space document description hyphen
 // @author       Gemini
-// @match        https://maywoodmedicalclinic.openosp.ca/oscar/web/inboxhub/Inboxhub.do?*
-// @match        https://maywoodmedicalclinic.openosp.ca/oscar/lab/CA/ALL/labDisplay.jsp*
-// @match        https://maywoodmedicalclinic.openosp.ca/oscar/documentManager/inboxManage.do*
-// @match        https://maywoodmedicalclinic.openosp.ca/oscar/documentManager/showDocument.jsp*
+// @match        *://*.openosp.ca/oscar/web/inboxhub/Inboxhub.do*
+// @match        *://*.openosp.ca/oscar/lab/CA/ALL/labDisplay.jsp*
+// @match        *://*.openosp.ca/oscar/documentManager/inboxManage.do*
+// @match        *://*.openosp.ca/oscar/documentManager/showDocument.jsp*
 // @updateURL    https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/InboxHotkeys.user.js
 // @downloadURL  https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/InboxHotkeys.user.js
 // @grant        window.close
+// @allFrames    true
 // ==/UserScript==
 
 (function() {
@@ -18,34 +19,40 @@
 
     const currentUrl = window.location.href;
 
+    // Helper: Prevent hotkeys from firing when typing inside text boxes or textareas
+    function isTyping(e) {
+        const active = document.activeElement;
+        if (!active) return false;
+        const tag = active.tagName.toLowerCase();
+        return tag === 'input' && (active.type === 'text' || active.type === 'search') || tag === 'textarea';
+    }
+
     // --- 0. AUTO-RESIZE WINDOW HEIGHT ---
     if (currentUrl.includes("labDisplay.jsp") || currentUrl.includes("Inboxhub.do")) {
         window.addEventListener('load', () => {
-            const availableHeight = window.screen.availHeight;
-            const currentWidth = window.outerWidth;
-            const topPos = window.screen.availTop || 0;
-            const leftPos = window.screenLeft || window.screenX;
+            const topWin = window.top || window;
+            const availableHeight = topWin.screen.availHeight;
+            const currentWidth = topWin.outerWidth;
+            const topPos = topWin.screen.availTop || 0;
+            const leftPos = (topWin.screenLeft !== undefined) ? topWin.screenLeft : topWin.screenX;
 
-            window.moveTo(leftPos, topPos);
-            window.resizeTo(currentWidth, availableHeight);
+            topWin.moveTo(leftPos, topPos);
+            topWin.resizeTo(currentWidth, availableHeight);
         });
     }
 
     // --- 1. DOCUMENT/LAB VIEW (labDisplay.jsp OR showDocument.jsp) ---
     if (currentUrl.includes("labDisplay.jsp") || currentUrl.includes("showDocument.jsp")) {
-        
-        // Fix trailing hyphen missing a space on document description fields
+
         if (currentUrl.includes("showDocument.jsp")) {
             window.addEventListener('load', () => {
                 let docDescInput = document.querySelector('input[name="documentDescription"]');
                 if (docDescInput) {
                     let val = docDescInput.value;
-                    // If it ends with a hyphen and NOT followed by a space
                     if (val.endsWith('-')) {
                         let correctedValue = val + ' ';
                         docDescInput.value = correctedValue;
-                        
-                        // Update the data-original-value attribute so native OSCAR blur events don't break it
+
                         if (docDescInput.hasAttribute('data-original-value')) {
                             docDescInput.setAttribute('data-original-value', correctedValue);
                         }
@@ -55,7 +62,9 @@
         }
 
         window.addEventListener('keydown', function(e) {
-            // Press Enter to click the Label button
+            // Safety bypass: Allow Enter, F1, F2, F3, and F4 to execute even if focused inside the description field
+            if (isTyping(e) && !["Enter", "F1", "F2", "F3", "F4"].includes(e.key)) return;
+
             if (e.key === "Enter") {
                 let labelBtn = document.querySelector('button[id^="createLabel_"]');
                 if (labelBtn) {
@@ -64,13 +73,13 @@
                 }
             }
 
-            // Press F1 to click Acknowledge and Close the window
-            if (e.key === "F1") {
+            // Intercept F1, F2, F3, or F4 to trigger Acknowledge and Close the window
+            if (e.key === "F1" || e.key === "F2" || e.key === "F3" || e.key === "F4") {
                 let ackBtn = document.querySelector('input[value="Acknowledge"]');
                 if (ackBtn) {
                     e.preventDefault();
                     ackBtn.click();
-                    
+
                     setTimeout(() => {
                         window.close();
                     }, 500);
@@ -82,53 +91,53 @@
     // --- 2. MASTER INBOX LIST (Inboxhub.do OR inboxManage.do) ---
     if (currentUrl.includes("Inboxhub.do") || currentUrl.includes("inboxManage.do")) {
         window.addEventListener('keydown', function(e) {
-            if (e.key === "F1") {
+            if (isTyping(e)) return;
+
+            // Map keys to specific zero-based row indexes
+            let targetRowIndex = -1;
+            if (e.key === "F1") targetRowIndex = 0;
+            if (e.key === "F2") targetRowIndex = 1;
+            if (e.key === "F3") targetRowIndex = 2;
+            if (e.key === "F4") targetRowIndex = 3;
+
+            if (targetRowIndex !== -1) {
                 e.preventDefault();
-                
-                const x = 330; 
-                const y = 155; 
 
-                let dot = document.createElement('div');
-                dot.style.cssText = `
-                    position: fixed; 
-                    top: ${y - 5}px; 
-                    left: ${x - 5}px; 
-                    width: 10px; 
-                    height: 10px; 
-                    background: red; 
-                    border-radius: 50%; 
-                    z-index: 10000; 
-                    pointer-events: none;
-                    box-shadow: 0 0 5px white;
-                `;
-                document.body.appendChild(dot);
-                setTimeout(() => dot.remove(), 1200);
+                // Gather all functional workflow links inside data tables
+                let allLinks = Array.from(document.querySelectorAll('table tbody tr td a[href*="showDocument"], table tbody tr td a[href*="labDisplay"]'));
 
-                let targetEl = document.elementFromPoint(x, y);
+                // Fallback catch-all array if primary selector yields nothing
+                if (allLinks.length === 0) {
+                    allLinks = Array.from(document.querySelectorAll('.dataTable tbody tr a, #inboxTable tbody tr a, table tr td a'));
+                }
 
-                if (targetEl) {
-                    let clickTarget = targetEl;
-                    if (targetEl.tagName !== 'A') {
-                        const internalLink = targetEl.querySelector('a') || targetEl.closest('tr')?.querySelector('a');
-                        if (internalLink) clickTarget = internalLink;
-                    }
+                // Pick the specific link based on the hotkey pressed
+                let targetLink = allLinks[targetRowIndex];
 
-                    const clickEvent = new MouseEvent('click', {
-                        view: window,
-                        bubbles: true,
-                        cancelable: true,
-                        clientX: x,
-                        clientY: y
-                    });
-                    
-                    clickTarget.dispatchEvent(clickEvent);
+                if (targetLink) {
+                    // Flash visual alignment confirmation dot
+                    let rect = targetLink.getBoundingClientRect();
+                    let dot = document.createElement('div');
+                    dot.style.cssText = `
+                        position: fixed;
+                        top: ${rect.top + (rect.height / 2) - 5}px;
+                        left: ${rect.left + 10}px;
+                        width: 10px;
+                        height: 10px;
+                        background: ${targetRowIndex === 0 ? '#00FF00' : '#00DFFF'}; /* Green for F1, Blue/Cyan for F2-F4 */
+                        border-radius: 50%;
+                        z-index: 10000;
+                        pointer-events: none;
+                        box-shadow: 0 0 5px white;
+                    `;
+                    document.body.appendChild(dot);
+                    setTimeout(() => dot.remove(), 800);
 
-                    if (clickTarget.href && clickTarget.tagName === 'A') {
-                        if (clickTarget.getAttribute('onclick')) {
-                             clickTarget.click(); 
-                        } else {
-                             window.location.href = clickTarget.href;
-                        }
+                    // Programmatic navigation dispatch
+                    if (targetLink.getAttribute('onclick')) {
+                        targetLink.click();
+                    } else if (targetLink.href) {
+                        window.location.href = targetLink.href;
                     }
                 }
             }
@@ -136,18 +145,21 @@
     }
 
     // --- 3. MULTI-PAGE DOCUMENT NAVIGATION (inWindow) ---
-    if (currentUrl.includes("showDocument.jsp?inWindow")) {
+    if (currentUrl.includes("showDocument.jsp")) {
         window.addEventListener('keydown', function(e) {
+            // Safety bypass: Allow ArrowLeft and ArrowRight to flip pages even if typing inside description box
+            if (isTyping(e) && !["ArrowLeft", "ArrowRight"].includes(e.key)) return;
+
             if (e.key === "ArrowRight") {
                 let nextBtn = document.querySelector('a[id^="nextP_"]');
                 if (nextBtn) {
-                    nextBtn.click();
+                    nextBtn.click(); // Fires page change; native behavior handles cursor moving right
                 }
             }
             if (e.key === "ArrowLeft") {
                 let prevBtn = document.querySelector('a[id^="prevP_"]');
                 if (prevBtn) {
-                    prevBtn.click();
+                    prevBtn.click(); // Fires page change; native behavior handles cursor moving left
                 }
             }
         });
