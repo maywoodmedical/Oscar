@@ -1,21 +1,15 @@
 // ==UserScript==
-// @name        MedicationsPanel
-// @namespace   https://github.com/maywoodmedical/Oscar
-// @description move Stage Medication button to left of containing box
-// @include     *oscarRx/choosePatient.do?*
-// @require http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js
-// @require  https://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js
-// @require  https://gist.github.com/raw/2625891/waitForKeyElements.js
-// @updateURL https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/MedicationsPanel.user.js
-// @downloadURL https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/MedicationsPanel.user.js
-// @grant    GM_addStyle
-// @grant    GM.getValue
+// @name         MedicationsPanel
+// @namespace    https://github.com/maywoodmedical/Oscar
+// @description  move Stage Medication button to left of containing box
+// @include      *oscarRx/choosePatient.do?*
+// @updateURL    https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/MedicationsPanel.user.js
+// @downloadURL  https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/MedicationsPanel.user.js
+// @grant        GM_addStyle
+// @grant        GM.getValue
 // @noframes
-// @version 1.1
+// @version      1.2
 // ==/UserScript==
-//- The @grant directives are needed to restore the proper sandbox.
-/* global $, waitForKeyElements */
-
 
 (function() {
     'use strict';
