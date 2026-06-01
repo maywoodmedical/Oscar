@@ -5,8 +5,8 @@
 // @include      *documentManager/documentReport.jsp*
 // @include      *documentManager/inboxManage.do*
 // @include      *web/inboxhub/Inboxhub.do*
-// @updateURL    https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/InboxLoadingWindowSize.user.js
-// @downloadURL  https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/InboxLoadingWindowSize.user.js
+// @updateURL    https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/InboxWindowSize.user.js
+// @downloadURL  https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/InboxWindowSize.user.js
 // @version      1.8
 // @grant        GM_addStyle
 // ==/UserScript==
