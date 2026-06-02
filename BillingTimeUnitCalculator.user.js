@@ -1,134 +1,127 @@
 // ==UserScript==
-// @name        BillingTimeUnitCalculator
-// @namespace   https://github.com/maywoodmedical/Oscar
-// @description Calculate the number of 15 minute units after inputting start and end times
-// @include     */oscar/billing.do?billRegion=BC&billForm*
-// @include     */oscar/billing/CA/BC/billingBC.jsp?*
-// @include     */oscar/billing/CA/BC/SaveBilling.do*
-// @include     */oscar/CaseManagementEntry.do*
-// @require http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js
-// @updateURL https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/BillingTimeUnitCalculator.user.js
-// @downloadURL https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/BillingTimeUnitCalculator.user.js
-// @version 1.4
-// @grant       none
+// @name         BillingTimeUnitCalculator
+// @namespace    https://github.com/maywoodmedical/Oscar
+// @description  Calculate the number of 15 minute units after inputting start and end times cleanly with safety interval layouts and auto-continue automation.
+// @include      */oscar/billing.do?billRegion=BC&billForm*
+// @include      */oscar/billing/CA/BC/billingBC.jsp?*
+// @include      */oscar/billing/CA/BC/SaveBilling.do*
+// @include      */oscar/CaseManagementEntry.do*
+// @updateURL    https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/BillingTimeUnitCalculator.user.js
+// @downloadURL  https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/BillingTimeUnitCalculator.user.js
+// @version      2.1
+// @grant        none
+// @run-at       document-end
 // ==/UserScript==
 
-// First Button - Time Calculation
 (function() {
     'use strict';
 
-    // Create the first button
-    const button1 = document.createElement('button');
-    button1.innerText = 'Time';  // Label for the button
-    button1.style.backgroundColor = 'green'; // Set background color to green
-    button1.style.border = '1px solid green'; // Set border color to green
-    button1.style.color = 'white'; // Set text color to white
-    button1.className = 'btn btn-primary'; // Add any Bootstrap classes or styles you need
+    function calculateBillingUnits() {
+        const startTimeInput = document.getElementById('serviceStartTime');
+        const endTimeInput = document.getElementById('serviceEndTime');
+        const resultInput = document.getElementById('xml_other1_unit');
 
-    // Get the target div (buttonRow)
-    const targetDiv = document.getElementById('buttonRow');
-    if (targetDiv) {
-        // Make sure the container uses flexbox to align the buttons side by side
-        targetDiv.style.display = 'flex'; // Use flexbox for horizontal layout
-        targetDiv.style.alignItems = 'center'; // Vertically center items within the row
+        if (!startTimeInput || !endTimeInput || !resultInput) {
+            alert('Billing time input elements could not be resolved in this view.');
+            return false;
+        }
 
-        targetDiv.appendChild(button1); // Append the first button to the same row
+        const startTime = startTimeInput.value;
+        const endTime = endTimeInput.value;
 
-        // Create a feedback div for error messages
-        const feedbackDiv = document.createElement('div');
-        feedbackDiv.style.color = 'red';
-        targetDiv.appendChild(feedbackDiv);
+        function timeToMinutes(timeStr) {
+            if (!timeStr || !timeStr.includes(':')) return NaN;
+            const [hours, minutes] = timeStr.split(':').map(Number);
+            return hours * 60 + minutes;
+        }
 
-        // Button click event
-        button1.addEventListener('click', function() {
-            const startTimeInput = document.getElementById('serviceStartTime');
-            const endTimeInput = document.getElementById('serviceEndTime');
-            const resultInput = document.getElementById('xml_other1_unit');
+        const startMinutes = timeToMinutes(startTime);
+        const endMinutes = timeToMinutes(endTime);
 
-            const startTime = startTimeInput.value;
-            const endTime = endTimeInput.value;
+        if (isNaN(startMinutes) || isNaN(endMinutes) || startMinutes >= endMinutes) {
+            alert('Please enter valid start and end times (in 00:00 to 24:00 format). Start time must be earlier than end time.');
+            return false;
+        }
 
-            // Function to convert time string to minutes
-            function timeToMinutes(timeStr) {
-                const [hours, minutes] = timeStr.split(':').map(Number);
-                return hours * 60 + minutes;
-            }
+        const differenceInMinutes = endMinutes - startMinutes;
+        const increments = Math.floor(differenceInMinutes / 15);
 
-            const startMinutes = timeToMinutes(startTime);
-            const endMinutes = timeToMinutes(endTime);
+        // Display the calculated calculation value directly inside Oscar's target unit matrix
+        resultInput.value = increments;
 
-            if (isNaN(startMinutes) || isNaN(endMinutes) || startMinutes >= endMinutes) {
-                alert('Please enter valid start and end times (in 00:00 to 24:00 format). Start time must be earlier than end time.');
-                return;
-            }
-
-            const differenceInMinutes = endMinutes - startMinutes;
-            const increments = Math.floor(differenceInMinutes / 15);
-
-            // Display the result
-            resultInput.value = increments;
-        });
+        // Trigger a native change event to ensure any background billing validations recognize the mutation
+        resultInput.dispatchEvent(new Event('change', { bubbles: true }));
+        return true;
     }
-})();
 
-// Second Button - Units Calculation (Modified to prevent default navigation)
-(function() {
-    'use strict';
+    function injectBillingCalculatorUI() {
+        const targetDiv = document.getElementById('buttonRow');
 
-    // Create the second button
-    const button2 = document.createElement('button');
-    button2.innerText = 'Units';  // Label for the second button
-    button2.style.backgroundColor = 'grey'; // Set background color to blue (different from the first button)
-    button2.style.border = '1px solid grey'; // Set border color to blue
-    button2.style.color = 'white'; // Set text color to white for button2
-    button2.className = 'btn btn-secondary'; // Bootstrap class for secondary button style
+        // Safety lock: Ensure button container exists and hasn't been injected already
+        if (!targetDiv || document.getElementById('tm-time-calc-btn')) return false;
 
-    // Get the target div (buttonRow)
-    const targetDiv = document.getElementById('buttonRow');
-    if (targetDiv) {
-        // Make sure the container uses flexbox to align the buttons side by side
-        targetDiv.style.display = 'flex'; // Use flexbox for horizontal layout
-        targetDiv.style.alignItems = 'center'; // Vertically center items within the row
+        // Force structural layout constraints to align items cleanly horizontally
+        targetDiv.style.display = 'flex';
+        targetDiv.style.alignItems = 'center';
+        targetDiv.style.gap = '5px';
 
-        // Append the second button to the same row
-        targetDiv.appendChild(button2); // Append the second button to the same row
+        // 1. Generate Button One ("Time") -> Calculates and advances page
+        const button1 = document.createElement('button');
+        button1.id = 'tm-time-calc-btn';
+        button1.type = 'button';
+        button1.innerText = 'Time';
+        button1.style.cssText = 'background-color: green; border: 1px solid green; color: white; cursor: pointer;';
+        button1.className = 'btn btn-primary';
 
-        // Create a feedback div for error messages (optional for button2)
-        const feedbackDiv = document.createElement('div');
-        feedbackDiv.style.color = 'red';
-        targetDiv.appendChild(feedbackDiv);
+        // 2. Generate Button Two ("Units") -> Only calculates math locally
+        const button2 = document.createElement('button');
+        button2.id = 'tm-units-calc-btn';
+        button2.type = 'button';
+        button2.innerText = 'Units';
+        button2.style.cssText = 'background-color: grey; border: 1px solid grey; color: white; cursor: pointer;';
+        button2.className = 'btn btn-secondary';
 
-        // Button click event for the second button (similar to the first one)
-        button2.addEventListener('click', function(event) {
-            // Prevent the default behavior (e.g., form submission, page navigation)
-            event.preventDefault();
+        // Bind logic to the "Time" trigger (Calculate + Auto-Submit Form)
+        button1.addEventListener('click', function(e) {
+            e.preventDefault();
 
-            const startTimeInput = document.getElementById('serviceStartTime');
-            const endTimeInput = document.getElementById('serviceEndTime');
-            const resultInput = document.getElementById('xml_other1_unit');
+            // Execute calculation first
+            const isCalculatedSuccessfully = calculateBillingUnits();
 
-            const startTime = startTimeInput.value;
-            const endTime = endTimeInput.value;
-
-            // Function to convert time string to minutes
-            function timeToMinutes(timeStr) {
-                const [hours, minutes] = timeStr.split(':').map(Number);
-                return hours * 60 + minutes;
+            // If the time evaluation passes validation checkpoints, trace and commit the master form wrapper
+            if (isCalculatedSuccessfully) {
+                const billingForm = document.getElementById('serviceStartTime').closest('form');
+                if (billingForm) {
+                    console.log("BillingTimeUnitCalculator: Calculation complete. Auto-forwarding to Continue screen.");
+                    billingForm.submit();
+                } else {
+                    console.warn("BillingTimeUnitCalculator: Target billing form could not be mapped for auto-submission.");
+                }
             }
-
-            const startMinutes = timeToMinutes(startTime);
-            const endMinutes = timeToMinutes(endTime);
-
-            if (isNaN(startMinutes) || isNaN(endMinutes) || startMinutes >= endMinutes) {
-                alert('Please enter valid start and end times (in 00:00 to 24:00 format). Start time must be earlier than end time.');
-                return;
-            }
-
-            const differenceInMinutes = endMinutes - startMinutes;
-            const increments = Math.floor(differenceInMinutes / 15);
-
-            // Display the result
-            resultInput.value = increments;
         });
+
+        // Bind logic to the "Units" trigger (Calculate only)
+        button2.addEventListener('click', function(e) {
+            e.preventDefault();
+            calculateBillingUnits();
+        });
+
+        // Append components into the active DOM row
+        targetDiv.appendChild(button1);
+        targetDiv.appendChild(button2);
+
+        console.log("BillingTimeUnitCalculator: Applied buttons successfully.");
+        return true;
     }
+
+    // Run structured layout discovery loops to catch the form rendering state safely
+    var injectionAttempts = 0;
+    var UISelectorPoll = setInterval(function() {
+        injectionAttempts++;
+        var success = injectBillingCalculatorUI();
+        if (success || injectionAttempts > 30) {
+            clearInterval(UISelectorPoll);
+        }
+    }, 200);
+
 })();
