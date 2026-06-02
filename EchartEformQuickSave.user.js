@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         EchartEformQuickSave
 // @namespace    http://tampermonkey.net/
-// @version      3.0
-// @description  Instantly closes eForm window on click while seamlessly pushing the AJAX save in the background.
+// @version      4.4
+// @description  Instantly closes eForm on save and utilizes state tracking to bypass post-print reloads safely.
 // @author       Your Name
 // @match        *://*.openosp.ca/oscar/eform/*
 // @match        *://*.openosp.ca/oscar//eform/*
@@ -18,11 +18,11 @@
     'use strict';
 
     const win = typeof unsafeWindow !== 'undefined' ? unsafeWindow : window;
+    const printMarkerKey = "oscar_eform_print_active";
 
     function closeWindowInstantly() {
         console.log("Oscar Script: Executing Instant Close...");
 
-        // Wipe out Firefox/Chrome "Leave Page" alerts immediately
         try {
             win.onbeforeunload = null;
             win.top.onbeforeunload = null;
@@ -32,18 +32,15 @@
             }
         } catch (e) {}
 
-        // 1. Try Oscar's internal logic
         if (typeof win.remoteClose === 'function') {
             win.remoteClose();
         }
 
-        // 2. Window Exploit: Trick browser into believing this script opened the window context
         try {
             win.open('', '_self');
             win.close();
         } catch(e) {}
 
-        // 3. Independent Window Fallback
         try {
             if (win.top) {
                 win.top.open('', '_self');
@@ -52,20 +49,49 @@
         } catch(e) {}
     }
 
-    function applyAjaxSave() {
+    // =========================================================================
+    // PART 1: STATE VERIFICATION (RUNS ON LOAD)
+    // =========================================================================
+    // Check if this specific window session was the result of a print trigger
+    if (localStorage.getItem(printMarkerKey) === "true") {
+        localStorage.removeItem(printMarkerKey); // Instantly consume marker to allow subsequent openings
+        console.log("Oscar Script: Confirmed post-print reload state. Terminating window.");
+        setTimeout(closeWindowInstantly, 50);
+        return;
+    }
+
+    // =========================================================================
+    // PART 2: INTERCEPT SAVE & PRINT BUTTONS
+    // =========================================================================
+    function applyInterceptors() {
         const saveBtn = document.getElementById('remoteSubmitButton');
+        const printBtn = document.getElementById('remotePrintButton');
         const form = document.querySelector('form[name="eForm"]') || document.forms[0];
 
+        // 1. Handle Print Button State Tracking
+        if (printBtn && !printBtn.hasPrintInterceptor) {
+            printBtn.hasPrintInterceptor = true;
+
+            printBtn.addEventListener('click', function() {
+                console.log("Oscar Script: Print clicked. Setting session tracking marker.");
+                // Set the marker right as the page begins its submission/print cycle
+                localStorage.setItem(printMarkerKey, "true");
+            });
+        }
+
+        // 2. Handle Background AJAX Save
         if (saveBtn && form && !saveBtn.hasAjaxInterceptor) {
             saveBtn.hasAjaxInterceptor = true;
             console.log("Oscar Script: Intercepting Save Button.");
 
-            // Strip native inline onclick
             saveBtn.removeAttribute('onclick');
 
             saveBtn.addEventListener('click', function(e) {
                 e.preventDefault();
                 e.stopPropagation();
+
+                saveBtn.value = "Saving...";
+                saveBtn.style.background = "#ffa500";
 
                 let formDataString = "";
                 try {
@@ -86,72 +112,26 @@
                     formDataString += '&remoteSubmitButton=Save';
                 }
 
-                // Fire off the network call asynchronously
                 fetch(form.action || win.location.href, {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'Content-Type': 'application/x-www-form-urlencoded'
                     },
                     body: formDataString
                 }).catch(err => {
-                    // Logged to console background, but won't hold up UI closure
-                    console.error("Background save failed downstream:", err);
+                    console.error("Background save network stream dropped:", err);
                 });
 
-                // --- CRITICAL SPEED CHANGE ---
-                // We do not wait for .then(). We trigger closure immediately.
-                closeWindowInstantly();
+                setTimeout(() => {
+                    closeWindowInstantly();
+                }, 50);
             });
         }
     }
 
-    applyAjaxSave();
-    const initLoop = setInterval(applyAjaxSave, 300);
+    // Standard deferred initialization loop
+    applyInterceptors();
+    const initLoop = setInterval(applyInterceptors, 300);
     setTimeout(() => clearInterval(initLoop), 5000);
 
-  saveBtn.addEventListener('click', function(e) {
-    e.preventDefault();
-    e.stopPropagation();
-
-    // 1. Give the user immediate visual feedback that processing started
-    saveBtn.value = "Saving...";
-    saveBtn.style.background = "#ffa500"; 
-
-    let formDataString = serializeForm(form); // (Assuming serialization logic here)
-
-    let saveSuccessful = false;
-    let networkFinished = false;
-
-    // 2. Fire the network request
-    fetch(form.action || win.location.href, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: formDataString
-    })
-    .then(response => {
-        if (response.ok) {
-            saveSuccessful = true;
-            saveBtn.value = "Saved!";
-            saveBtn.style.background = "#2ecc71"; // Turn button green
-        }
-        networkFinished = true;
-    })
-    .catch(err => {
-        networkFinished = true;
-    });
-
-    // 3. Wait exactly 450ms. If it succeeded (which 95% of local server hits do in <200ms), close it.
-    // If it failed or timed out, halt closure and scream an error.
-    setTimeout(() => {
-        if (saveSuccessful) {
-            closeWindowInstantly();
-        } else {
-            saveBtn.value = "SAVE FAILED!";
-            saveBtn.style.background = "#e74c3c"; // Turn button red
-            alert("CRITICAL ERROR: eForm did NOT save to server. Do not close this window manually without copying your note!");
-        }
-    }, 450); 
-});
-  
 })();
-
