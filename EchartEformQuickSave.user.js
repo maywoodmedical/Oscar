@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         EchartEformQuickSave
 // @namespace    http://tampermonkey.net/
-// @version      4.4
-// @description  Instantly closes eForm on save and utilizes state tracking to bypass post-print reloads safely.
+// @version      4.7
+// @description  Instantly closes eForm on save, addresses advanced double-save loops via submission proxy sandboxing.
 // @author       Your Name
 // @match        *://*.openosp.ca/oscar/eform/*
 // @match        *://*.openosp.ca/oscar//eform/*
@@ -52,9 +52,8 @@
     // =========================================================================
     // PART 1: STATE VERIFICATION (RUNS ON LOAD)
     // =========================================================================
-    // Check if this specific window session was the result of a print trigger
     if (localStorage.getItem(printMarkerKey) === "true") {
-        localStorage.removeItem(printMarkerKey); // Instantly consume marker to allow subsequent openings
+        localStorage.removeItem(printMarkerKey);
         console.log("Oscar Script: Confirmed post-print reload state. Terminating window.");
         setTimeout(closeWindowInstantly, 50);
         return;
@@ -74,7 +73,6 @@
 
             printBtn.addEventListener('click', function() {
                 console.log("Oscar Script: Print clicked. Setting session tracking marker.");
-                // Set the marker right as the page begins its submission/print cycle
                 localStorage.setItem(printMarkerKey, "true");
             });
         }
@@ -84,6 +82,7 @@
             saveBtn.hasAjaxInterceptor = true;
             console.log("Oscar Script: Intercepting Save Button.");
 
+            const originalOnclick = saveBtn.getAttribute('onclick');
             saveBtn.removeAttribute('onclick');
 
             saveBtn.addEventListener('click', function(e) {
@@ -93,6 +92,44 @@
                 saveBtn.value = "Saving...";
                 saveBtn.style.background = "#ffa500";
 
+                // ADVANCED SANDBOXING: Protect form submission vectors
+                const nativeSubmit = form.submit;
+                const originalAction = form.action || win.location.href;
+
+                // Stub the submit method
+                form.submit = function() {
+                    console.log("Oscar Script: Dropped inline programmatic form.submit()");
+                };
+
+                // Truncate the action target so native HTML triggers cannot reach the server
+                form.setAttribute('action', 'javascript:void(0);');
+                form.action = 'javascript:void(0);';
+
+                // STAGE AND EXTRACT SIGNATURE/CANVAS DATA
+                try {
+                    if (typeof win.submitForm === 'function') {
+                        win.submitForm();
+                    } else if (originalOnclick) {
+                        const cleanClick = originalOnclick.replace(/window\.close\(\)|this\.disabled=true/g, '');
+                        new Function(cleanClick).call(saveBtn);
+                    }
+
+                    if (win.signaturePad && typeof win.signaturePad.isEmpty === 'function' && !win.signaturePad.isEmpty()) {
+                        const sigDataInput = document.querySelector('input[name="sig_data"]') || document.querySelector('input[name*="signature"]');
+                        if (sigDataInput) {
+                            sigDataInput.value = win.signaturePad.toDataURL();
+                        }
+                    }
+                } catch (err) {
+                    console.warn("Oscar Script: Pre-save/signature extraction warning:", err);
+                } finally {
+                    // Restore original form properties immediately after data processing completes
+                    form.submit = nativeSubmit;
+                    form.setAttribute('action', originalAction);
+                    form.action = originalAction;
+                }
+
+                // DATA SERIALIZATION
                 let formDataString = "";
                 try {
                     if (win.$ && win.$.fn && win.$.fn.serialize) {
@@ -112,16 +149,19 @@
                     formDataString += '&remoteSubmitButton=Save';
                 }
 
-                fetch(form.action || win.location.href, {
+                // NETWORK SUBMISSION WITH KEEPALIVE (Targeting original backed-up URL)
+                fetch(originalAction, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded'
                     },
-                    body: formDataString
+                    body: formDataString,
+                    keepalive: true
                 }).catch(err => {
                     console.error("Background save network stream dropped:", err);
                 });
 
+                // Immediate close sequence
                 setTimeout(() => {
                     closeWindowInstantly();
                 }, 50);
