@@ -3,13 +3,11 @@
 // @namespace    https://github.com/maywoodmedical/Oscar
 // @description  Zero-Cache Dynamic eForm Search Bar for Oscar EMR Echarts with 250ms Debounce
 // @include      *action=view&demographic*
-// @include      *maywoodmedicalclinic.openosp.ca/oscar/casemgmt/*
-// @include      *maywoodmedicalclinic.openosp.ca/oscar/oscarEncounter/*
+// @include      *maywoodmedicalclinic.openosp.ca/oscar/*
 // @include      *efmformslistadd.jsp*
-// @include      *maywoodmedicalclinic.openosp.ca/oscar/eform/*
 // @updateURL    https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/EchartEformSearchBar.user.js
 // @downloadURL  https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/EchartEformSearchBar.user.js
-// @version      8.1
+// @version      8.11
 // @grant        none
 // ==/UserScript==
 
@@ -19,12 +17,42 @@
     var vPath = location.protocol + '//' + location.host + '/oscar/';
 
     // =========================================================================
+    // PART 0: AUTO-EXPAND LIST ON EFORM LIST PAGE
+    // =========================================================================
+    function expandEformListToAll() {
+        if (location.pathname.includes('efmformslistadd.jsp')) {
+            var lengthSelect = document.querySelector('select[name="efmTable_length"]');
+            if (lengthSelect && lengthSelect.value !== "-1") {
+                lengthSelect.value = "-1";
+                var event = new Event('change', { bubbles: true });
+                lengthSelect.dispatchEvent(event);
+            }
+        }
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', expandEformListToAll);
+    } else {
+        expandEformListToAll();
+    }
+
+    if (location.pathname.includes('efmformslistadd.jsp')) {
+        var pageObserver = new MutationObserver(function(mutations, obs) {
+            var lengthSelect = document.querySelector('select[name="efmTable_length"]');
+            if (lengthSelect) {
+                expandEformListToAll();
+                obs.disconnect();
+            }
+        });
+        pageObserver.observe(document.body, { childList: true, subtree: true });
+    }
+
+    // =========================================================================
     // PART 1: AUTO-POPULATE LOGIC (TRIGGERS INSTANTLY ON USER TYPING)
     // =========================================================================
     function queryLiveOscarForms(searchString, datalistElement) {
         var searchUrl = vPath + "eform/efmformslistadd.jsp?parentAjaxId=eforms";
 
-        // Query Oscar's live eform list directly
         fetch(searchUrl)
             .then(function(response) {
                 if (!response.ok) throw new Error('API Unreachable');
@@ -35,7 +63,6 @@
                 var doc = parser.parseFromString(htmlResponse, 'text/html');
                 var links = doc.querySelectorAll("a[onclick*='popupPage']");
 
-                // Clear out stale datalist items before adding fresh ones
                 datalistElement.innerHTML = "";
 
                 var matchedCount = 0;
@@ -45,7 +72,6 @@
                     var formName = el.innerText || el.textContent;
                     formName = formName.replace(/[\n\r\t\*]/g, "").trim();
 
-                    // If the form name matches what the user is typing, extract its attributes
                     if (formName.toLowerCase().includes(cleanSearch)) {
                         var onClickText = el.getAttribute("onclick") || "";
                         var urlMatch = onClickText.match(/popupPage\('(.*?)'/);
@@ -54,7 +80,7 @@
                             var rawUrl = urlMatch[1];
                             var fidMatch = rawUrl.match(/fid=(\d+)/);
 
-                            if (fidMatch && fidMatch[1] && matchedCount < 15) { // Cap results at 15 to keep it fast
+                            if (fidMatch && fidMatch[1] && matchedCount < 15) {
                                 var option = document.createElement('option');
                                 option.value = formName;
                                 option.setAttribute('data-fid', fidMatch[1]);
@@ -74,16 +100,40 @@
     // PART 2: PLACEMENT & STRUCTURAL LAYOUT DETECTOR
     // ==========================================
     function tryInjectSearchBar() {
-        if (document.getElementById('referral_name')) return true;
+        if (document.getElementById('oscar_live_eform_search')) return true;
 
-        var anchorContainer = document.getElementById('cppBoxes') ||
-                              document.querySelector('.container-fluid') ||
-                              document.getElementById('cpp_panel') ||
-                              document.querySelector('.leftPanel');
+        // Look for the CareConnect targets
+        var careConnectBtn = document.querySelector("input[onclick*='callCareConnect']") ||
+                             document.querySelector("input[title*='Care Connect']") ||
+                             document.querySelector("input[value='CareConnect']");
+
+        var anchorContainer = null;
+        var insertBeforeTarget = null;
+
+        if (careConnectBtn) {
+            anchorContainer = careConnectBtn.parentNode;
+            insertBeforeTarget = careConnectBtn;
+        } else {
+            // If CareConnect isn't found, check if the general eChart panel layout containers exist yet
+            var globalFallback = document.getElementById('cppBoxes') ||
+                                 document.querySelector('.container-fluid') ||
+                                 document.getElementById('cpp_panel') ||
+                                 document.querySelector('.leftPanel');
+
+            // If even the base layout wrappers aren't built, exit this specific frame check and try again next poll
+            if (!globalFallback) return false;
+
+            // If we are past 25 attempts (~5+ seconds of page load) and CareConnect still hasn't arrived,
+            // default to the global layout fallback so the search bar isn't lost permanently.
+            if (injectionAttempts >= 25) {
+                anchorContainer = globalFallback;
+            } else {
+                return false;
+            }
+        }
 
         if (!anchorContainer) return false;
 
-        // Safely pull necessary URL variables from parent frames
         var searchSource = location.search || (window.parent && window.parent.location.search) || "";
         var params = {};
         if (searchSource) {
@@ -105,34 +155,33 @@
             demoNo = window.top.demographicNo || "";
         }
 
-        // Build the physical search elements
         var searchContainer = document.createElement('div');
-        searchContainer.style.cssText = 'display: inline-block; vertical-align: middle; margin: 5px; z-index: 9999;';
-        searchContainer.innerHTML = "<input id='referral_name' list='CP' name='referral_name' placeholder='Search live eForms...' type='text' autocomplete='off' style='color:black; background-color:#fff; border:1px solid #ccc; padding:4px; width:202px; font-size:12px; border-radius:3px;'><datalist id='CP'></datalist>";
+        searchContainer.style.cssText = 'display: inline-block; vertical-align: bottom; margin-right: 4px;';
+        searchContainer.innerHTML = "<input id='oscar_live_eform_search' list='CP' name='oscar_live_eform_search' placeholder='Search eForms...' type='text' autocomplete='off'><datalist id='CP'></datalist>";
 
-        anchorContainer.appendChild(searchContainer);
+        if (insertBeforeTarget) {
+            anchorContainer.insertBefore(searchContainer, insertBeforeTarget);
+        } else {
+            anchorContainer.appendChild(searchContainer);
+        }
 
-        var searchInput = document.getElementById("referral_name");
+        var searchInput = document.getElementById("oscar_live_eform_search");
         var datalist = document.getElementById("CP");
 
         if (searchInput && datalist) {
             var debounceTimer;
 
-            // As the user types, query Oscar directly to populate the dropdown on-the-fly
             searchInput.addEventListener("input", function(event) {
                 var currentInputVal = this.value;
 
-                // Reset the timer on every keystroke
                 clearTimeout(debounceTimer);
 
                 if (currentInputVal.length >= 2) {
-                    // Set a 250ms delay window before executing the network request
                     debounceTimer = setTimeout(function() {
                         queryLiveOscarForms(currentInputVal, datalist);
-                    }, 250);
+                    }, 200);
                 }
 
-                // Match exact selection to launch the eForm window
                 var options = datalist.querySelectorAll('option');
                 var matchedOption = Array.from(options).find(function(opt) {
                     return opt.value === currentInputVal;
@@ -155,14 +204,13 @@
         return true;
     }
 
-    // Keep checking until the layout frames build completely
     var injectionAttempts = 0;
     var pollForLayout = setInterval(function() {
         injectionAttempts++;
         var success = tryInjectSearchBar();
-        if (success || injectionAttempts > 50) {
+        if (success) {
             clearInterval(pollForLayout);
         }
-    }, 300);
+    }, 250); // Checks 4 times per second indefinitely until it successfully draws and exits
 
 })();
