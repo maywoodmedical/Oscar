@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         EchartEformSearchBar
 // @namespace    https://github.com/maywoodmedical/Oscar
-// @description  Zero-Cache Dynamic eForm Search Bar for Oscar EMR Echarts with 250ms Debounce
+// @description  Zero-Cache Dynamic eForm Search Bar for Oscar EMR Echarts with 200ms Debounce
 // @include      *action=view&demographic*
 // @include      *maywoodmedicalclinic.openosp.ca/oscar/*
 // @include      *efmformslistadd.jsp*
