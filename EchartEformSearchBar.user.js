@@ -3,11 +3,11 @@
 // @namespace    https://github.com/maywoodmedical/Oscar
 // @description  Zero-Cache Dynamic eForm Search Bar for Oscar EMR Echarts with 200ms Debounce
 // @include      *action=view&demographic*
-// @include      *maywoodmedicalclinic.openosp.ca/oscar/*
+// @include      *maywoodmedicalclinic.openosp.ca/oscar/casemgmt/forward.jsp?action=view&demographicNo=*
 // @include      *efmformslistadd.jsp*
 // @updateURL    https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/EchartEformSearchBar.user.js
 // @downloadURL  https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/EchartEformSearchBar.user.js
-// @version      8.11
+// @version      8.12
 // @grant        none
 // ==/UserScript==
 
@@ -145,6 +145,7 @@
             }
         }
 
+        // Expanded param checks to cover exact case sensitivity options found on forward.jsp
         var demoNo = params.demographicNo || params.demographic_no || "";
         if (demoNo === "null" || demoNo === true) demoNo = "";
 
@@ -211,6 +212,6 @@
         if (success) {
             clearInterval(pollForLayout);
         }
-    }, 250); // Checks 4 times per second indefinitely until it successfully draws and exits
+    }, 250);
 
 })();
