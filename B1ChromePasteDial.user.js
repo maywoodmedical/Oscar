@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         B1ChromePasteDial
 // @namespace    http://tampermonkey.net/
-// @version      1.9
+// @version      1.9.1
 // @description  Injects 'Paste & Dial' directly next to the native B1 CallIcon SVG
 // @author       You
 // @match        https://core2.b1communications.ca/*
@@ -31,7 +31,7 @@
         btn.innerText = 'Paste & Dial';
         btn.type = 'button';
 
-        // Styled cleanly with Material-UI standards to blend in smoothly
+        // Styled cleanly with Material-UI standards to blend in smoothly, with a capsule border-radius
         btn.style.cssText = `
             margin-left: 8px;
             margin-right: 8px;
@@ -39,7 +39,7 @@
             background-color: #2b7de9;
             color: white;
             border: none;
-            border-radius: 4px;
+            border-radius: 50px;
             cursor: pointer;
             font-weight: bold;
             font-family: sans-serif;
