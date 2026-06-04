@@ -6,6 +6,8 @@
 // @author       Your Name
 // @match        https://*.openosp.ca/oscar/lab/CA/ALL/labDisplay.jsp*
 // @grant        none
+// @updateURL    
+// @downloadURL 
 // ==/UserScript==
 
 (function() {
