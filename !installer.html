@@ -1,16 +1,3 @@
-/* 
-=============================================================
-ADMIN NOTE
-Follow instructions to batch install using Tampermonkey so that tabs automatically close upon script installation: 
-Open your Tampermonkey Dashboard.
-Click on the Settings tab.
-Keep the Config Mode on Beginner or Advanced.
-Scroll to the General section (right near the top, just under the Config Mode drop-down).
-Look for the setting called Show update notification.
-Change this drop-down menu to Disabled.
-=============================================================
-*/
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -45,6 +32,21 @@ Change this drop-down menu to Disabled.
             color: #666;
             font-size: 15px;
             line-height: 1.5;
+        }
+        .admin-note-box {
+            background-color: #fff3cd;
+            border: 1px solid #ffeeba;
+            color: #856404;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 25px;
+            font-size: 13px;
+            line-height: 1.4;
+        }
+        .admin-note-box strong {
+            display: block;
+            margin-bottom: 5px;
+            color: #533f03;
         }
         .btn-wrapper {
             text-align: center;
@@ -100,7 +102,12 @@ Change this drop-down menu to Disabled.
 <div class="container">
     <div class="header-area">
         <h2>OSCAR EMR Script Installer</h2>
-        <p>Clicking the button below will open separate browser tabs for all automation and workflow optimization scripts targeting your OSCAR environment.</p>
+        <p>Clicking the button below will batch install all automation and workflow optimization scripts targeting your OSCAR environment.</p>
+    </div>
+
+    <div class="admin-note-box">
+        <strong>💡 SYSTEM NOTE FOR FIREFOX & CHROME USERS:</strong>
+        This installer communicates directly with the Tampermonkey browser extension to register scripts silently in the background. Ensure the Tampermonkey extension is installed and active before clicking the button below to avoid opening multiple blank browser tabs.
     </div>
     
     <div class="btn-wrapper">
@@ -113,7 +120,7 @@ Change this drop-down menu to Disabled.
     </div>
     
     <div class="footer-note">
-        Reminder: Ensure your browser's pop-up blocker is set to "Always Allow" for this file so all tabs can launch simultaneously.
+        Note: If Tampermonkey is not installed, your browser may fallback to opening tabs sequentially.
     </div>
 </div>
 
@@ -121,7 +128,7 @@ Change this drop-down menu to Disabled.
 // Base configuration targeting the raw files on the main branch
 const repoBaseUrl = "https://raw.githubusercontent.com/maywoodmedical/Oscar/main/";
 
-// Manifest of your custom scripts
+// Manifest of custom scripts
 const targetScripts = [
     "BillingTimeUnitCalculator.user.js",
     "ConsultAutoloadHistory.user.js",
@@ -158,13 +165,17 @@ targetScripts.forEach(script => {
 });
 
 function launchInstaller() {
-    // Iterates and builds the direct raw paths to spawn background installation windows
-    targetScripts.forEach(scriptName => {
-        const fullRawUrl = repoBaseUrl + scriptName;
-        window.open(fullRawUrl, '_blank');
-    });
-}
-</script>
+    // Detect if Tampermonkey's secure background communication API is available
+    const isTampermonkeyAvailable = typeof window.External !== 'undefined' && 
+                                    typeof window.External.Tampermonkey !== 'undefined';
 
-</body>
-</html>
+    if (isTampermonkeyAvailable) {
+        // Safe execution: Sends download instructions directly to Tampermonkey background without opening windows
+        targetScripts.forEach(scriptName => {
+            const fullRawUrl = repoBaseUrl + scriptName;
+            window.External.Tampermonkey.install(fullRawUrl);
+        });
+        alert("Success! Installation requests pushed directly to Tampermonkey. Please verify script prompts via your extension menu.");
+    } else {
+        // Fallback execution: Alerts user to potential clutter if they haven't met requirements 
+        let confirmFallback = confirm("Tampermonkey API not detected.\n\nTo prevent opening " + targetScripts.length + " tabs manually, please verify Tampermonkey is installed and active. Do
