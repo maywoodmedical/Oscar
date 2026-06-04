@@ -7,8 +7,8 @@
 // @match        https://maywoodmedicalclinic.openosp.ca/oscar/*
 // @grant        GM_setClipboard
 // @run-at       document-end
-// @updateURL    
-// @downloadURL  
+// @updateURL    https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/B1FirefoxCopyPhone.user.js
+// @downloadURL  https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/B1FirefoxCopyPhone.user.js
 // ==/UserScript==
 
 (function() {
