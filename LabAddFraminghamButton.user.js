@@ -6,8 +6,8 @@
 // @author       Your Name
 // @match        https://*.openosp.ca/oscar/lab/CA/ALL/labDisplay.jsp*
 // @grant        none
-// @updateURL    
-// @downloadURL 
+// @updateURL    https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/LabAddFraminghamButton.user.js
+// @downloadURL  https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/LabAddFraminghamButton.user.js
 // ==/UserScript==
 
 (function() {
