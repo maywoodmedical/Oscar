@@ -81,13 +81,10 @@
         .footer-note {
             margin-top: 25px;
             font-size: 12px;
-            color: #999;
+            color: #bb2124;
+            font-weight: bold;
             text-align: center;
             line-height: 1.4;
-        }
-        /* Hidden anchor container for batch downloading */
-        #installation-vault {
-            display: none;
         }
     </style>
 </head>
@@ -96,7 +93,7 @@
 <div class="container">
     <div class="header-area">
         <h2>OSCAR EMR Script Installer</h2>
-        <p>Click the button below to sequentially trigger your browser's userscript handler for all deployment assets.</p>
+        <p>Click the button below to trigger the batch installation sequence natively in your browser.</p>
     </div>
     
     <div class="btn-wrapper">
@@ -109,12 +106,9 @@
     </div>
     
     <div class="footer-note">
-        <strong>Firefox Configuration Note:</strong> Ensure your browser popup blocker allows popups for this file, or allow the extension to open background tabs upon the first confirmation prompt.
+        ⚠️ CRITICAL FOR FIREFOX: After clicking, look at the right side of your address bar. You MUST click Firefox's "Preferences/Options" popup icon and choose "Allow pop-ups for this page" or only the first script will load.
     </div>
 </div>
-
-<!-- Hidden anchor tags used to safely route installations -->
-<div id="installation-vault"></div>
 
 <script>
 const repoBaseUrl = "https://raw.githubusercontent.com/maywoodmedical/Oscar/main/";
@@ -124,7 +118,7 @@ const targetScripts = [
     "ConsultAutoloadHistory.user.js",
     "ConsultDefault.user.js",
     "EchartAddressPageScraper.user.js",
-    "EchartEformQuickSave.user.js",
+    "EformQuickSave.user.js", // Ensured name consistency
     "EchartEformSearchBar.user.js",
     "EchartResizeWindow.user.js",
     "EchartShortcuts.user.js",
@@ -146,39 +140,30 @@ const targetScripts = [
     "TicklerDefaultandButtons.user.js"
 ];
 
-// Correctly render manifest preview text into DOM nodes on load
+// Populate the UI text elements safely
 document.addEventListener("DOMContentLoaded", () => {
     const listContainer = document.getElementById('manifest-list');
-    const vault = document.getElementById('installation-vault');
-    
     targetScripts.forEach(script => {
-        // Fix for Empty List: Explicit text node binding
         const item = document.createElement('div');
         item.className = 'script-item';
         item.appendChild(document.createTextNode("• " + script));
         listContainer.appendChild(item);
-
-        // Pre-render virtual download nodes to bypass raw text-stream parsing blocks
-        const anchor = document.createElement('a');
-        anchor.href = repoBaseUrl + script;
-        anchor.id = "loader-" + script.replace(/\./g, "-");
-        anchor.setAttribute('target', '_blank');
-        vault.appendChild(anchor);
     });
 });
 
 function launchInstaller() {
-    let delay = 0;
-    // Sequential interval prevents browser engines from throttling rapid tab generations
+    // Synchronous execution loop tied instantly to the physical button click context
     targetScripts.forEach((script) => {
-        setTimeout(() => {
-            const anchorId = "loader-" + script.replace(/\./g, "-");
-            const targetAnchor = document.getElementById(anchorId);
-            if (targetAnchor) {
-                targetAnchor.click();
-            }
-        }, delay);
-        delay += 300; // 300ms staggering window
+        const fullRawUrl = repoBaseUrl + script;
+        
+        // Creating and dispatching the anchor click inline keeps the browser's 
+        // transient user activation token valid throughout the entire loop.
+        const hiddenAnchor = document.createElement('a');
+        hiddenAnchor.href = fullRawUrl;
+        hiddenAnchor.target = '_blank';
+        
+        // Direct execution bypassing asynchronous schedulers
+        hiddenAnchor.click();
     });
 }
 </script>
