@@ -7,7 +7,7 @@
 // @include      *efmformslistadd.jsp*
 // @updateURL    https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/EchartEformSearchBar.user.js
 // @downloadURL  https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/EchartEformSearchBar.user.js
-// @version      8.12
+// @version      8.14
 // @grant        none
 // ==/UserScript==
 
@@ -157,8 +157,9 @@
         }
 
         var searchContainer = document.createElement('div');
-        searchContainer.style.cssText = 'display: inline-block; vertical-align: bottom; margin-right: 4px;';
-        searchContainer.innerHTML = "<input id='oscar_live_eform_search' list='CP' name='oscar_live_eform_search' placeholder='Search eForms...' type='text' autocomplete='off'><datalist id='CP'></datalist>";
+        // Applied the explicit width and layout rules safely to the container and the internal input tag
+        searchContainer.style.cssText = 'display: inline-block; vertical-align: bottom; margin-right: 4px; width: 250px;';
+        searchContainer.innerHTML = "<input id='oscar_live_eform_search' list='CP' name='oscar_live_eform_search' placeholder='Search eForms...' type='text' autocomplete='off' style='width: 100%; box-sizing: border-box;'><datalist id='CP'></datalist>";
 
         if (insertBeforeTarget) {
             anchorContainer.insertBefore(searchContainer, insertBeforeTarget);
