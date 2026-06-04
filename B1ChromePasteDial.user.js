@@ -7,8 +7,8 @@
 // @match        https://core2.b1communications.ca/*
 // @grant        none
 // @run-at       document-end
-// @updateURL    
-// @downloadURL  
+// @updateURL    https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/B1ChromePasteDial.user.js
+// @downloadURL  https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/B1ChromePasteDial.user.js
 // ==/UserScript==
 
 (function() {
