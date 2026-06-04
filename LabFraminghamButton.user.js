@@ -1,13 +1,13 @@
 // ==UserScript==
-// @name         LabAddFraminghamButton
+// @name         LabFraminghamButton
 // @namespace    http://tampermonkey.net/
 // @version      1.0
 // @description  Adds a Framingham eForm button next to the CHEM6 lab header in Oscar EMR
 // @author       Your Name
 // @match        https://*.openosp.ca/oscar/lab/CA/ALL/labDisplay.jsp*
 // @grant        none
-// @updateURL    https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/LabAddFraminghamButton.user.js
-// @downloadURL  https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/LabAddFraminghamButton.user.js
+// @updateURL    https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/LabFraminghamButton.user.js
+// @downloadURL  https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/LabFraminghamButton.user.js
 // ==/UserScript==
 
 (function() {
