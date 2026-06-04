@@ -1,10 +1,10 @@
 // ==UserScript==
 // @name         B1FirefoxCopyPhone
 // @namespace    http://tampermonkey.net/
-// @version      1.3
+// @version      1.4
 // @description  Targets precise OSCAR phone divs and copies digits to clipboard on click
 // @author       You
-// @match        https://maywoodmedicalclinic.openosp.ca/oscar/*
+// @match        https://maywoodmedicalclinic.openosp.ca/oscar/casemgmt/forward.jsp?*
 // @grant        GM_setClipboard
 // @run-at       document-end
 // @updateURL    https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/B1FirefoxCopyPhone.user.js
