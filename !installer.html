@@ -1,13 +1,3 @@
-/* =============================================================
-ADMIN NOTE: OSCAR Batch Installer
-• For the best experience on Firefox, make sure Tampermonkey is 
-  installed and enabled before clicking "Batch Install".
-• The script will utilize Tampermonkey's Web API to push the 
-  scripts directly into the extension background, preventing 
-  dozens of blank tabs from cluttering your browser.
-=============================================================
-*/
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -43,21 +33,6 @@ ADMIN NOTE: OSCAR Batch Installer
             font-size: 15px;
             line-height: 1.5;
         }
-        .admin-note-box {
-            background-color: #fff3cd;
-            border: 1px solid #ffeeba;
-            color: #856404;
-            padding: 15px;
-            border-radius: 6px;
-            margin-bottom: 25px;
-            font-size: 13px;
-            line-height: 1.4;
-        }
-        .admin-note-box strong {
-            display: block;
-            margin-bottom: 5px;
-            color: #533f03;
-        }
         .btn-wrapper {
             text-align: center;
             margin: 30px 0;
@@ -85,7 +60,7 @@ ADMIN NOTE: OSCAR Batch Installer
             border: 1px solid #e1e4e8;
             border-radius: 6px;
             padding: 15px 20px;
-            max-height: 200px;
+            max-height: 220px;
             overflow-y: auto;
             text-align: left;
             font-family: SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace;
@@ -98,12 +73,21 @@ ADMIN NOTE: OSCAR Batch Installer
             color: #555;
             border-bottom: 1px solid #e1e4e8;
             padding-bottom: 5px;
+            margin-bottom: 10px;
+        }
+        .script-item {
+            padding: 3px 0;
         }
         .footer-note {
             margin-top: 25px;
             font-size: 12px;
             color: #999;
             text-align: center;
+            line-height: 1.4;
+        }
+        /* Hidden anchor container for batch downloading */
+        #installation-vault {
+            display: none;
         }
     </style>
 </head>
@@ -112,12 +96,7 @@ ADMIN NOTE: OSCAR Batch Installer
 <div class="container">
     <div class="header-area">
         <h2>OSCAR EMR Script Installer</h2>
-        <p>Clicking the button below will batch install all automation and workflow optimization scripts targeting your OSCAR environment.</p>
-    </div>
-
-    <div class="admin-note-box">
-        <strong>💡 SYSTEM NOTE FOR FIREFOX & CHROME USERS:</strong>
-        This installer communicates directly with the Tampermonkey browser extension to register scripts silently in the background. Ensure the Tampermonkey extension is installed and active before clicking the button below to avoid opening multiple blank browser tabs.
+        <p>Click the button below to sequentially trigger your browser's userscript handler for all deployment assets.</p>
     </div>
     
     <div class="btn-wrapper">
@@ -130,15 +109,16 @@ ADMIN NOTE: OSCAR Batch Installer
     </div>
     
     <div class="footer-note">
-        Note: If Tampermonkey is not installed, your browser may fallback to opening tabs sequentially.
+        <strong>Firefox Configuration Note:</strong> Ensure your browser popup blocker allows popups for this file, or allow the extension to open background tabs upon the first confirmation prompt.
     </div>
 </div>
 
+<!-- Hidden anchor tags used to safely route installations -->
+<div id="installation-vault"></div>
+
 <script>
-// Base configuration targeting the raw files on the main branch
 const repoBaseUrl = "https://raw.githubusercontent.com/maywoodmedical/Oscar/main/";
 
-// Manifest of custom scripts
 const targetScripts = [
     "BillingTimeUnitCalculator.user.js",
     "ConsultAutoloadHistory.user.js",
@@ -166,26 +146,42 @@ const targetScripts = [
     "TicklerDefaultandButtons.user.js"
 ];
 
-// Populate the UI preview block on load
-const listContainer = document.getElementById('manifest-list');
-targetScripts.forEach(script => {
-    const item = document.createElement('div');
-    item.textContent = "• " + script;
-    listContainer.appendChild(item);
+// Correctly render manifest preview text into DOM nodes on load
+document.addEventListener("DOMContentLoaded", () => {
+    const listContainer = document.getElementById('manifest-list');
+    const vault = document.getElementById('installation-vault');
+    
+    targetScripts.forEach(script => {
+        // Fix for Empty List: Explicit text node binding
+        const item = document.createElement('div');
+        item.className = 'script-item';
+        item.appendChild(document.createTextNode("• " + script));
+        listContainer.appendChild(item);
+
+        // Pre-render virtual download nodes to bypass raw text-stream parsing blocks
+        const anchor = document.createElement('a');
+        anchor.href = repoBaseUrl + script;
+        anchor.id = "loader-" + script.replace(/\./g, "-");
+        anchor.setAttribute('target', '_blank');
+        vault.appendChild(anchor);
+    });
 });
 
 function launchInstaller() {
-    // Detect if Tampermonkey's secure background communication API is available
-    const isTampermonkeyAvailable = typeof window.External !== 'undefined' && 
-                                    typeof window.External.Tampermonkey !== 'undefined';
+    let delay = 0;
+    // Sequential interval prevents browser engines from throttling rapid tab generations
+    targetScripts.forEach((script) => {
+        setTimeout(() => {
+            const anchorId = "loader-" + script.replace(/\./g, "-");
+            const targetAnchor = document.getElementById(anchorId);
+            if (targetAnchor) {
+                targetAnchor.click();
+            }
+        }, delay);
+        delay += 300; // 300ms staggering window
+    });
+}
+</script>
 
-    if (isTampermonkeyAvailable) {
-        // Safe execution: Sends download instructions directly to Tampermonkey background without opening windows
-        targetScripts.forEach(scriptName => {
-            const fullRawUrl = repoBaseUrl + scriptName;
-            window.External.Tampermonkey.install(fullRawUrl);
-        });
-        alert("Success! Installation requests pushed directly to Tampermonkey. Please verify script prompts via your extension menu.");
-    } else {
-        // Fallback execution: Alerts user to potential clutter if they haven't met requirements 
-        let confirmFallback = confirm("Tampermonkey API not detected.\n\nTo prevent opening " + targetScripts.length + " tabs manually, please verify Tampermonkey is installed and active. Do
+</body>
+</html>
