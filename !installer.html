@@ -55,6 +55,9 @@
         button:active {
             transform: scale(0.98);
         }
+        .success-state {
+            background-color: #28a745 !important;
+        }
         .script-list-preview {
             background: #fafafa;
             border: 1px solid #e1e4e8;
@@ -77,12 +80,16 @@
         }
         .script-item {
             padding: 3px 0;
+            transition: color 0.2s;
+        }
+        .installed {
+            color: #aaa;
+            text-decoration: line-through;
         }
         .footer-note {
             margin-top: 25px;
             font-size: 12px;
-            color: #bb2124;
-            font-weight: bold;
+            color: #666;
             text-align: center;
             line-height: 1.4;
         }
@@ -93,20 +100,20 @@
 <div class="container">
     <div class="header-area">
         <h2>OSCAR EMR Script Installer</h2>
-        <p>Click the button below to trigger the batch installation sequence natively in your browser.</p>
+        <p>Firefox blocks rapid background tabs. Click the button sequentially below to install each script one by one without interruptions.</p>
     </div>
     
     <div class="btn-wrapper">
-        <button onclick="launchInstaller()">🚀 Batch Install All Scripts</button>
+        <button id="install-btn" onclick="launchNextInstaller()">🚀 Start Installation Sequence</button>
     </div>
 
     <div class="script-list-preview">
-        <h4>Scripts Included in Manifest:</h4>
+        <h4>Scripts Manifest Checklist:</h4>
         <div id="manifest-list"></div>
     </div>
     
     <div class="footer-note">
-        ⚠️ FIREFOX STEP: After clicking, look at the right side of your address bar. You MUST click Firefox's popup notification icon and choose "Allow pop-ups" or only the first script will load.
+        This click-through stream naturally bypasses the Firefox popup security block.
     </div>
 </div>
 
@@ -140,27 +147,52 @@ const targetScripts = [
     "TicklerDefaultandButtons.user.js"
 ];
 
-// Populate the UI preview manifest block safely
+let currentIndex = 0;
+
 document.addEventListener("DOMContentLoaded", () => {
     const listContainer = document.getElementById('manifest-list');
-    if (listContainer) {
-        targetScripts.forEach(script => {
-            const item = document.createElement('div');
-            item.className = 'script-item';
-            item.appendChild(document.createTextNode("• " + script));
-            listContainer.appendChild(item);
-        });
-    }
+    targetScripts.forEach((script, idx) => {
+        const item = document.createElement('div');
+        item.className = 'script-item';
+        item.id = 'script-idx-' + idx;
+        item.appendChild(document.createTextNode("• " + script));
+        listContainer.appendChild(item);
+    });
+    updateButtonText();
 });
 
-function launchInstaller() {
-    targetScripts.forEach((script) => {
-        const fullRawUrl = repoBaseUrl + script;
-        const hiddenAnchor = document.createElement('a');
-        hiddenAnchor.href = fullRawUrl;
-        hiddenAnchor.target = '_blank';
-        hiddenAnchor.click();
-    });
+function updateButtonText() {
+    const btn = document.getElementById('install-btn');
+    if (currentIndex < targetScripts.length) {
+        btn.innerHTML = `⚙️ Install Script (${currentIndex + 1}/${targetScripts.length})`;
+    } else {
+        btn.innerHTML = "✅ All Scripts Launched!";
+        btn.className = "success-state";
+        btn.disabled = true;
+    }
+}
+
+function launchNextInstaller() {
+    if (currentIndex >= targetScripts.length) return;
+
+    // Trigger installation window for the current asset element
+    const currentScript = targetScripts[currentIndex];
+    const fullRawUrl = repoBaseUrl + currentScript;
+    
+    const hiddenAnchor = document.createElement('a');
+    hiddenAnchor.href = fullRawUrl;
+    hiddenAnchor.target = '_blank';
+    hiddenAnchor.click();
+
+    // Style cleanup: cross out item from list preview
+    const listItem = document.getElementById('script-idx-' + currentIndex);
+    if (listItem) {
+        listItem.className = 'script-item installed';
+    }
+
+    // Increment index context pointer
+    currentIndex++;
+    updateButtonText();
 }
 </script>
 
