@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         EchartEformQuickSave
 // @namespace    http://tampermonkey.net/
-// @version      4.7
-// @description  Instantly closes eForm on save, addresses advanced double-save loops via submission proxy sandboxing.
+// @version      5.2
+// @description  Instantly closes eForm on save, addresses advanced double-save loops via submission proxy sandboxing. Targeted capture for StoreSignature1 form properties.
 // @author       Your Name
 // @match        *://*.openosp.ca/oscar/eform/*
 // @match        *://*.openosp.ca/oscar//eform/*
@@ -63,9 +63,9 @@
     // PART 2: INTERCEPT SAVE & PRINT BUTTONS
     // =========================================================================
     function applyInterceptors() {
-        const saveBtn = document.getElementById('remoteSubmitButton');
-        const printBtn = document.getElementById('remotePrintButton');
-        const form = document.querySelector('form[name="eForm"]') || document.forms[0];
+        const saveBtn = document.getElementById('remoteSubmitButton') || document.getElementById('SubmitButton');
+        const printBtn = document.getElementById('remotePrintButton') || document.getElementById('PrintButton');
+        const form = document.querySelector('form[name="FormName"]') || document.querySelector('form[name="eForm"]') || document.forms[0];
 
         // 1. Handle Print Button State Tracking
         if (printBtn && !printBtn.hasPrintInterceptor) {
@@ -96,7 +96,7 @@
                 const nativeSubmit = form.submit;
                 const originalAction = form.action || win.location.href;
 
-                // Stub the submit method
+                // Stub the submit method to block native document loops
                 form.submit = function() {
                     console.log("Oscar Script: Dropped inline programmatic form.submit()");
                 };
@@ -105,19 +105,37 @@
                 form.setAttribute('action', 'javascript:void(0);');
                 form.action = 'javascript:void(0);';
 
-                // STAGE AND EXTRACT SIGNATURE/CANVAS DATA
+                // STAGE AND EXTRACT DRAWINGS / CANVAS SIGNATURE DATA
                 try {
-                    if (typeof win.submitForm === 'function') {
+                    // Trigger the eForm's built-in staging handlers
+                    if (typeof win.submitDocument === 'function') {
+                        console.log("Oscar Script: Invoking native submitDocument() layer.");
+                        win.submitDocument();
+                    } else if (typeof win.SubmitImage === 'function') {
+                        win.SubmitImage();
+                    } else if (typeof win.submitForm === 'function') {
                         win.submitForm();
                     } else if (originalOnclick) {
                         const cleanClick = originalOnclick.replace(/window\.close\(\)|this\.disabled=true/g, '');
                         new Function(cleanClick).call(saveBtn);
                     }
 
-                    if (win.signaturePad && typeof win.signaturePad.isEmpty === 'function' && !win.signaturePad.isEmpty()) {
-                        const sigDataInput = document.querySelector('input[name="sig_data"]') || document.querySelector('input[name*="signature"]');
-                        if (sigDataInput) {
-                            sigDataInput.value = win.signaturePad.toDataURL();
+                    // TARGETED ACTION: Extract base30 data directly if target field value is unpopulated
+                    let targetSigInput = document.getElementsByName('StoreSignature1')[0] || document.getElementById('StoreSignature1');
+                    if (!targetSigInput) {
+                        console.log("Oscar Script: Dynamic generating placeholder for StoreSignature1");
+                        targetSigInput = document.createElement('input');
+                        targetSigInput.type = 'hidden';
+                        targetSigInput.name = 'StoreSignature1';
+                        targetSigInput.id = 'StoreSignature1';
+                        form.appendChild(targetSigInput);
+                    }
+
+                    if (win.jQuery && win.jQuery(".jSignature").length > 0 && (!targetSigInput.value || targetSigInput.value.length < 30)) {
+                        console.log("Oscar Script: Manually fetching base30 data arrays via jQuery API context...");
+                        const sigData = win.jQuery(".jSignature").jSignature("getData", "base30");
+                        if (sigData && sigData.length >= 2) {
+                            targetSigInput.value = sigData.join(",");
                         }
                     }
                 } catch (err) {
@@ -145,8 +163,17 @@
                     console.error("Serialization failed", err);
                 }
 
-                if (!formDataString.includes('remoteSubmitButton')) {
-                    formDataString += '&remoteSubmitButton=Save';
+                // Append essential validation parameter fallbacks for backend verification routing
+                if (!formDataString.includes('remoteSubmitButton') && !formDataString.includes('SubmitButton')) {
+                    formDataString += '&remoteSubmitButton=Save&SubmitButton=Submit';
+                }
+
+                // Force append signature string manually if missing from serial format strings
+                if (!formDataString.includes('StoreSignature1=')) {
+                    const explicitSigVal = document.getElementsByName('StoreSignature1')[0]?.value || "";
+                    if (explicitSigVal) {
+                        formDataString += '&StoreSignature1=' + encodeURIComponent(explicitSigVal);
+                    }
                 }
 
                 // NETWORK SUBMISSION WITH KEEPALIVE (Targeting original backed-up URL)
@@ -161,10 +188,10 @@
                     console.error("Background save network stream dropped:", err);
                 });
 
-                // Immediate close sequence
+                // Execute complete quick-close routine
                 setTimeout(() => {
                     closeWindowInstantly();
-                }, 50);
+                }, 100);
             });
         }
     }
