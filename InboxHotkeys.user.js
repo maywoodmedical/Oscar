@@ -1,11 +1,12 @@
 // ==UserScript==
 // @name         InboxHotkeys
 // @namespace    http://tampermonkey.net/
-// @version      2.9
+// @version      3.0
 // @description  Enter to Label, F1-F4 for Rows 1-4 Inbox items & Acknowledge/Close, Arrows for Page Nav & Text Navigation, Auto-resize Lab View and Inboxhub, Auto-space document description hyphen
 // @author       Gemini
 // @match        *://*.openosp.ca/oscar/web/inboxhub/Inboxhub.do*
 // @match        *://*.openosp.ca/oscar/lab/CA/ALL/labDisplay.jsp*
+// @match        *://maywoodmedicalclinic.openosp.ca/oscar/lab/CA/ALL/labDisplay.jsp*
 // @match        *://*.openosp.ca/oscar/documentManager/inboxManage.do*
 // @match        *://*.openosp.ca/oscar/documentManager/showDocument.jsp*
 // @updateURL    https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/InboxHotkeys.user.js
