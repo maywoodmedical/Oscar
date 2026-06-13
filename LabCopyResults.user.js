@@ -2,13 +2,11 @@
 // @name        LabCopyResults
 // @namespace   https://github.com/maywoodmedical/Oscar
 // @description left click to copy lab values automatically into a clipboard to then paste into echart easily
-// @include  *lab/CA/ALL/labDisplay.jsp?segmentID*
-// @include  *lab/CA/ALL/labDisplay.jsp?demographicId*
-// @include  *lab/CA/ALL/labDisplay.jsp?inWindow=true&segmentID*
-// @require   http://ajax.googleapis.com/ajax/libs/jquery/1.3.1/jquery.min.js
-// @updateURL https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/CopyLabs.user.js
+// @match       *://*.openosp.ca/oscar/lab/CA/ALL/labDisplay.jsp*
+// @match       *://maywoodmedicalclinic.openosp.ca/oscar/lab/CA/ALL/labDisplay.jsp*
+// @updateURL   https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/CopyLabs.user.js
 // @downloadURL https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/CopyLabs.user.js
-// @version     1.6
+// @version     1.7
 // @grant       none
 // ==/UserScript==
 
@@ -20,23 +18,19 @@
 
     // Function to accumulate lab name and value when left-clicked
     function accumulateLabValue(event) {
-        // Find the numerical value and its associated lab name
         let numberElement = event.target;
         if (numberElement.tagName.toLowerCase() === 'td' && numberElement.align === 'right') {
             let labValue = numberElement.textContent.trim();
             let labLabelElement = numberElement.previousElementSibling;
 
-            // Ensure the label is valid
             if (labLabelElement && labLabelElement.tagName.toLowerCase() === 'td') {
                 let labName = labLabelElement.querySelector('a') ? labLabelElement.querySelector('a').textContent : '';
-                
-                // If the lab name and value exist, accumulate it
+
                 if (labName && labValue) {
-                    // Replace specific lab names
                     labName = replaceLabName(labName);
                     clipboard.push(`${labName}: ${labValue}`);
                     updateTextArea();
-                    copyToClipboard(); // Automatically trigger copying to clipboard
+                    copyToClipboard();
                 }
             }
         }
@@ -45,7 +39,6 @@
     // Function to update the textarea with the accumulated values
     function updateTextArea() {
         if (!textArea) {
-            // Create and display the textarea if it doesn't exist
             textArea = document.createElement('textarea');
             textArea.style.position = 'fixed';
             textArea.style.top = '216px';
@@ -54,11 +47,9 @@
             textArea.style.height = '55px';
             textArea.style.zIndex = '9999';
             textArea.readOnly = true;
-            textArea.style.backgroundColor = 'rgba(255, 255, 255, 0.7)';  // White with 80% opacity
+            textArea.style.backgroundColor = 'rgba(255, 255, 255, 0.7)';
             document.body.appendChild(textArea);
         }
-
-        // Update the textarea content
         textArea.value = clipboard.join('\n');
     }
 
@@ -161,12 +152,10 @@
             'Insulin-Like Growth Factor-I': 'IGF-1',
         };
 
-        return replacements[labName] || labName; // Return the replaced name or original if no replacement
+        return replacements[labName] || labName;
     }
 
-    // Listen for left-click event to collect lab values
     document.addEventListener('click', function(event) {
         accumulateLabValue(event);
     });
-
 })();
