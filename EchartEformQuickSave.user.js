@@ -1,12 +1,11 @@
 // ==UserScript==
 // @name         EchartEformQuickSave
 // @namespace    http://tampermonkey.net/
-// @version      5.2
-// @description  Instantly closes eForm on save, addresses advanced double-save loops via submission proxy sandboxing. Targeted capture for StoreSignature1 form properties.
+// @version      5.3
+// @description  Instantly closes eForm on save with isolated sessionStorage tracking to prevent cross-window race conditions.
 // @author       Your Name
 // @match        *://*.openosp.ca/oscar/eform/*
-// @match        *://*.openosp.ca/oscar//eform/*
-// @match        *://*.openosp.ca/oscar///eform/*
+// @match        *://*.openosp.ca/oscar*eform/*
 // @allFrames    true
 // @grant        unsafeWindow
 // @run-at       document-end
@@ -50,11 +49,11 @@
     }
 
     // =========================================================================
-    // PART 1: STATE VERIFICATION (RUNS ON LOAD)
+    // PART 1: STATE VERIFICATION (ISOLATED TO THIS TAB SESSION)
     // =========================================================================
-    if (localStorage.getItem(printMarkerKey) === "true") {
-        localStorage.removeItem(printMarkerKey);
-        console.log("Oscar Script: Confirmed post-print reload state. Terminating window.");
+    if (sessionStorage.getItem(printMarkerKey) === "true") {
+        sessionStorage.removeItem(printMarkerKey);
+        console.log("Oscar Script: Confirmed post-print reload state in this window session. Terminating.");
         setTimeout(closeWindowInstantly, 50);
         return;
     }
@@ -67,13 +66,13 @@
         const printBtn = document.getElementById('remotePrintButton') || document.getElementById('PrintButton');
         const form = document.querySelector('form[name="FormName"]') || document.querySelector('form[name="eForm"]') || document.forms[0];
 
-        // 1. Handle Print Button State Tracking
+        // 1. Handle Print Button State Tracking (Tab Isolated)
         if (printBtn && !printBtn.hasPrintInterceptor) {
             printBtn.hasPrintInterceptor = true;
 
             printBtn.addEventListener('click', function() {
                 console.log("Oscar Script: Print clicked. Setting session tracking marker.");
-                localStorage.setItem(printMarkerKey, "true");
+                sessionStorage.setItem(printMarkerKey, "true");
             });
         }
 
@@ -92,22 +91,17 @@
                 saveBtn.value = "Saving...";
                 saveBtn.style.background = "#ffa500";
 
-                // ADVANCED SANDBOXING: Protect form submission vectors
                 const nativeSubmit = form.submit;
                 const originalAction = form.action || win.location.href;
 
-                // Stub the submit method to block native document loops
                 form.submit = function() {
                     console.log("Oscar Script: Dropped inline programmatic form.submit()");
                 };
 
-                // Truncate the action target so native HTML triggers cannot reach the server
                 form.setAttribute('action', 'javascript:void(0);');
                 form.action = 'javascript:void(0);';
 
-                // STAGE AND EXTRACT DRAWINGS / CANVAS SIGNATURE DATA
                 try {
-                    // Trigger the eForm's built-in staging handlers
                     if (typeof win.submitDocument === 'function') {
                         console.log("Oscar Script: Invoking native submitDocument() layer.");
                         win.submitDocument();
@@ -120,7 +114,6 @@
                         new Function(cleanClick).call(saveBtn);
                     }
 
-                    // TARGETED ACTION: Extract base30 data directly if target field value is unpopulated
                     let targetSigInput = document.getElementsByName('StoreSignature1')[0] || document.getElementById('StoreSignature1');
                     if (!targetSigInput) {
                         console.log("Oscar Script: Dynamic generating placeholder for StoreSignature1");
@@ -141,13 +134,11 @@
                 } catch (err) {
                     console.warn("Oscar Script: Pre-save/signature extraction warning:", err);
                 } finally {
-                    // Restore original form properties immediately after data processing completes
                     form.submit = nativeSubmit;
                     form.setAttribute('action', originalAction);
                     form.action = originalAction;
                 }
 
-                // DATA SERIALIZATION
                 let formDataString = "";
                 try {
                     if (win.$ && win.$.fn && win.$.fn.serialize) {
@@ -163,12 +154,10 @@
                     console.error("Serialization failed", err);
                 }
 
-                // Append essential validation parameter fallbacks for backend verification routing
                 if (!formDataString.includes('remoteSubmitButton') && !formDataString.includes('SubmitButton')) {
                     formDataString += '&remoteSubmitButton=Save&SubmitButton=Submit';
                 }
 
-                // Force append signature string manually if missing from serial format strings
                 if (!formDataString.includes('StoreSignature1=')) {
                     const explicitSigVal = document.getElementsByName('StoreSignature1')[0]?.value || "";
                     if (explicitSigVal) {
@@ -176,7 +165,6 @@
                     }
                 }
 
-                // NETWORK SUBMISSION WITH KEEPALIVE (Targeting original backed-up URL)
                 fetch(originalAction, {
                     method: 'POST',
                     headers: {
@@ -188,7 +176,6 @@
                     console.error("Background save network stream dropped:", err);
                 });
 
-                // Execute complete quick-close routine
                 setTimeout(() => {
                     closeWindowInstantly();
                 }, 100);
@@ -196,7 +183,6 @@
         }
     }
 
-    // Standard deferred initialization loop
     applyInterceptors();
     const initLoop = setInterval(applyInterceptors, 300);
     setTimeout(() => clearInterval(initLoop), 5000);
