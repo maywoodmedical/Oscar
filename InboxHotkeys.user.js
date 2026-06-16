@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         InboxHotkeys
 // @namespace    http://tampermonkey.net/
-// @version      3.0
+// @version      3.1
 // @description  Enter to Label, F1-F4 for Rows 1-4 Inbox items & Acknowledge/Close, Arrows for Page Nav & Text Navigation, Auto-resize Lab View and Inboxhub, Auto-space document description hyphen
 // @author       Gemini
 // @match        *://*.openosp.ca/oscar/web/inboxhub/Inboxhub.do*
@@ -69,7 +69,6 @@
             if (e.key === "Enter") {
                 let labelBtn = document.querySelector('button[id^="createLabel_"]');
                 if (labelBtn) {
-                    e.preventDefault();
                     labelBtn.click();
                 }
             }
