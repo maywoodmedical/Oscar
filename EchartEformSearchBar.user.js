@@ -7,8 +7,9 @@
 // @include      *efmformslistadd.jsp*
 // @updateURL    https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/EchartEformSearchBar.user.js
 // @downloadURL  https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/EchartEformSearchBar.user.js
-// @version      8.14
+// @version      8.15
 // @grant        none
+// @run-at       document-end
 // ==/UserScript==
 
 (function() {
@@ -30,21 +31,28 @@
         }
     }
 
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', expandEformListToAll);
-    } else {
+    function initEformObserver() {
         expandEformListToAll();
+
+        if (location.pathname.includes('efmformslistadd.jsp')) {
+            var pageObserver = new MutationObserver(function(mutations, obs) {
+                var lengthSelect = document.querySelector('select[name="efmTable_length"]');
+                if (lengthSelect) {
+                    expandEformListToAll();
+                    obs.disconnect();
+                }
+            });
+
+            if (document.body) {
+                pageObserver.observe(document.body, { childList: true, subtree: true });
+            }
+        }
     }
 
-    if (location.pathname.includes('efmformslistadd.jsp')) {
-        var pageObserver = new MutationObserver(function(mutations, obs) {
-            var lengthSelect = document.querySelector('select[name="efmTable_length"]');
-            if (lengthSelect) {
-                expandEformListToAll();
-                obs.disconnect();
-            }
-        });
-        pageObserver.observe(document.body, { childList: true, subtree: true });
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initEformObserver);
+    } else {
+        initEformObserver();
     }
 
     // =========================================================================
