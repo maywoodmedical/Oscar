@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         LabHoverResults
-// @description  hover over labs to see instant historical overview and visual trendline
+// @description  hover over labs to see instant historical overview and visual trendline (with Ctrl tracking for trend copying)
 // @namespace    https://github.com/maywoodmedical/Oscar
 // @match         *://maywoodmedicalclinic.openosp.ca/oscar/lab/*
 // @grant         GM_xmlhttpRequest
@@ -9,21 +9,63 @@
 // @allFrames      true
 // @updateURL      https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/LabHoverResults.user.js
 // @downloadURL    https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/LabHoverResults.user.js
-// @version        7.8
+// @version        9.0
 // ==/UserScript==
 
 (function() {
     'use strict';
 
     if (window.location.href.includes("DemographicLab.jsp")) {
-        return; 
+        return;
     }
 
     // --- State Variables ---
     let currentHoveredCell = null;
+    let currentConfig = null;
     let hoverTimeout = null;
     let mouseX = 0;
     let mouseY = 0;
+    let isCtrlPressed = false;
+    let localClipboard = []; // Structured internal tracker
+
+    // Helper to format the structured local clipboard object into string text
+    function formatClipboard(entries) {
+        return entries.map(entry => {
+            if (entry.history.length > 0) {
+                const historyStr = entry.history.map(h => `${h.val}${h.date ? ` [${h.date}]` : ''}`).join(', ');
+                return `${entry.name} ${entry.initial} (${historyStr})`;
+            }
+            return `${entry.name} ${entry.initial}`;
+        }).join('\n');
+    }
+
+    function addLocalClipboard(labName, labValue, labDate) {
+        let matched = localClipboard.find(item => item.name === labName);
+        if (matched) {
+            matched.history.push({ val: labValue, date: labDate });
+        } else {
+            localClipboard.push({ name: labName, initial: labValue, history: [] });
+        }
+    }
+
+    // Track the Ctrl key globally
+    window.addEventListener('keydown', (e) => {
+        if (e.key === 'Control') {
+            isCtrlPressed = true;
+            tooltip.style.pointerEvents = 'auto';
+        }
+    });
+
+    window.addEventListener('keyup', (e) => {
+        if (e.key === 'Control') {
+            isCtrlPressed = false;
+            tooltip.style.pointerEvents = 'none';
+            if (!currentHoveredCell) {
+                tooltip.style.visibility = 'hidden';
+                tooltip.innerHTML = '';
+            }
+        }
+    });
 
     function getDemographicId(element) {
         const link = element.tagName === 'A' ? element : element.querySelector('a');
@@ -43,14 +85,54 @@
     Object.assign(tooltip.style, {
         position: 'fixed', zIndex: '2147483647', backgroundColor: 'white',
         padding: '8px', visibility: 'hidden', display: 'block',
-        color: 'black', fontSize: '11px', borderRadius: '4px', 
+        color: 'black', fontSize: '11px', borderRadius: '4px',
         width: '176px', boxSizing: 'border-box',
         fontFamily: 'Verdana, Arial, Helvetica, sans-serif', pointerEvents: 'none',
         boxShadow: '0 2px 10px rgba(0,0,0,0.2)', border: '1px solid #ccc'
     });
     document.body.appendChild(tooltip);
 
-    let labConfigs = [
+    // Copy event routing directly from the tooltip selection
+    tooltip.addEventListener('click', async (e) => {
+        const row = e.target.closest('.hist-row');
+        if (row && currentConfig) {
+            const val = row.getAttribute('data-val');
+            const date = row.getAttribute('data-date');
+            const label = currentConfig.label;
+
+            addLocalClipboard(label, val, date);
+
+            // Write direct to OS clipboard
+            try {
+                await navigator.clipboard.writeText(formatClipboard(localClipboard));
+            } catch (err) {
+                console.error("Hover script clipboard write failed: ", err);
+            }
+
+            // Sync with the Main frame Copy script tracking widget
+            const eventPayload = { labName: label, labValue: val, labDate: date };
+            window.parent.postMessage({ type: 'LAB_TREND_UPDATE', data: eventPayload }, '*');
+            window.dispatchEvent(new CustomEvent('labTrendAdded', { detail: eventPayload }));
+        }
+    });
+
+    // Listen out for updates originating on the main page to keep our trend lines contiguous
+    window.addEventListener('message', (e) => {
+        if (e.data && e.data.type === 'LAB_TREND_UPDATE') {
+            const { labName, labValue, labDate } = e.data.data;
+            addLocalClipboard(labName, labValue, labDate);
+        }
+    });
+
+    // Wire up standard window dispatcher fallback for matching frame contexts
+    window.addEventListener('labTrendAdded', (e) => {
+        if(e.source !== window && e.detail) {
+             const { labName, labValue, labDate } = e.detail;
+             addLocalClipboard(labName, labValue, labDate);
+        }
+    });
+
+let labConfigs = [
         // HEMATOLOGY
         { search: "Granulocytes Immature", id: "51584-1", label: "IG", min: 0, max: 0.1 },
         { search: "Reticulocytes Immature/Total Reticulocytes", id: "33516-6", label: "IRF", min: 0.02, max: 0.15 },
@@ -86,7 +168,7 @@
         { search: "Beta 2 Globulin", id: "32731-2", label: "Beta 2 Globulin", min: 2, max: 5 },
         { search: "Gamma Globulin", id: "2874-6", label: "Gamma Globulin", min: 7, max: 14 },
         { search: "Protein Monoclonal Band 1", id: "51435-6", label: "Protein Monoclonal Band 1", min: 0, max: 0 },
-        
+
         // DIABETES & GLUCOSE
         { search: "Hemoglobin A1C/Total Hemoglobin (IFCC)", id: "XXX-2604", label: "A1C-IFCC", min: 20, max: 42 },
         { search: "Glucose 1h Post 50 g Glucose", id: "14754-6", label: "GTT 1h", min: 0, max: 7.7 },
@@ -203,8 +285,8 @@
         { search: "Hepatitis B Virus Core Ab IgG+IgM (Total)", id: "51914-0", label: "Hepatitis B Virus Core Ab IgG+IgM (Total)", min: 0, max: 0 },
         { search: "Hepatitis B Virus Surface Ab", id: "5193-8", label: "HBs Ab", min: 0, max: 0 },
         { search: "Hepatitis B Virus Surface Ag", id: "5196-1", label: "HBs Ag", min: 0, max: 0 },
-        { search: "Hepatitis Be Virus Ab", id: "13953-5", label: "HBe Ab", min: 0, max: 0 }, 
-        { search: "Hepatitis Be Virus Ag", id: "13954-3", label: "HBe Ag", min: 0, max: 0 },  
+        { search: "Hepatitis Be Virus Ab", id: "13953-5", label: "HBe Ab", min: 0, max: 0 },
+        { search: "Hepatitis Be Virus Ag", id: "13954-3", label: "HBe Ag", min: 0, max: 0 },
         { search: "aPTT Lupus Sensitive Actual/Normal", id: "48022-8", label: "aPTT Lupus Sensitive Actual/Normal", min: 0, max: 0 },
         { search: "DRVVT,", id: "6303-2", label: "DRVVT,", min: 0, max: 0 },
         { search: "Thrombophilia Interpretation", id: "XXX-2354", label: "Thrombophilia Interpretation", min: 0, max: 0 },
@@ -225,7 +307,7 @@
         { search: "Mono", id: "5213-4", label: "Mono", min: 0, max: 0 },
         { search: "Herpes Simplex Virus 1 Ab IgG", id: "51916-5", label: "Herpes Simplex Ab IgG", min: 0, max: 0 },
         { search: "Herpes Simplex Virus 2 Ab IgG", id: "43180-9", label: "Herpes Simplex Ab IgG", min: 0, max: 0 },
-        
+
         // IMMUNOLOGY & INFLAMMATION
         { search: "Extractable Nuclear Ab Screen", id: "14722-3", label: "ENA", min: 0, max: 0 },
         { search: "Tissue Transglutaminase Ab IgA", id: "31017-7", label: "anti-TTG", min: 0, max: 12 },
@@ -302,11 +384,11 @@
 
     function generateSparkline(values, isLatestAbnormal, config) {
         if (values.length < 2) return "";
-        const width = 160; 
+        const width = 160;
         const height = 35;
-        const dataMin = Math.min(...values); 
+        const dataMin = Math.min(...values);
         const dataMax = Math.max(...values);
-        const viewMin = Math.min(dataMin, config.min) * 0.85; 
+        const viewMin = Math.min(dataMin, config.min) * 0.85;
         const viewMax = Math.max(dataMax, config.max) * 1.15;
         const viewRange = viewMax - viewMin || 1;
         const getX = (i) => (i / (values.length - 1)) * width;
@@ -327,22 +409,19 @@
         </div>`;
     }
 
-    // Helper to consolidate math and account for Firefox status bar
     function updateTooltipPosition() {
+        if (isCtrlPressed) return;
         const buffer = 15;
-        const statusBuffer = 30; // Extra clearance for the Firefox hyperlink bar
+        const statusBuffer = 30;
         const tipWidth = tooltip.offsetWidth;
         const tipHeight = tooltip.offsetHeight;
 
         let x = mouseX + buffer;
         let y = mouseY + buffer;
 
-        // Horizontal correction
         if (x + tipWidth > window.innerWidth) {
             x = mouseX - tipWidth - buffer;
         }
-        
-        // Vertical correction including the Firefox status bar "safety zone"
         if (y + tipHeight > window.innerHeight - statusBuffer) {
             y = mouseY - tipHeight - buffer;
         }
@@ -362,17 +441,19 @@
                     cell.style.cursor = "help";
 
                     cell.addEventListener('mouseenter', (e) => {
+                        if (isCtrlPressed) return;
                         clearTimeout(hoverTimeout);
-                        
+
                         tooltip.innerHTML = '';
                         tooltip.style.visibility = 'hidden';
-                        
+
                         mouseX = e.clientX;
                         mouseY = e.clientY;
 
                         hoverTimeout = setTimeout(() => {
                             currentHoveredCell = cell;
-                            const pId = getDemographicId(cell); 
+                            currentConfig = config;
+                            const pId = getDemographicId(cell);
                             if (!pId) return;
                             const url = `/oscar/lab/CA/ON/labValues.jsp?testName=${encodeURIComponent(config.search)}&demo=${pId}&labType=HL7&identifier=${config.id}`;
                             getData(url, config);
@@ -386,14 +467,16 @@
                             updateTooltipPosition();
                         }
                     });
-                    
-                    cell.addEventListener('mouseleave', () => { 
+
+                    cell.addEventListener('mouseleave', () => {
                         clearTimeout(hoverTimeout);
                         currentHoveredCell = null;
-                        tooltip.style.visibility = 'hidden'; 
-                        tooltip.innerHTML = ''; 
+                        if (!isCtrlPressed) {
+                            tooltip.style.visibility = 'hidden';
+                            tooltip.innerHTML = '';
+                        }
                     });
-                    break; 
+                    break;
                 }
             }
         });
@@ -405,7 +488,7 @@
     }
 
     function parseHTML(htmlText, config) {
-        if (!currentHoveredCell) return;
+        if (!currentHoveredCell && !isCtrlPressed) return;
 
         const parser = new DOMParser();
         const doc = parser.parseFromString(htmlText, "text/html");
@@ -420,14 +503,15 @@
                 if (/^\d{4}/.test(rawDate) && !rows[i].innerText.includes("Patient Name")) {
                     const valStr = tds[1].innerText.trim();
                     const valNum = parseFloat(valStr.replace(/[^\d.-]/g, ''));
-                    const abnFlag = tds[2].innerText.trim().toUpperCase(); 
+                    const abnFlag = tds[2].innerText.trim().toUpperCase();
                     const isAbnormal = (abnFlag !== '' && abnFlag !== 'N' && abnFlag !== 'NORMAL');
 
                     if (count === 0) latestAbnormal = isAbnormal;
                     if (!isNaN(valNum)) dataPoints.push(valNum);
 
-                    resultsHtml += `<div style="display:flex; font-size:10px; border-bottom:1px solid #eee; padding:1px 0;">
-                        <span style="color:#666; width:70px;">${rawDate.split(' ')[0]}</span>
+                    const shortDate = rawDate.split(' ')[0];
+                    resultsHtml += `<div class="hist-row" data-val="${valStr}" data-date="${shortDate}" style="display:flex; font-size:10px; border-bottom:1px solid #eee; padding:2px 0; cursor:pointer;" onmouseenter="this.style.backgroundColor='#e6f2ff'" onmouseleave="this.style.backgroundColor='transparent'">
+                        <span style="color:#666; width:70px;">${shortDate}</span>
                         <span style="flex-grow:1; text-align:right; padding-right:2px; ${isAbnormal ? 'color:red; font-weight:bold;' : ''}">${valStr}</span>
                     </div>`;
                     count++;
@@ -438,7 +522,7 @@
         if (count > 0) {
             const spark = count > 1 ? generateSparkline(dataPoints, latestAbnormal, config) : "";
             tooltip.innerHTML = `<b style="font-size:11px; display:block; margin-bottom:4px;">${config.label} History</b><div style="width:160px;">${spark}${resultsHtml}</div>`;
-            
+
             tooltip.style.visibility = 'visible';
             updateTooltipPosition();
         } else {
@@ -446,9 +530,9 @@
         }
     }
 
-    let scanTimer = setInterval(scan, 200); 
+    let scanTimer = setInterval(scan, 200);
     setTimeout(() => {
-        clearInterval(scanTimer); 
-        scanTimer = setInterval(scan, 5000); 
+        clearInterval(scanTimer);
+        scanTimer = setInterval(scan, 5000);
     }, 5000);
 })();
