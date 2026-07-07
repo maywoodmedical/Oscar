@@ -7,7 +7,7 @@
 // @include      *efmformslistadd.jsp*
 // @updateURL    https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/EchartEformSearchBar.user.js
 // @downloadURL  https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/EchartEformSearchBar.user.js
-// @version      8.15
+// @version      8.5
 // @grant        none
 // @run-at       document-end
 // ==/UserScript==
