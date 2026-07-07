@@ -6,17 +6,61 @@
 // @match       *://maywoodmedicalclinic.openosp.ca/oscar/lab/CA/ALL/labDisplay.jsp*
 // @updateURL   https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/CopyLabs.user.js
 // @downloadURL https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/CopyLabs.user.js
-// @version     1.7
+// @version     2.0
 // @grant       none
 // ==/UserScript==
 
 (function() {
     'use strict';
 
-    let clipboard = []; // This will hold the accumulated lab names and values
-    let textArea = null;  // Will store the textarea element
+    let clipboard = [];
+    let textArea = null;
 
-    // Function to accumulate lab name and value when left-clicked
+    // Helper to format the structured clipboard object into the desired text layout
+    function formatClipboard(entries) {
+        return entries.map(entry => {
+            if (entry.history.length > 0) {
+                const historyStr = entry.history.map(h => `${h.val}${h.date ? ` [${h.date}]` : ''}`).join(', ');
+                return `${entry.name} ${entry.initial} (${historyStr})`;
+            }
+            return `${entry.name} ${entry.initial}`;
+        }).join('\n');
+    }
+
+    // Helper to extract column header date from the main table
+    function getMainPageDate(cell) {
+        const table = cell.closest('table');
+        if (!table) return '';
+        const cellIndex = cell.cellIndex;
+        const headerRow = table.querySelector('tr');
+        if (headerRow && headerRow.cells[cellIndex]) {
+            const headerText = headerRow.cells[cellIndex].textContent.trim();
+            const match = headerText.match(/\d{4}-\d{2}-\d{2}/);
+            return match ? match[0] : headerText;
+        }
+        return '';
+    }
+
+    // Process a lab insertion or trend append
+    function addLabToClipboard(labName, labValue, labDate) {
+        let matched = clipboard.find(item => item.name === labName);
+
+        if (matched) {
+            matched.history.push({ val: labValue, date: labDate });
+        } else {
+            clipboard.push({ name: labName, initial: labValue, history: [] });
+        }
+        updateTextArea();
+        copyToClipboard();
+    }
+
+    // Listen for copy actions executed inside the Hover script iframe/window
+    window.addEventListener('labTrendAdded', function(e) {
+        if (e.detail && e.detail.labName) {
+            addLabToClipboard(e.detail.labName, e.detail.labValue, e.detail.labDate);
+        }
+    });
+
     function accumulateLabValue(event) {
         let numberElement = event.target;
         if (numberElement.tagName.toLowerCase() === 'td' && numberElement.align === 'right') {
@@ -28,15 +72,13 @@
 
                 if (labName && labValue) {
                     labName = replaceLabName(labName);
-                    clipboard.push(`${labName}: ${labValue}`);
-                    updateTextArea();
-                    copyToClipboard();
+                    const labDate = getMainPageDate(numberElement);
+                    addLabToClipboard(labName, labValue, labDate);
                 }
             }
         }
     }
 
-    // Function to update the textarea with the accumulated values
     function updateTextArea() {
         if (!textArea) {
             textArea = document.createElement('textarea');
@@ -50,19 +92,17 @@
             textArea.style.backgroundColor = 'rgba(255, 255, 255, 0.7)';
             document.body.appendChild(textArea);
         }
-        textArea.value = clipboard.join('\n');
+        textArea.value = formatClipboard(clipboard);
     }
 
-    // Function to simulate copying to clipboard using Clipboard API
     async function copyToClipboard() {
         try {
-            await navigator.clipboard.writeText(clipboard.join('\n'));
+            await navigator.clipboard.writeText(formatClipboard(clipboard));
         } catch (err) {
             console.error('Failed to copy to clipboard: ', err);
         }
     }
 
-    // Function to replace specific lab names with their abbreviations
     function replaceLabName(labName) {
         const replacements = {
             'Hemoglobin': 'Hgb',
@@ -151,7 +191,6 @@
             'Troponin I (High Sensitivity)': 'Trop',
             'Insulin-Like Growth Factor-I': 'IGF-1',
         };
-
         return replacements[labName] || labName;
     }
 
