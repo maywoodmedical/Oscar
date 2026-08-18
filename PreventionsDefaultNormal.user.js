@@ -12,7 +12,7 @@
 // @grant        GM.getValue
 // @grant        unsafeWindow
 // @noframes
-// @version      1.4
+// @version      1.5
 // ==/UserScript==
 
 (function() {
@@ -41,19 +41,32 @@
 
                 const html = doc.body.innerHTML;
 
-                // Regex extracts YYYY-MM-DD HH:mm:ss or YYYY-MM-DD HH:mm following "Date of Service:"
-                const regex = /Date of Service:[\s\S]{1,400}?(\d{4}-\d{2}-\d{2}(?:\s+\d{2}:\d{2}(?::\d{2})?)?)/i;
-                const match = html.match(regex);
+                // 1. First priority: Search for "Date of Service:"
+                const serviceDateRegex = /Date of Service:[\s\S]{1,400}?(\d{4}[-/]\d{2}[-/]\d{2}(?:\s+\d{2}:\d{2}(?::\d{2})?)?)/i;
+                let match = html.match(serviceDateRegex);
 
                 if (match && match[1]) {
-                    let dateStr = match[1].trim();
+                    let dateStr = match[1].trim().replace(/\//g, '-');
 
-                    // Format YYYY-MM-DD HH:mm:ss down to YYYY-MM-DD HH:mm
                     if (/^\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}:\d{2}$/.test(dateStr)) {
                         dateStr = dateStr.slice(0, 16);
                     }
                     return dateStr;
                 }
+
+                // 2. Fallback priority: Search for "Observation Date:" and its input value/adjacent date
+                const obsDateRegex = /Observation Date:[\s\S]{1,400}?(\d{4}[-/]\d{2}[-/]\d{2}(?:\s+\d{2}:\d{2}(?::\d{2})?)?)/i;
+                match = html.match(obsDateRegex);
+
+                if (match && match[1]) {
+                    let dateStr = match[1].trim().replace(/\//g, '-');
+
+                    if (/^\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}:\d{2}$/.test(dateStr)) {
+                        dateStr = dateStr.slice(0, 16);
+                    }
+                    return dateStr;
+                }
+
             } catch (e) {
                 console.warn('Unable to read opener frame content:', e);
             }
