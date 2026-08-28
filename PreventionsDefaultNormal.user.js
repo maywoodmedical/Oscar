@@ -12,11 +12,20 @@
 // @grant        GM.getValue
 // @grant        unsafeWindow
 // @noframes
-// @version      1.5
+// @version      1.6
 // ==/UserScript==
 
 (function() {
     'use strict';
+
+    let userInteracted = false;
+
+    // Stop autofilling if the user manually clicks any result radio button
+    document.addEventListener('change', function(e) {
+        if (e.target && e.target.name === 'result') {
+            userInteracted = true;
+        }
+    }, true);
 
     function getServiceDateFromOpener() {
         const win = (typeof unsafeWindow !== 'undefined') ? unsafeWindow : window;
@@ -75,6 +84,9 @@
     }
 
     function applyAutofill() {
+        // Stop overriding if user has made a selection
+        if (userInteracted) return;
+
         // 1. Select "Normal" radio
         const normalRadio = document.querySelector('input[type="radio"][name="result"][value="normal"]');
         if (normalRadio && !normalRadio.checked) {
@@ -92,13 +104,13 @@
         }
     }
 
-    // Polling loop (runs every 100ms for 3 seconds) to ensure override after Oscar native JS loads
+    // Polling loop
     let attempts = 0;
     const maxAttempts = 30;
     const interval = setInterval(function() {
         applyAutofill();
         attempts++;
-        if (attempts >= maxAttempts) {
+        if (attempts >= maxAttempts || userInteracted) {
             clearInterval(interval);
         }
     }, 100);
