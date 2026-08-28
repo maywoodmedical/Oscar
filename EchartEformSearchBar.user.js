@@ -7,7 +7,7 @@
 // @include      *efmformslistadd.jsp*
 // @updateURL    https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/EchartEformSearchBar.user.js
 // @downloadURL  https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/EchartEformSearchBar.user.js
-// @version      8.50
+// @version      8.51
 // @grant        none
 // @run-at       document-end
 // ==/UserScript==
@@ -104,9 +104,11 @@
             });
     }
 
-    // ==========================================
+    // =========================================================================
     // PART 2: PLACEMENT & STRUCTURAL LAYOUT DETECTOR
-    // ==========================================
+    // =========================================================================
+    var injectionAttempts = 0;
+
     function tryInjectSearchBar() {
         if (document.getElementById('oscar_live_eform_search')) return true;
 
@@ -122,17 +124,15 @@
             anchorContainer = careConnectBtn.parentNode;
             insertBeforeTarget = careConnectBtn;
         } else {
-            // If CareConnect isn't found, check if the general eChart panel layout containers exist yet
+            // If CareConnect isn't found, check if general eChart layout containers exist
             var globalFallback = document.getElementById('cppBoxes') ||
                                  document.querySelector('.container-fluid') ||
                                  document.getElementById('cpp_panel') ||
                                  document.querySelector('.leftPanel');
 
-            // If even the base layout wrappers aren't built, exit this specific frame check and try again next poll
             if (!globalFallback) return false;
 
-            // If we are past 25 attempts (~5+ seconds of page load) and CareConnect still hasn't arrived,
-            // default to the global layout fallback so the search bar isn't lost permanently.
+            // Default to global fallback if CareConnect target hasn't loaded after initial attempts
             if (injectionAttempts >= 25) {
                 anchorContainer = globalFallback;
             } else {
@@ -153,7 +153,6 @@
             }
         }
 
-        // Expanded param checks to cover exact case sensitivity options found on forward.jsp
         var demoNo = params.demographicNo || params.demographic_no || "";
         if (demoNo === "null" || demoNo === true) demoNo = "";
 
@@ -165,7 +164,6 @@
         }
 
         var searchContainer = document.createElement('div');
-        // Applied the explicit width and layout rules safely to the container and the internal input tag
         searchContainer.style.cssText = 'display: inline-block; vertical-align: bottom; margin-right: 4px; width: 250px;';
         searchContainer.innerHTML = "<input id='oscar_live_eform_search' list='CP' name='oscar_live_eform_search' placeholder='Search eForms...' type='text' autocomplete='off' style='width: 100%; box-sizing: border-box;'><datalist id='CP'></datalist>";
 
@@ -214,13 +212,36 @@
         return true;
     }
 
-    var injectionAttempts = 0;
-    var pollForLayout = setInterval(function() {
-        injectionAttempts++;
-        var success = tryInjectSearchBar();
-        if (success) {
-            clearInterval(pollForLayout);
+    // =========================================================================
+    // PART 3: PERSISTENT DOM OBSERVER (PREVENTS COROTICO REFRESH WIPEOUTS)
+    // =========================================================================
+    function initPersistentSearchObserver() {
+        // Initial attempt to inject immediately or count up attempts
+        if (!tryInjectSearchBar()) {
+            var initialPoll = setInterval(function() {
+                injectionAttempts++;
+                if (tryInjectSearchBar() || injectionAttempts >= 30) {
+                    clearInterval(initialPoll);
+                }
+            }, 250);
         }
-    }, 250);
+
+        // Watch for dynamic DOM removals (e.g. Cortico AJAX refreshes) and re-inject instantly
+        var domObserver = new MutationObserver(function() {
+            if (!document.getElementById('oscar_live_eform_search')) {
+                tryInjectSearchBar();
+            }
+        });
+
+        if (document.body) {
+            domObserver.observe(document.body, { childList: true, subtree: true });
+        }
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initPersistentSearchObserver);
+    } else {
+        initPersistentSearchObserver();
+    }
 
 })();
