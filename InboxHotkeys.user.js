@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         InboxHotkeys
 // @namespace    http://tampermonkey.net/
-// @version      3.1
-// @description  Enter to Label, F1-F4 for Rows 1-4 Inbox items & Acknowledge/Close, Arrows for Page Nav & Text Navigation, Auto-resize Lab View and Inboxhub, Auto-space document description hyphen
+// @version      3.2
+// @description  Enter to Label, F1-F4 for Rows 1-4 Inbox items & Acknowledge/Close, Up/Down Arrows for Page Nav, Left/Right for Text Navigation, Auto-resize Lab View and Inboxhub, Auto-space document description hyphen
 // @author       Gemini
 // @match        *://*.openosp.ca/oscar/web/inboxhub/Inboxhub.do*
 // @match        *://*.openosp.ca/oscar/lab/CA/ALL/labDisplay.jsp*
@@ -147,19 +147,21 @@
     // --- 3. MULTI-PAGE DOCUMENT NAVIGATION (inWindow) ---
     if (currentUrl.includes("showDocument.jsp")) {
         window.addEventListener('keydown', function(e) {
-            // Safety bypass: Allow ArrowLeft and ArrowRight to flip pages even if typing inside description box
-            if (isTyping(e) && !["ArrowLeft", "ArrowRight"].includes(e.key)) return;
+            // Safety bypass: Allow ArrowUp and ArrowDown to flip pages even if typing inside description box
+            if (isTyping(e) && !["ArrowUp", "ArrowDown"].includes(e.key)) return;
 
-            if (e.key === "ArrowRight") {
+            if (e.key === "ArrowDown") {
                 let nextBtn = document.querySelector('a[id^="nextP_"]');
                 if (nextBtn) {
-                    nextBtn.click(); // Fires page change; native behavior handles cursor moving right
+                    e.preventDefault(); // Prevent page scroll
+                    nextBtn.click();
                 }
             }
-            if (e.key === "ArrowLeft") {
+            if (e.key === "ArrowUp") {
                 let prevBtn = document.querySelector('a[id^="prevP_"]');
                 if (prevBtn) {
-                    prevBtn.click(); // Fires page change; native behavior handles cursor moving left
+                    e.preventDefault(); // Prevent page scroll
+                    prevBtn.click();
                 }
             }
         });
