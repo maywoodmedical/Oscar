@@ -10,6 +10,8 @@
 // @grant        GM_deleteValue
 // @grant        GM_listValues
 // @run-at       document-idle
+// @updateURL    
+// @downloadURL  
 // ==/UserScript==
 
 /*
