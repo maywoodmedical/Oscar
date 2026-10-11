@@ -10,8 +10,8 @@
 // @grant        GM_deleteValue
 // @grant        GM_listValues
 // @run-at       document-idle
-// @updateURL    
-// @downloadURL  
+// @updateURL    https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/MedicationsSignature.user.js
+// @downloadURL  https://github.com/maywoodmedical/Oscar/raw/refs/heads/main/MedicationsSignature.user.js
 // ==/UserScript==
 
 /*
